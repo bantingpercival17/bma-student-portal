@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth_v2\Login;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome'); 
+    return view('welcome');
 });
-Route::resource('/login',Login::class);
-//Route::get('/login',Login::class)->('login');
+
+/* Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+ */
+require __DIR__ . '/auth.php';
+
+
+Route::prefix('student')->middleware(['auth'])->group(function () {
+    Route::get('/home', [StudentController::class, 'index'])->name('home');
+    Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
+    Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');
+    Route::get('/payments', [StudentController::class, 'payments_view'])->name('payments');
+});
