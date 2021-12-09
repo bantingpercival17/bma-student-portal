@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 /* Route::get('/dashboard', function () {
@@ -25,7 +25,8 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 
 
-Route::prefix('student')->middleware(['auth'])->group(function () {
+Route::prefix('student')->middleware(['auth:student'])->group(function () {
+    Route::get('/', [StudentController::class, 'index'])->name('home');
     Route::get('/home', [StudentController::class, 'index'])->name('home');
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
     Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');

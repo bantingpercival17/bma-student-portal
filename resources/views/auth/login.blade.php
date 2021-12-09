@@ -74,8 +74,8 @@
                                     <label>Email</label>
                                     <div class="mb-3">
                                         <input type="email" class="form-control" placeholder="Email" aria-label="Email"
-                                            aria-describedby="email-addon" name="email" value="{{ old('email') }}">
-                                            @error('email')
+                                            aria-describedby="email-addon" name="campus_email" value="{{ old('campus_email') }}">
+                                            @error('campus_email')
                                             <p class="p-1 mb-4 text-sm mx-auto text-danger text-gradient ">
                                                 {{ $message }}
     

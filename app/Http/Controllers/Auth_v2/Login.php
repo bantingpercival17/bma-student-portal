@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 
 class Login extends Controller
 {
-   public function index()
+   public function create()
    {
        return view('auth.login');
+   }
+
+   public function store(Request $_request)
+   {
+       # code...
    }
 }

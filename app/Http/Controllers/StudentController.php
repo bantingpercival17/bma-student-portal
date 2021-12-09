@@ -8,7 +8,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return view('student.dashboard');
+        return view('student.home.view');
     }
 
     public function academic_view(Request $_request)
