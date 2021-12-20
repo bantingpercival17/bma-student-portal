@@ -23,4 +23,9 @@ class StudentController extends Controller
     {
         return view('student.payments.view');
     }
+
+    public function onboard_view(Request $_request)
+    {
+        return view('student.onboard.view');
+    }
 }

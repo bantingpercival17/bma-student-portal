@@ -39,11 +39,11 @@
         @yield('app-sidebar')
     </aside>
 
-    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
         <!-- Navbar -->
         @yield('app-navigation')
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
+        <div class="container-fluid ">
             @yield('page-content')
 
         </div>

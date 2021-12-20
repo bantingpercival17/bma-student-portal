@@ -31,4 +31,5 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
     Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');
     Route::get('/payments', [StudentController::class, 'payments_view'])->name('payments');
+    Route::get('/on-board', [StudentController::class, 'onboard_view'])->name('on-board');
 });
