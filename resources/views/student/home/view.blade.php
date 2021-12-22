@@ -107,19 +107,19 @@ $_title = 'Home';
                     <div class="row">
                         <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
                             <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Lastname</label>
+                                <label for="example-text-input" class="form-control-label">Last name</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->last_name) }}</span>
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
                             <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Firstname</label>
+                                <label for="example-text-input" class="form-control-label">First name</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->first_name) }}</span>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
                             <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Middlename</label>
+                                <label for="example-text-input" class="form-control-label">Middle name</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->middle_name) }}</span>
                             </div>
                         </div>
