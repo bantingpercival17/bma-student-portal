@@ -1,101 +1,67 @@
-@extends('app')
+@extends('app-main')
 @php
 $_title = 'Home';
 @endphp
 @section('page-title', $_title)
 @section('content-title', $_title)
 @section('beardcrumb-content')
-    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/">BMA Student Portal</a>
-        </li>
-        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">{{ $_title }}</li>
-    </ol>
+    <li class="breadcrumb-item active" aria-current="page">
+        <svg width="14" height="14" class="me-2" viewBox="0 0 22 22" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M8.15722 19.7714V16.7047C8.1572 15.9246 8.79312 15.2908 9.58101 15.2856H12.4671C13.2587 15.2856 13.9005 15.9209 13.9005 16.7047V16.7047V19.7809C13.9003 20.4432 14.4343 20.9845 15.103 21H17.0271C18.9451 21 20.5 19.4607 20.5 17.5618V17.5618V8.83784C20.4898 8.09083 20.1355 7.38935 19.538 6.93303L12.9577 1.6853C11.8049 0.771566 10.1662 0.771566 9.01342 1.6853L2.46203 6.94256C1.86226 7.39702 1.50739 8.09967 1.5 8.84736V17.5618C1.5 19.4607 3.05488 21 4.97291 21H6.89696C7.58235 21 8.13797 20.4499 8.13797 19.7714V19.7714"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>Home
+    </li>
 @endsection
 @section('page-content')
-    <div class="page-header min-height-200 border-radius-xl mt-4"
-        style="background-image: url('../assets/img/curved-images/curved0.jpg'); background-position-y: 50%;">
-        <span class="mask bg-gradient-primary opacity-6"></span>
-    </div>
-    <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
-        <div class="row gx-4">
-            <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                    <img src="../assets/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+
+
+    <div class="card mb-0 iq-content rounded-bottom">
+        <div class="d-flex flex-wrap align-items-center justify-content-between mx-3 my-3">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="profile-img position-relative me-3 mb-3 mb-lg-0">
+                    <img src="{{ asset(Auth::user()->student->profile_pic(Auth::user())) }}" alt="User-Profile"
+                        class="img-fluid avatar avatar-90 rounded-circle">
+                </div>
+                <div class="d-flex align-items-center mb-3 mb-sm-0">
+                    <div>
+                        <h4 class="me-2 text-primary">
+                            {{ Auth::user()->student->last_name . ', ' . Auth::user()->student->first_name }}</h4>
+                        <span><svg width="19" height="19" class="me-2" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M21 10.8421C21 16.9172 12 23 12 23C12 23 3 16.9172 3 10.8421C3 4.76697 7.02944 1 12 1C16.9706 1 21 4.76697 21 10.8421Z"
+                                    stroke="#07143B" stroke-width="1.5" />
+                                <circle cx="12" cy="9" r="3" stroke="#07143B" stroke-width="1.5" />
+                            </svg><small
+                                class="mb-0 text-dark">{{ ucwords(Auth::user()->student->municipality . ', ' . Auth::user()->student->province) }}</small></span>
+                    </div>
+                    {{-- <div class="ms-4">
+                        <p class="mb-0 text-dark">UI/UX Designer</p>
+                        <p class="me-2 mb-0 text-dark">Email - Hello@gmail.com</p>
+                    </div> --}}
                 </div>
             </div>
-            <div class="col-auto my-auto">
-                <div class="h-100">
-                    <h5 class="mb-1">
-                        {{ Auth::user()->student->last_name . ', ' . Auth::user()->student->first_name }}
-                    </h5>
-                    <p class="mb-0 font-weight-bold text-sm">
-                        CEO / Co-Founder
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                <div class="nav-wrapper position-relative end-0">
-                    <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
-                                aria-selected="false">
-                                <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <title>document</title>
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"
-                                            fill-rule="nonzero">
-                                            <g transform="translate(1716.000000, 291.000000)">
-                                                <g transform="translate(154.000000, 300.000000)">
-                                                    <path class="color-background"
-                                                        d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"
-                                                        opacity="0.603585379"></path>
-                                                    <path class="color-background"
-                                                        d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z">
-                                                    </path>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                                <span class="ms-1">Messages</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
-                                aria-selected="false">
-                                <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <title>settings</title>
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF"
-                                            fill-rule="nonzero">
-                                            <g transform="translate(1716.000000, 291.000000)">
-                                                <g transform="translate(304.000000, 151.000000)">
-                                                    <polygon class="color-background" opacity="0.596981957"
-                                                        points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667">
-                                                    </polygon>
-                                                    <path class="color-background"
-                                                        d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"
-                                                        opacity="0.596981957"></path>
-                                                    <path class="color-background"
-                                                        d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z">
-                                                    </path>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                                <span class="ms-1">Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            {{-- <ul class="d-flex mb-0 text-center ">
+                <li class="badge bg-primary py-2 me-2">
+                    <p class="mb-2 mt-1">142</p>
+                    <small class="mb-1 fw-normal">Reviews</small>
+                </li>
+                <li class="badge bg-primary py-2 me-2">
+                    <p class="mb-2 mt-1">201</p>
+                    <small class="mb-1 fw-normal">Photos</small>
+                </li>
+                <li class="badge bg-primary py-2 me-2">
+                    <p class="mb-2 mt-1">3.1k</p>
+                    <small class="mb-1 fw-normal">Followers</small>
+                </li>
+            </ul> --}}
         </div>
     </div>
+
     <div class="col-12 mt-4">
-        <div class="card mb-4">
+        <div class="card">
             <div class="card-header pb-0 p-3">
                 <h5 class="mb-1"><b>PROFILE INFORMATION</b></h5>
                 <p class="text-sm">Student Information of the cadet's/ student's at Baliwag Maritime Academy</p>
@@ -105,25 +71,25 @@ $_title = 'Home';
                 <div class="form-view">
                     <h6 class="mb-1"><b>FULL NAME</b></h6>
                     <div class="row">
-                        <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl col-md-6 ">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Last name</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->last_name) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl col-md-6 ">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">First name</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->first_name) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl col-md-6 ">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Middle name</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->middle_name) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-1 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-2 col-md-6 ">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Extension</label>
                                 <span
@@ -132,31 +98,31 @@ $_title = 'Home';
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-1 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-2 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Gender</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->sex) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-2 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-2 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Birthday</label>
                                 <span class="form-control">{{ Auth::user()->student->birthday }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-5 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Birth Place</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->birth_place) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-2 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-2 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Civil Status</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->civil_status) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-2 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-2 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Nationality</label>
                                 <span class="form-control">{{ Auth::user()->student->nationality }}</span>
@@ -167,32 +133,32 @@ $_title = 'Home';
 
                     <h6 class="mb-1"><b>ADDRESS</b></h6>
                     <div class="row">
-                        <div class="col-xl-5 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-5 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Hous no / Street / Bldg
                                     no</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->street) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Barangay</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->barangay) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-3 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Zip Code</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->zip_code) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-6 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Municipality</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->municipality) }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-6 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Province</label>
                                 <span class="form-control">{{ ucwords(Auth::user()->student->province) }}</span>
@@ -201,14 +167,14 @@ $_title = 'Home';
                     </div>
                     <h6 class="mb-1"><b>CONTACT DETIALS</b></h6>
                     <div class="row">
-                        <div class="col-xl-6 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-6 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Contact Number</label>
 
                                 <span class="form-control">{{ Auth::user()->contact_number ?: 'Missing Value' }}</span>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-md-6 mb-xl-0 mb-4">
+                        <div class="col-xl-6 col-md-6 mb-xl-0">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Email</label>
                                 <span class="form-control">{{ Auth::user()->personal_email }}</span>

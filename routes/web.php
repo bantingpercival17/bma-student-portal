@@ -38,4 +38,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     // Onboard Training
     Route::get('/on-board', [StudentController::class, 'onboard_view'])->name('on-board');
     Route::post('/on-board/pre-deployment', [StudentController::class, 'onboard_pre_deployment_store'])->name('onboard.pre_deployment');
+    Route::get('/on-board/journal', [StudentController::class, 'create_journal'])->name('onboard.journal');
+    Route::post('/on-board/journal', [StudentController::class, 'store_journal'])->name('onboard.store-journal');
+    Route::get('/on-board/journal/view', [StudentController::class, 'view_journal'])->name('onboard.view-journal');
 });

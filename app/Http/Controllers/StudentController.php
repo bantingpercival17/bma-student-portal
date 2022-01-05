@@ -6,10 +6,13 @@ use App\Models\AcademicYear;
 use App\Models\DeploymentAssesment;
 use App\Models\DocumentRequirements;
 use App\Models\Documents;
+use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
 use App\Models\TrainingCertificates;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -20,8 +23,8 @@ class StudentController extends Controller
 
     public function academic_view(Request $_request)
     {
-        $_academic = AcademicYear::all();
-        return view('student.academic.view');
+        $_academics = AcademicYear::orderBy('id', 'desc')->get();
+        return view('student.academic.view', compact('_academics'));
     }
     public function grades_view(Request $_request)
     {
@@ -39,7 +42,8 @@ class StudentController extends Controller
         $_assess = DeploymentAssesment::where('student_id', Auth::user()->student_id)->where('is_removed', 0)->first();
         $_document_requirement = DocumentRequirements::where('student_id', Auth::user()->student_id)->where('is_removed', 0)->get();
         $_agency = ShippingAgencies::where('is_removed', 1)->get();
-        return view('student.onboard.view', compact('_certificates', '_documents', '_agency', '_assess', '_document_requirement'));
+        $_journal = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->groupBy('month')->get();
+        return view('student.onboard.view', compact('_certificates', '_documents', '_agency', '_assess', '_document_requirement', '_journal'));
     }
     public function onboard_pre_deployment_store(Request $_request)
     {
@@ -79,5 +83,68 @@ class StudentController extends Controller
         }
 
         return back();
+    }
+    public function create_journal()
+    {
+        return view('student.onboard.journal_create');
+    }
+    public function store_journal(Request $_request)
+    {
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_file_path = '/public/onboard/shipboard-journal/';
+        $_request->validate([
+            '_month' => 'required',
+            '_trb_documents' => 'required|max:10000',
+            '_trb_remark' => 'required',
+            '_journal_documents' => 'required',
+            '_journal_remark' => 'required'
+        ]);
+        $_file_path = '/public/onboard/shipboard-journal/';
+        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_files = [];
+        $_url_link =  $link . '/storage/onboard/shipboard-journal/';
+        foreach ($_request->file('_journal_documents') as $key => $value) {
+            $_file_name = '[' . $_user . ']' . $value->getClientOriginalName();
+            $value->storeAs($_file_path, $_file_name);
+            $_files[] = $_url_link . $_file_name;
+        }
+        $_journal = array(
+            'student_id' => Auth::user()->student->id,
+            'month' =>  date('Y') . '-0' . $_request->_month . "-" . date('d'),
+            'remark' => $_request->_journal_remark,
+            'file_links' => json_encode($_files),
+            'journal_type' => 'journal',
+            'is_removed' => false,
+        );
+        ShipboardJournal::create($_journal);
+        $_files = [];
+        foreach ($_request->file('_trb_documents') as $key => $value) {
+            $_file_name = '[' . $_user . ']' . $value->getClientOriginalName();
+            $value->storeAs($_file_path, $_file_name);
+            $_files[] = $_url_link . $_file_name;
+        }
+        $_journal = array(
+            'student_id' => Auth::user()->student->id,
+            'month' =>  date('Y') . '-0' . $_request->_month . "-" . date('d'),
+            'remark' => $_request->_trb_remark,
+            'file_links' => json_encode($_files),
+            'journal_type' => 'trb',
+            'is_removed' => false,
+        );
+        ShipboardJournal::create($_journal);
+        return redirect('/student/on-board/journal/view?_j=' . base64_encode($_request->_month))->with('success', 'Successfully Created Journal');
+    }
+    public function view_journal(Request $_request)
+    {
+        $_journal = ShipboardJournal::where([
+            'student_id' => Auth::user()->student->id,
+            'month' => base64_decode($_request->_j),
+            'is_removed' => false
+        ])->get();
+        $_journals = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->groupBy('month')->get();
+
+        return view('student.onboard.journal_view', compact('_journal', '_journals'));
     }
 }

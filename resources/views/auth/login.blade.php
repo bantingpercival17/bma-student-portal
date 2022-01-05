@@ -1,63 +1,7 @@
-{{-- <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout> --}}
-@extends('guest')
+@extends('app-main')
 @section('page-title', 'Login')
 @section('page-content')
-    <section>
+    {{-- <section>
         <div class="page-header min-vh-75">
             <div class="container">
                 <div class="row">
@@ -74,16 +18,17 @@
                                     <label>Email</label>
                                     <div class="mb-3">
                                         <input type="email" class="form-control" placeholder="Email" aria-label="Email"
-                                            aria-describedby="email-addon" name="campus_email" value="{{ old('campus_email') }}">
-                                            @error('campus_email')
+                                            aria-describedby="email-addon" name="campus_email"
+                                            value="{{ old('campus_email') }}">
+                                        @error('campus_email')
                                             <p class="p-1 mb-4 text-sm mx-auto text-danger text-gradient ">
                                                 {{ $message }}
-    
+
                                             </p>
                                         @enderror
 
                                     </div>
-                                   
+
                                     <label>Password</label>
                                     <div class="mb-3">
                                         <input type="password" class="form-control" placeholder="Password"
@@ -96,10 +41,10 @@
                                             </p>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe" name="remeber">
                                         <label class="form-check-label" for="rememberMe">Remember me</label>
-                                    </div> --}}
+                                    </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn bg-gradient-success w-100 mt-4 mb-0">Log
                                             in</button>
@@ -118,5 +63,48 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
+    <div class="wrapper">
+        <div class="res-hide row m-0 align-items-center vh-100">
+            <div class="col-lg-5 pb-0">
+                <div class="card-body auth-padding">
+                    <h2 class="mb-2 text-center"><b>BMA PORTAL</b></h2>
+                    <p class="text-center">SIGN IN</p>
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control border-primary" id="email"
+                                        aria-describedby="email" name="campus_email">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control border-primary" id="password"
+                                        aria-describedby="password" name="password">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 d-flex justify-content-between">
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="customCheck1" name="remember">
+                                    <label class="form-check-label" for="customCheck1">Remember Me</label>
+                                </div>
+                                <a href="recoverpw.html">Forgot Password?</a>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-7 d-md-block d-none p-0">
+                <img src="{{ asset('assets/image/bma-building.png') }}" class="img-fluid gradient-main vh-100"
+                    alt="images">
+            </div>
+        </div>
+    </div>
 @endsection
