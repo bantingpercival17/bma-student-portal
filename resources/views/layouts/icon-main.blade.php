@@ -185,7 +185,7 @@
 @endsection
 
 @section('icon-jpg')
-    <svg id="_.PNG" data-name=".PNG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 274.46">
+    <svg width="60" id="_.PNG" data-name=".PNG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 274.46">
         <defs>
             <style>
                 .jpg-1 {

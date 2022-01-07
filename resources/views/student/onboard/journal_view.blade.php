@@ -25,7 +25,7 @@ $_title = 'Shipboard Journal';
                         </p>
                         <small class="text-muted"><b>MONTH JOURNAL</b></small>
                     </div>
-                   {{--  <div class="card-tool">
+                    {{-- <div class="card-tool">
                         <a href="/student/on-board/journal?edit={{ request()->input('_j') }}"
                             class="btn btn-primary btn-sm mt-2">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@ $_title = 'Shipboard Journal';
                     @foreach ($_journal as $item)
                         <div class="">
                             <h5 class="card-title">{{ strtoupper($item->journal_type) }}</h5>
-                            <small class="text-muted">Last updated 3 mins ago</small>
+                            {{-- <small class="text-muted">Last updated 3 mins ago</small> --}}
                             <p class="card-text">
                                 {{ $item->remark }}
                             </p>

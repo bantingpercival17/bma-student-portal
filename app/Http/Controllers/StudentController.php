@@ -134,7 +134,7 @@ class StudentController extends Controller
             'is_removed' => false,
         );
         ShipboardJournal::create($_journal);
-        return redirect('/student/on-board/journal/view?_j=' . base64_encode($_request->_month))->with('success', 'Successfully Created Journal');
+        return redirect('/student/on-board/journal/view?_j=' . base64_encode(date('Y') . '-0' . $_request->_month . "-" . date('d')))->with('success', 'Successfully Created Journal');
     }
     public function view_journal(Request $_request)
     {

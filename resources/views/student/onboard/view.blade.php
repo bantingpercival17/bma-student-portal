@@ -14,7 +14,7 @@ $_title = 'On Board Training';
 @section('page-content')
     @if (Auth::user()->student->shipboard_training)
         <div class="header-title d-flex justify-content-between">
-            <h5 class=" fw-bolder">SHIPBOARD JOURNAL</h5>
+            <h5 class=" fw-bolder">NARATIVE REPORT</h5>
         </div>
         <div class="swiper swiper-container mySwiper position-relative">
             @if ($_count = count(Auth::user()->student->shipboard_journal) > 3)
@@ -40,7 +40,7 @@ $_title = 'On Board Training';
                                     @yield('icon-add')
                                 </i>
 
-                                <h5 class="text-muted mt-3">Add Journal</h5>
+                                <h5 class="text-muted mt-3">Add Narative Report</h5>
                             </a>
 
                         </div>

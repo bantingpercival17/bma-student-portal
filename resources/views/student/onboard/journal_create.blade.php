@@ -20,7 +20,7 @@ $_title = 'Create Shipboard Journal';
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                        <label for="" class="card-title h5"><b>Create Journal</b></label>
+                        <label for="" class="card-title h5"><b>Create Narative Report</b></label>
                     </div>
                 </div>
                 <div class="card-body">
@@ -74,6 +74,28 @@ $_title = 'Create Shipboard Journal';
                                 <input class="form-control" type="file" id="customFile2" name="_journal_documents[]"
                                     value="{{ old('_journal_documents') }}" multiple>
                                 @error('_journal_documents')
+                                    <small class="text-danger"><b>{{ $message }}</b></small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="formd-group">
+                            <p class="h6"><b>CREW LIST</b></p>
+                            <div class="form-group">
+                                <small class="form-label"><b>ATTACH FILES</b></small>
+                                <input class="form-control" type="file" id="customFile2" name="_crew_list_documents[]"
+                                    value="{{ old('_crew_list_documents') }}" multiple>
+                                @error('_crew_list_documents')
+                                    <small class="text-danger"><b>{{ $message }}</b></small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="formd-group">
+                            <p class="h6"><b>CREW LIST</b></p>
+                            <div class="form-group">
+                                <small class="form-label"><b>ATTACH FILES</b></small>
+                                <input class="form-control" type="file" id="customFile2" name="_crew_list_documents[]"
+                                    value="{{ old('_crew_list_documents') }}" multiple>
+                                @error('_crew_list_documents')
                                     <small class="text-danger"><b>{{ $message }}</b></small>
                                 @enderror
                             </div>
