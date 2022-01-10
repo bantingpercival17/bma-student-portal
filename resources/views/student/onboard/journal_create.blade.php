@@ -1,6 +1,6 @@
 @extends('app-main')
 @php
-$_title = 'Create Shipboard Journal';
+$_title = 'Create Narative Report';
 @endphp
 @section('page-title', $_title)
 @section('content-title', $_title)
@@ -24,82 +24,77 @@ $_title = 'Create Shipboard Journal';
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('onboard.store-journal') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('onboard.store-journal') }}" method="post" enctype="multipart/form-data"
+                        class="needs-validation" novalidate>
                         @csrf
                         <div class="form-group">
-                            <small class="form-label"><b>MONTHLY REPORT</b></small>
-                            <select class="form-select" data-trigger="" name="_month">
-                                <option selected="" disabled="">Choose Month</option>
+                            <small class="form-label"><b>MONTHLY REPORT <sup class="text-danger">*</sup></b></small>
+                            <select class="form-select" name="_month" required>
+                                <option selected disabled value="">Choose Month</option>
                                 @for ($month = 1; $month <= 12; $month++)
                                     <option value="{{ $month }}" {{ old('_month') == $month ? 'selected' : '' }}>
                                         {{ date('F', mktime(0, 0, 0, $month)) }}</option>
                                 @endfor
                             </select>
                             @error('_month')
-
                                 <small class="text-danger"><b>{{ $message }}</b></small>
                             @enderror
-                        </div>
-                        <div class="form-group">
-                            <p class="h6"><b>TRB DOCUMENTS</b></p>
-                            <div class="form-group">
-                                <small class="form-label"><b>REMARKS</b></small>
-                                <textarea name="_trb_remark" class="form-control" cols="30"
-                                    rows="5">{{ old('_trb_remark') }}</textarea>
-                                @error('_trb_remark')
-                                    <small class="text-danger"><b>{{ $message }}</b></small>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <small class="form-label"><b>ATTACH TRB FILES</b></small>
-                                <input class="form-control" type="file" id="customFile2" name="_trb_documents[]"
-                                    value="{{ old('_trb_documents') }}" multiple>
-                                @error('_trb_documents')
-                                    <small class="text-danger"><b>{{ $message }}</b></small>
-                                @enderror
+                            <div class="invalid-feedback">
+                                Please select a Month .
                             </div>
                         </div>
-                        <div class="formd-group">
-                            <p class="h6"><b>JOURNAL DOCUMENTS</b></p>
+                        @php
+                            $_narative_details = [['Training Record Book', '_trb_documents', '_trb_remark'], ['Daily Journal', '_journal_documents', '_journal_remark'], ['Crew List', '_crew_list'], ["Master's Declaration of Safe Departure", '_mdsd'], ['Picture while at work', '_while_at_work']];
+                        @endphp
+                        @foreach ($_narative_details as $_name)
+                            {{-- <div class="formd-group">
+                                <p class="h6">
+                                    <b>{{ strtoupper($_name[0]) }}</b>
+                                </p>
+                                <div class="form-group">
+                                    <small class="form-label"><b>ATTACH FILES <sup
+                                                class="text-danger">*</sup></b></small>
+                                    <input class="form-control" type="file" name="{{ $_name[1] }}[]"
+                                        value="{{ old($_name[1]) }}" multiple required>
+                                    @error($_name[1])
+                                        <small class="text-danger"><b>{{ $message }}</b></small>
+                                    @enderror
+                                    <div class="invalid-feedback">
+                                        Please attach a files for {{ ucwords($_name[0]) }} .
+                                    </div>
+                                </div>
+                            </div> --}}
                             <div class="form-group">
-                                <small class="form-label"><b>REMARKS</b></small>
-                                <textarea name="_journal_remark" class="form-control" cols="30"
-                                    rows="5">{{ old('_journal_remark') }}</textarea>
-                                @error('_journal_remark')
-                                    <small class="text-danger"><b>{{ $message }}</b></small>
-                                @enderror
+                                <p class="h6">
+                                    <b>{{ strtoupper($_name[0]) }}</b>
+                                </p>
+                                @if (count($_name) > 2)
+                                    <div class="form-group">
+                                        <small class="form-label"><b>REMARKS<sup
+                                                    class="text-danger">*</sup></b></small>
+                                        <textarea name="{{ $_name[2] }}" class="form-control" cols="30" rows="3"
+                                            required>{{ old($_name[2]) }}</textarea>
+                                        @error($_name[2])
+                                            <small class="text-danger"><b>{{ $message }}</b></small>
+                                        @enderror
+                                    </div>
+                                @endif
+
+                                <div class="form-group">
+                                    <small class="form-label"><b>ATTACH TRB FILES<sup
+                                                class="text-danger">*</sup></b></small>
+                                    <input class="form-control" type="file" name="{{ $_name[1] }}[]"
+                                        value="{{ old($_name[1]) }}" multiple required>
+                                    @error($_name[1])
+                                        <small class="text-danger"><b>{{ $message }}</b></small>
+                                    @enderror
+                                    <div class="invalid-feedback">
+                                        Please attach a files for {{ ucwords($_name[0]) }} .
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <small class="form-label"><b>ATTACH JOURNAL FILES</b></small>
-                                <input class="form-control" type="file" id="customFile2" name="_journal_documents[]"
-                                    value="{{ old('_journal_documents') }}" multiple>
-                                @error('_journal_documents')
-                                    <small class="text-danger"><b>{{ $message }}</b></small>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="formd-group">
-                            <p class="h6"><b>CREW LIST</b></p>
-                            <div class="form-group">
-                                <small class="form-label"><b>ATTACH FILES</b></small>
-                                <input class="form-control" type="file" id="customFile2" name="_crew_list_documents[]"
-                                    value="{{ old('_crew_list_documents') }}" multiple>
-                                @error('_crew_list_documents')
-                                    <small class="text-danger"><b>{{ $message }}</b></small>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="formd-group">
-                            <p class="h6"><b>CREW LIST</b></p>
-                            <div class="form-group">
-                                <small class="form-label"><b>ATTACH FILES</b></small>
-                                <input class="form-control" type="file" id="customFile2" name="_crew_list_documents[]"
-                                    value="{{ old('_crew_list_documents') }}" multiple>
-                                @error('_crew_list_documents')
-                                    <small class="text-danger"><b>{{ $message }}</b></small>
-                                @enderror
-                            </div>
-                        </div>
+                        @endforeach
+                      
                         <button class="btn btn-primary w-100" type="submit">Submit</button>
                     </form>
 

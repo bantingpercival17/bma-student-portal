@@ -1,6 +1,6 @@
 @extends('app-main')
 @php
-$_title = 'Shipboard Journal';
+$_title = 'Narative Report';
 @endphp
 @section('page-title', $_title)
 @section('content-title', $_title)
@@ -65,7 +65,6 @@ $_title = 'Shipboard Journal';
                                             $myFile = pathinfo($links);
                                             $_ext = $myFile['extension'];
                                             $_file = $myFile['basename'];
-                                            
                                         @endphp
                                         <div class="row">
                                             <div class="col-md">
@@ -86,8 +85,6 @@ $_title = 'Shipboard Journal';
 
                                             </div>
                                         </div>
-
-                                        {{-- <img src="{{ $links }}" class="img-fluid bg-soft-info rounded" alt="files"> --}}
                                     </a>
                                 @endforeach
 

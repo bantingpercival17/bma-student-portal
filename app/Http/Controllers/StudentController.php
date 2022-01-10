@@ -94,47 +94,45 @@ class StudentController extends Controller
         $link .= "://";
         $link .= $_SERVER['HTTP_HOST'];
         $_file_path = '/public/onboard/shipboard-journal/';
-        $_request->validate([
+        $_input_feilds = $_request->validate([
             '_month' => 'required',
-            '_trb_documents' => 'required|max:10000',
             '_trb_remark' => 'required',
-            '_journal_documents' => 'required',
-            '_journal_remark' => 'required'
+            '_journal_remark' => 'required',
+            '_trb_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_journal_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_crew_list.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_mdsd.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_while_at_work.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
         ]);
         $_file_path = '/public/onboard/shipboard-journal/';
         $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
-        $_files = [];
         $_url_link =  $link . '/storage/onboard/shipboard-journal/';
-        foreach ($_request->file('_journal_documents') as $key => $value) {
-            $_file_name = '[' . $_user . ']' . $value->getClientOriginalName();
-            $value->storeAs($_file_path, $_file_name);
-            $_files[] = $_url_link . $_file_name;
+        $_narative_details = [
+            ['Training Record Book', '_trb_documents', '_trb_remark'],
+            ['Daily Journal', '_journal_documents', '_journal_remark'],
+            ['Crew List', '_crew_list'],
+            ["Master's Declaration of Safe Departure", '_mdsd'],
+            ['Picture while at work', '_while_at_work']
+        ];
+        foreach ($_narative_details as $key => $details) {
+            $_file_links = [];
+            foreach ($_request->file($details[1]) as $key => $file) {
+                $_file_name = '[' . $_user . ']' . $file->getClientOriginalName(); // Set a File name with Username and the Original File name
+                $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+                $_file_links[] = $_url_link . $_file_name; // Get the Link of the Files
+            }
+            $_month = $_request->_month > 9 ? '-' . $_request->_month : '-0' . $_request->_month; // Get the Month
+            $_data_narative = array(
+                'student_id' => Auth::user()->student->id,
+                'month' =>  date('Y') . $_month . "-" . date('d'),
+                'file_links' => json_encode($_file_links),
+                'journal_type' => $details[0],
+                'remark' => count($details) > 2 ? $_input_feilds[$details[2]] : null,
+                'is_removed' => false,
+            );
+            ShipboardJournal::create($_data_narative);
         }
-        $_journal = array(
-            'student_id' => Auth::user()->student->id,
-            'month' =>  date('Y') . '-0' . $_request->_month . "-" . date('d'),
-            'remark' => $_request->_journal_remark,
-            'file_links' => json_encode($_files),
-            'journal_type' => 'journal',
-            'is_removed' => false,
-        );
-        ShipboardJournal::create($_journal);
-        $_files = [];
-        foreach ($_request->file('_trb_documents') as $key => $value) {
-            $_file_name = '[' . $_user . ']' . $value->getClientOriginalName();
-            $value->storeAs($_file_path, $_file_name);
-            $_files[] = $_url_link . $_file_name;
-        }
-        $_journal = array(
-            'student_id' => Auth::user()->student->id,
-            'month' =>  date('Y') . '-0' . $_request->_month . "-" . date('d'),
-            'remark' => $_request->_trb_remark,
-            'file_links' => json_encode($_files),
-            'journal_type' => 'trb',
-            'is_removed' => false,
-        );
-        ShipboardJournal::create($_journal);
-        return redirect('/student/on-board/journal/view?_j=' . base64_encode(date('Y') . '-0' . $_request->_month . "-" . date('d')))->with('success', 'Successfully Created Journal');
+        return redirect('/student/on-board/journal/view?_j=' . base64_encode(date('Y') . $_month . "-" . date('d')))->with('success', 'Successfully Created Journal');
     }
     public function view_journal(Request $_request)
     {
