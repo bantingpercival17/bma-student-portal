@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class SubjectClass extends Model
 {
@@ -34,5 +35,9 @@ class SubjectClass extends Model
     public function grade_submission()
     {
         return $this->hasOne(GradeSubmission::class, 'subject_class_id')->latest();
+    }
+    public function e_clearance()
+    {
+        return $this->hasOne(StudentClearance::class, 'subject_class_id')->where('student_id', Auth::user()->student_id);
     }
 }

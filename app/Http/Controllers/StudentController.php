@@ -6,8 +6,10 @@ use App\Models\AcademicYear;
 use App\Models\DeploymentAssesment;
 use App\Models\DocumentRequirements;
 use App\Models\Documents;
+use App\Models\Section;
 use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
+use App\Models\SubjectClass;
 use App\Models\TrainingCertificates;
 use Exception;
 use Illuminate\Http\Request;
@@ -23,9 +25,31 @@ class StudentController extends Controller
 
     public function academic_view(Request $_request)
     {
+        $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
         $_academics = AcademicYear::orderBy('id', 'desc')->get();
-        return view('student.academic.view', compact('_academics'));
+        return view('student.academic.view', compact('_current_academic', '_academics'));
     }
+    public function academic_grades(Request $_request)
+    {
+        $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
+        $_academics = AcademicYear::orderBy('id', 'desc')->get();
+        $_section = Auth::user()->student->section($_current_academic->id)->first();
+        $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
+        return view('student.academic.grades', compact('_current_academic', '_academics', '_subject_class'));
+    }
+    public function academic_clearance(Request $_request)
+    {
+        $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
+        $_academics = AcademicYear::orderBy('id', 'desc')->get();
+        $_section = Auth::user()->student->section($_current_academic->id)->first();
+        $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
+        return view('student.academic.clearance', compact('_current_academic', '_academics', '_subject_class'));
+    }
+
+
+
+
+
     public function grades_view(Request $_request)
     {
         return view('student.grades.view');

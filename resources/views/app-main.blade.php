@@ -35,6 +35,52 @@
             <div class="position-relative">
                 @yield('navigation')
             </div>
+            @if (request()->is('student/academic*'))
+                <nav class="nav nav-underline bg-soft-primary pb-0 text-center" aria-label="Secondary navigation">
+                    <div class="dropdown mt-3 w-100">
+                        <a class=" dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <span class="text-muted">Academic Year :</span>
+                            <b>{{ $_current_academic->semester }} |
+                                {{ $_current_academic->school_year }}</b>
+                        </a>
+                        <ul class="dropdown-menu w-100" data-popper-placement="bottom-start">
+                            @php
+                                $_url = route('academic');
+                                $_url = request()->is('student/academic/grades') ? route('academic.grades') : $_url;
+                                $_url = request()->is('student/academic/clearance') ? route('academic.clearance') : $_url;
+                            @endphp
+                            @if ($_academics->count() > 0)
+                                @foreach ($_academics as $_academic)
+
+                                    <li>
+                                        <a class="dropdown-item "
+                                            href="{{ $_url }}?_academic={{ base64_encode($_academic->id) }}">
+                                            {{ $_academic->semester }} | {{ $_academic->school_year }}</a>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                </nav>
+                <div class="nav-scroller text-center">
+                    <nav class="nav nav-underline bg-soft-primary pb-0" aria-label="Secondary navigation">
+
+                        <div class="d-flex" id="head-check">
+
+                            <a href="{{ route('academic.clearance') }}?_academic={{ request()->input('_academic') }}"
+                                class="nav-link {{ request()->is('student/academic/subjects') || request()->is('student/academic') ? 'active' : '' }}">Subjects</a>
+
+                            <a href="{{ route('academic.grades') }}?_academic={{ request()->input('_academic') }}"
+                                class="nav-link {{ request()->is('student/academic/grades') ? 'active' : '' }}">Grades</a>
+
+                            <a href="{{ route('academic.clearance') }}?_academic={{ request()->input('_academic') }}"
+                                class="nav-link {{ request()->is('student/academic/clearance') ? 'active' : '' }}">Clearance</a>
+
+                        </div>
+                    </nav>
+                </div>
+            @endif
             <div class="conatiner-fluid content-inner mt-6 py-0">
                 @yield('page-content')
             </div>

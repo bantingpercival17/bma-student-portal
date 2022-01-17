@@ -19,6 +19,7 @@ class StudentAccount extends Authenticatable
     ];
     public function student()
     {
-        return $this->belongsTo(StudentDetails::class,'student_id');
+        return $this->belongsTo(StudentDetails::class, 'student_id');
     }
+    
 }

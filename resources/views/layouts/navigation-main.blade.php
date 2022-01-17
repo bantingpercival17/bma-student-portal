@@ -31,11 +31,11 @@
                             'route' => 'academic',
                             'icon' => 'icon-school',
                         ],
-                        [
+                       /*  [
                             'name' => 'Grade',
                             'route' => 'grades',
                             'icon' => 'icon-grades',
-                        ],
+                        ], */
                         [
                             'name' => 'Payment',
                             'route' => 'payments',
@@ -108,14 +108,13 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul
                                     class="navbar-nav ms-auto top-menu navbar-nav align-items-center navbar-list mb-3 mb-lg-0">
-
                                     <li>
                                         <ul class="m-0 d-flex align-items-center navbar-list list-unstyled px-3 px-md-0">
                                             <li class="dropdown">
                                                 <a class="nav-link py-0 d-flex align-items-center" href="#"
                                                     id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
                                                     aria-expanded="false">
-                                                    <img src="{{ asset(Auth::user()->student->profile_pic(Auth::user()))}}"
+                                                    <img src="{{ asset(Auth::user()->student->profile_pic(Auth::user())) }}"
                                                         alt="User-Profile"
                                                         class="img-fluid avatar avatar-50 avatar-rounded ">
                                                     {{ str_replace('@bma.edu.ph', '', Auth::user()->campus_email) }}

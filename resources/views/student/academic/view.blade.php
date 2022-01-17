@@ -16,95 +16,22 @@ $_title = 'Academic';
 @endsection
 @section('page-content')
     <div class="row">
-        <div class="col-md-7 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="header-title">
-                        <h4 class="card-title">Academic</h4>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="twit-feed">
-                        <div class="d-flex align-items-center mb-4">
-                            <img class="rounded-pill img-fluid avatar-60 me-3" src="../../assets/images/avatars/01.png"
-                                alt="">
-                            <div class="media-support-info">
-                                <h6 class="mb-0">Anna Sthesia</h6>
-                                <p class="mb-0">@anna59
-                                    <span class="text-primary">
-                                        <svg width="15" viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="media-support-body">
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                            <div class="d-flex flex-wrap mb-1">
-                                <a href="#" class="twit-meta-tag pe-2">#Html</a>
-                                <a href="#" class="twit-meta-tag pe-2">#Bootstrap</a>
-                            </div>
-                            <div class="twit-date">07 Jan 2021</div>
-                        </div>
-                    </div>
-                    <hr class="my-4">
-                    <div class="twit-feed">
-                        <div class="d-flex align-items-center mb-4">
-                            <img class="rounded-pill p-1 bg-soft-primary img-fluid avatar-60 me-3"
-                                src="../../assets/images/avatars/03.png" alt="">
-                            <div class="media-support-info">
-                                <h6 class="mb-0">Paige Turner</h6>
-                                <p class="mb-0">@paige30
-                                    <span class="text-primary">
-                                        <svg width="15" viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="media-support-body">
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                            <div class="d-flex flex-wrap mb-1">
-                                <a href="#" class="twit-meta-tag pe-2">#Js</a>
-                                <a href="#" class="twit-meta-tag pe-2">#Bootstrap</a>
-                            </div>
-                            <div class="twit-date">18 Feb 2021</div>
-                        </div>
-                    </div>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">E-Clearance</h4>
                 </div>
             </div>
-        </div>
-        <div class="col-md-5 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="header-title">
-                        <h4 class="card-title">Academic List</h4>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if ($_academics->count() > 0)
-                        <ul class="list-inline m-0 p-0">
-
-                            @foreach ($_academics as $_academic)
-                                <li class="d-flex mb-4 align-items-center">
-                                  
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6>{{$_academic->semester}}</h6>
-                                        <p class="mb-0">{{$_academic->school_year}}</p>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                    @else
-
-                    @endif
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><b>Subject</b></th>
+                                <th><b>Status</b></th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
