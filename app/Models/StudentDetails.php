@@ -42,6 +42,10 @@ class StudentDetails extends Model
     {
         return AcademicYear::where('is_active', true)->first();
     }
+    public function enrollment_application()
+    {
+        return $this->hasOne(EnrollmentApplication::class, 'student_id');
+    }
     public function enrollment_assessment()
     {
         return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');

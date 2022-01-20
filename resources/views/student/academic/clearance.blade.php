@@ -21,6 +21,9 @@ $_title = 'Academic';
                 <div class="header-title">
                     <h4 class="card-title">E-Clearance</h4>
                 </div>
+                <div class="card-tool">
+                    <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

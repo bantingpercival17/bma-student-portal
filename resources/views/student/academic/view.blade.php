@@ -16,24 +16,33 @@ $_title = 'Academic';
 @endsection
 @section('page-content')
     <div class="row">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <div class="header-title">
-                    <h4 class="card-title">E-Clearance</h4>
+        @if (count($_subject_class) > 0)
+            @foreach ($_subject_class as $subject)
+                <div class=" col-sm-4 col-md-4">
+                    <a href="?_s={{ base64_encode($subject->id) }}">
+                        <div class="card">
+                            <div class="card-body">
+                                <span class="h4 text-info">
+                                    <b>
+                                        {{ $subject->curriculum_subject->subject->subject_code }}
+                                    </b>
+                                </span>
+                                <br>
+                                <small class="h5 text-muted"><b>
+                                        {{ strtoupper($subject->staff->first_name . ' ' . $subject->staff->last_name) }}</b></small>
+                                <br>
+
+                            </div>
+                        </div>
+                    </a>
+
                 </div>
+            @endforeach
+        @else
+            <div class="col-md-12 text-center">
+
+                <label for="" class="h1 text-primary"> <b>No Subjects...</b></label>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><b>Subject</b></th>
-                                <th><b>Status</b></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 @endsection

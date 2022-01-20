@@ -31,11 +31,11 @@
                             'route' => 'academic',
                             'icon' => 'icon-school',
                         ],
-                       /*  [
-                            'name' => 'Grade',
-                            'route' => 'grades',
+                        [
+                            'name' => 'Enrollment',
+                            'route' => 'enrollment',
                             'icon' => 'icon-grades',
-                        ], */
+                        ],
                         [
                             'name' => 'Payment',
                             'route' => 'payments',

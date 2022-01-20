@@ -6,6 +6,7 @@ use App\Models\AcademicYear;
 use App\Models\DeploymentAssesment;
 use App\Models\DocumentRequirements;
 use App\Models\Documents;
+use App\Models\EnrollmentApplication;
 use App\Models\Section;
 use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
@@ -27,7 +28,9 @@ class StudentController extends Controller
     {
         $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
         $_academics = AcademicYear::orderBy('id', 'desc')->get();
-        return view('student.academic.view', compact('_current_academic', '_academics'));
+        $_section = Auth::user()->student->section($_current_academic->id)->first();
+        $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
+        return view('student.academic.view', compact('_current_academic', '_academics', '_subject_class'));
     }
     public function academic_grades(Request $_request)
     {
@@ -47,7 +50,30 @@ class StudentController extends Controller
     }
 
 
+    /* Enrollment */
+    public function enrollment_application()
+    {
+        $_up_comming_academic = AcademicYear::where('is_active', 2)->first();
 
+        $_enrollment_application = EnrollmentApplication::where(['student_id' => Auth::user()->student_id, 'academic_id' => $_up_comming_academic->id])->first();
+        if (!$_enrollment_application) {
+            $_details = [
+                'student_id' => Auth::user()->student_id,
+                'academic_id' => $_up_comming_academic->id,
+                'enrollment_place' => 'online',
+                'is_removed' => false,
+            ];
+
+            EnrollmentApplication::create($_details);
+            return back()->with('success', 'Successfully Send your Enrollment Application!');
+        } else {
+            return back()->with('error', 'Your Already Submit Enrollment Application!');
+        }
+    }
+    public function enrollment_view()
+    {
+        return view('student.enrollment.view');
+    }
 
 
     public function grades_view(Request $_request)

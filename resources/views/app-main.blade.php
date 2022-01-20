@@ -68,7 +68,7 @@
 
                         <div class="d-flex" id="head-check">
 
-                            <a href="{{ route('academic.clearance') }}?_academic={{ request()->input('_academic') }}"
+                            <a href="{{ route('academic') }}?_academic={{ request()->input('_academic') }}"
                                 class="nav-link {{ request()->is('student/academic/subjects') || request()->is('student/academic') ? 'active' : '' }}">Subjects</a>
 
                             <a href="{{ route('academic.grades') }}?_academic={{ request()->input('_academic') }}"
