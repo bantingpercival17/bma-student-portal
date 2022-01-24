@@ -7,6 +7,7 @@ use App\Models\DeploymentAssesment;
 use App\Models\DocumentRequirements;
 use App\Models\Documents;
 use App\Models\EnrollmentApplication;
+use App\Models\Role;
 use App\Models\Section;
 use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
@@ -26,27 +27,22 @@ class StudentController extends Controller
 
     public function academic_view(Request $_request)
     {
-        $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
-        $_academics = AcademicYear::orderBy('id', 'desc')->get();
-        $_section = Auth::user()->student->section($_current_academic->id)->first();
+        $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-        return view('student.academic.view', compact('_current_academic', '_academics', '_subject_class'));
+        return view('student.academic.view', compact('_subject_class'));
     }
     public function academic_grades(Request $_request)
     {
-        $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
-        $_academics = AcademicYear::orderBy('id', 'desc')->get();
-        $_section = Auth::user()->student->section($_current_academic->id)->first();
+        $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-        return view('student.academic.grades', compact('_current_academic', '_academics', '_subject_class'));
+        return view('student.academic.grades', compact('_subject_class'));
     }
     public function academic_clearance(Request $_request)
     {
-        $_current_academic = $_request->_academic  ? AcademicYear::find(base64_decode($_request->_academic)) : AcademicYear::where('is_active', true)->first();
-        $_academics = AcademicYear::orderBy('id', 'desc')->get();
-        $_section = Auth::user()->student->section($_current_academic->id)->first();
+        $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-        return view('student.academic.clearance', compact('_current_academic', '_academics', '_subject_class'));
+        $_roles = Role::get();
+        return view('student.academic.clearance', compact('_subject_class', '_roles'));
     }
 
 
@@ -65,7 +61,7 @@ class StudentController extends Controller
             ];
 
             EnrollmentApplication::create($_details);
-            return back()->with('success', 'Successfully Send your Enrollment Application!');
+            return redirect(route('enrollment'))->with('success', 'Successfully Send your Enrollment Application!');
         } else {
             return back()->with('error', 'Your Already Submit Enrollment Application!');
         }

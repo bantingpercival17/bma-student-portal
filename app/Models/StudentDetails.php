@@ -38,9 +38,11 @@ class StudentDetails extends Model
         }
         return $_image;
     }
-    public function current_academic()
+    public function current_enrollment()
     {
-        return AcademicYear::where('is_active', true)->first();
+        $_academic = request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
+        return $_academic;
+        //return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
     }
     public function enrollment_application()
     {
@@ -49,6 +51,10 @@ class StudentDetails extends Model
     public function enrollment_assessment()
     {
         return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
+    }
+    public function enrollment_history()
+    {
+        return $this->hasMany(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
     }
     public function account()
     {
@@ -66,5 +72,9 @@ class StudentDetails extends Model
     public function shipboard_journal()
     {
         return $this->hasMany(ShipboardJournal::class, 'student_id')->distinct();
+    }
+    public function non_academic_clearance($_data)
+    {
+        return $this->hasOne(StudentNonAcademicClearance::class, 'student_id')->where('non_academic_type', str_replace(' ', '-', strtolower($_data)))->where('is_removed', false)->first();
     }
 }

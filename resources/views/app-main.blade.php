@@ -41,8 +41,8 @@
                         <a class=" dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
                             <span class="text-muted">Academic Year :</span>
-                            <b>{{ $_current_academic->semester }} |
-                                {{ $_current_academic->school_year }}</b>
+                            <b>{{ Auth::user()->student->current_enrollment->academic->semester }} |
+                                {{ Auth::user()->student->current_enrollment->academic->school_year }}</b>
                         </a>
                         <ul class="dropdown-menu w-100" data-popper-placement="bottom-start">
                             @php
@@ -50,13 +50,14 @@
                                 $_url = request()->is('student/academic/grades') ? route('academic.grades') : $_url;
                                 $_url = request()->is('student/academic/clearance') ? route('academic.clearance') : $_url;
                             @endphp
-                            @if ($_academics->count() > 0)
-                                @foreach ($_academics as $_academic)
+                            @if (count(Auth::user()->student->enrollment_history) > 0)
+                                @foreach (Auth::user()->student->enrollment_history as $_data)
 
                                     <li>
                                         <a class="dropdown-item "
-                                            href="{{ $_url }}?_academic={{ base64_encode($_academic->id) }}">
-                                            {{ $_academic->semester }} | {{ $_academic->school_year }}</a>
+                                            href="{{ $_url }}?_academic={{ base64_encode($_data->academic->id) }}">
+                                            {{ $_data->academic->semester }} |
+                                            {{ $_data->academic->school_year }}</a>
                                     </li>
                                 @endforeach
                             @endif

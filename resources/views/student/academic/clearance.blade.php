@@ -17,6 +17,9 @@ $_title = 'Academic';
 @section('page-content')
     <div class="row">
         <div class="card">
+            @php
+                $_total_clearance = 0;
+            @endphp
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
                     <h4 class="card-title">E-Clearance</h4>
@@ -26,32 +29,92 @@ $_title = 'Academic';
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><b>Subject</b></th>
-                                <th><b>Status</b></th>
-                                <th><b>Comment</b></th>
-                                <th><b>Contact</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (count($_subject_class) > 0)
-                                @foreach ($_subject_class as $_subject)
-                                    @if ($_subject->curriculum_subject->subject->subject_code == 'BRDGE')
-                                        @if (Auth::user()->student->enrollment_assessment->bridging_program != 'without')
+                <div class="row">
+                    <div class="col-md">
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><b>Subject</b></th>
+                                        <th><b>Status</b></th>
+                                        <th><b>Comment</b></th>
+                                        <th><b>Contact</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (count($_subject_class) > 0)
+                                        @foreach ($_subject_class as $_subject)
+                                            @if ($_subject->curriculum_subject->subject->subject_code != 'BRDGE' || Auth::user()->student->enrollment_assessment->bridging_program == 'with')
+                                                <tr>
+                                                    <td>
+                                                        <b class="text-primary">
+                                                            {{ $_subject->curriculum_subject->subject->subject_code }}
+                                                        </b>
+                                                        <br>
+                                                        <small
+                                                            class="text-muted"><b>{{ strtoupper($_subject->staff->user->name) }}</b></small>
+                                                    </td>
+                                                    <td>
+                                                        @if ($_subject->e_clearance)
+                                                            @if ($_subject->e_clearance->is_approved == 1)
+                                                                <span class="text-primary"><b>Cleared</b></span>
+                                                            @else
+                                                                <span class="text-warning"><b>Not Clear</b></span><br>
+                                                            @endif
+                                                        @else
+                                                            <span class="text-danger">-</span>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if ($_subject->e_clearance)
+                                                            @if ($_subject->e_clearance->is_approved != 1)
+                                                                <span class="text-muted">
+                                                                    <b>{{ $_subject->e_clearance->comment }}</b></span>
+                                                            @endif
+                                                        @endif
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            @endif
+
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <th colspan="4" class="text-center text-muted"> Empty Subject</th>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <text-primary class="h5">Non-Academic</text-primary>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><b>Personel</b></th>
+                                        <th><b>Status</b></th>
+                                        <th><b>Comment</b></th>
+                                        <th><b>Contact</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $_department = ['Department Head', 'Laboratory', 'Dean', 'Library', 'Exo', 'Accounting', 'Registrar', 'ICT'];
+                                    @endphp
+                                    @if (count($_department) > 0)
+                                        @foreach ($_department as $_data)
                                             <tr>
-                                                <td>
+                                                <th>
                                                     <b class="text-primary">
-                                                        {{ $_subject->curriculum_subject->subject->subject_code }} </b>
-                                                    <br>
-                                                    <small
-                                                        class="text-muted"><b>{{ strtoupper($_subject->staff->user->name) }}</b></small>
-                                                </td>
+                                                        {{ $_data }}
+                                                    </b>
                                                 <td>
-                                                    @if ($_subject->e_clearance)
-                                                        @if ($_subject->e_clearance->is_approved == 1)
+                                                    @if (Auth::user()->student->non_academic_clearance($_data))
+                                                        @if (Auth::user()->student->non_academic_clearance($_data)->is_approved == 1)
                                                             <span class="text-primary"><b>Cleared</b></span>
                                                         @else
                                                             <span class="text-warning"><b>Not Clear</b></span><br>
@@ -59,61 +122,22 @@ $_title = 'Academic';
                                                     @else
                                                         <span class="text-danger">-</span>
                                                     @endif
-
-                                                </td>
-                                                <td>
-                                                    @if ($_subject->e_clearance)
-                                                        @if ($_subject->e_clearance->is_approved != 1)
-                                                            <span class="text-muted">
-                                                                <b>{{ $_subject->e_clearance->comment }}</b></span>
-                                                        @endif
-                                                    @endif
                                                 </td>
                                                 <td></td>
+                                                <td></td>
                                             </tr>
-                                        @endif
+                                        @endforeach
                                     @else
                                         <tr>
-                                            <td>
-                                                <b class="text-primary">
-                                                    {{ $_subject->curriculum_subject->subject->subject_code }} </b>
-                                                <br>
-                                                <small
-                                                    class="text-muted"><b>{{ strtoupper($_subject->staff->user->name) }}</b></small>
-                                            </td>
-                                            <td>
-                                                @if ($_subject->e_clearance)
-                                                    @if ($_subject->e_clearance->is_approved == 1)
-                                                        <span class="text-primary"><b>Cleared</b></span>
-                                                    @else
-                                                        <span class="text-warning"><b>Not Clear</b></span><br>
-                                                    @endif
-                                                @else
-                                                    <span class="text-danger">-</span>
-                                                @endif
-
-                                            </td>
-                                            <td>
-                                                @if ($_subject->e_clearance)
-                                                    @if ($_subject->e_clearance->is_approved != 1)
-                                                        <span class="text-muted">
-                                                            <b>{{ $_subject->e_clearance->comment }}</b></span>
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td></td>
+                                            <th colspan="4" class="text-center text-muted"> Non Academic Clearance</th>
                                         </tr>
                                     @endif
-
-                                @endforeach
-                            @else
-                                <tr>
-                                    <th colspan="4" class="text-center text-muted"> Empty Subject</th>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

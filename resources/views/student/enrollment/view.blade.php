@@ -52,18 +52,28 @@ $_title = 'Enrollment';
                     <div class="profile-dots-pills border-primary mt-1"></div>
                     <div class="ms-3">
                         <h5 class=" mb-1">Enrollment Application</h5>
-                        <small class="mb-0"> {{Auth::user()->student->enrollment_application->created_at->format('d M-y h:m a')}} {{-- 15 JUL 4:50 AM --}}</small>
+                        <small class="mb-0">
+                            {{ Auth::user()->student->enrollment_application->created_at->format('d M-y h:m a') }}
+                            {{-- 15 JUL 4:50 AM --}}</small>
                     </div>
                 </div>
 
             @else
-                <div class=" d-flex profile-media align-items-top mb-2">
-                    <div class="profile-dots-pills border-primary mt-1"></div>
-                    <div class="ms-3">
-                        <h5 class=" mb-1">Start the Enrollment for Second Semester</h5>
-                        <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
+                @if (!Auth::user()->student->current_enrollment)
+                    <div class=" d-flex profile-media align-items-top mb-2">
+                        <div class="profile-dots-pills border-primary mt-1"></div>
+                        <div class="ms-3">
+                            <h5 class=" mb-1">Start the Enrollment for Second Semester</h5>
+                            <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
+                        </div>
                     </div>
+                @else
+                <div class=" d-flex profile-media align-items-top mb-2">
+                    <h5 class=" mb-1">Your Current Enrolled to this Semester</h5>
+                    
                 </div>
+                @endif
+
             @endif
 
         </div>
