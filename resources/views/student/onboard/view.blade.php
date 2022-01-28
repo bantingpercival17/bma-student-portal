@@ -50,7 +50,7 @@ $_title = 'On Board Training';
                     @foreach ($_journal as $_journal)
                         <div class="text-center">
                             <div class="card-body ">
-                                <a href="{{ route('onboard.view-journal') }}?_j={{base64_encode($_journal->month)}}">
+                                <a href="{{ route('onboard.view-journal') }}?_j={{ base64_encode($_journal->month) }}">
                                     <i class="icon text-muted">
                                         @yield('icon-document')
                                     </i>
@@ -81,7 +81,7 @@ $_title = 'On Board Training';
     @endif
     <div class="row">
         <div class="col-md-7">
-            @if ($_assess || ($_shipboard_training = Auth::user()->student->shipboard_training))
+            @if ($_shipboard_training = Auth::user()->student->shipboard_training)
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
@@ -90,7 +90,6 @@ $_title = 'On Board Training';
                     </div>
                     <div class="card-body pt-4 p-3">
                         @if ($_shipboard_training)
-
                             <form>
                                 <div class="row">
                                     <div class="form-group col-md">
