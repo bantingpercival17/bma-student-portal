@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\StudentController;
+use App\Models\StudentDetails;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,4 +48,8 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/on-board/journal', [StudentController::class, 'create_journal'])->name('onboard.journal');
     Route::post('/on-board/journal', [StudentController::class, 'store_journal'])->name('onboard.store-journal');
     Route::get('/on-board/journal/view', [StudentController::class, 'view_journal'])->name('onboard.view-journal');
+
+
+    Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
+    Route::post('/student-profile/update-store', [StudentController::class, 'update_student_profile'])->name('update-student-profile');
 });

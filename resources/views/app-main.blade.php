@@ -127,6 +127,18 @@
             })
             /* toastr.success("{{ session('message') }}") */
         @endif
+
+        $('.validate-checkbox').click(function() {
+            var data = $(this).data('input'),
+                check = $(this).prop('checked')
+            if (check == false) {
+                $('.' + data).prop('disabled', false)
+            } else {
+                $('.' + data).prop('disabled', true)
+            }
+            console.log(data)
+
+        })
     </script>
     {{-- <script src="{{ asset('resources/js/sweetalert2.js') }}" defer></script> --}}
 

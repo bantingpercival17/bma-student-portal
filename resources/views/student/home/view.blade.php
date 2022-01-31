@@ -63,8 +63,20 @@ $_title = 'Home';
     <div class="col-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 p-3">
-                <h5 class="mb-1"><b>PROFILE INFORMATION</b></h5>
-                <p class="text-sm">Student Information of the cadet's/ student's at Baliwag Maritime Academy</p>
+                <div class="header-title">
+                    <div class="row">
+                        <div class="col-md">
+                            <h5 class="mb-1"><b>PROFILE INFORMATION</b></h5>
+                            <p class="text-sm">Student Information of the cadet's/ student's at Baliwag Maritime
+                                Academy</p>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ route('update-profile') }}" class="btn btn-primary btn-sm">Update Student Information</a>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
             <div class="card-body p-3">
 
@@ -171,7 +183,7 @@ $_title = 'Home';
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Contact Number</label>
 
-                                <span class="form-control">{{ Auth::user()->contact_number ?: 'Missing Value' }}</span>
+                                <span class="form-control">{{ Auth::user()->contact_number ?: '-' }}</span>
                             </div>
                         </div>
                         <div class="col-xl-6 col-md-6 mb-xl-0">
@@ -181,6 +193,73 @@ $_title = 'Home';
                             </div>
                         </div>
                     </div>
+                    <h6 class="mb-1"><b>PARENTS DETIALS</b></h6>
+                    @php
+                        $_parent_details = Auth::user()->student->parent_details;
+                    @endphp
+                    <label for="example-text-input" class="form-control-label"><b>Father Information</b></label>
+                    <div class="row">
+                        <div class="col-xl col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Last name</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_last_name) : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">First name</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_first_name) : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Middle name</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_middle_name) : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Contact Number</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_contact_number) : '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="example-text-input" class="form-control-label"><b>Mother Information</b></label>
+                    <div class="row">
+                        <div class="col-xl col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Last name</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_last_name) : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">First name</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_first_name) : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Middle name</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_middle_name) : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-md-6 ">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Contact Number</label>
+                                <span
+                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_contact_number) : '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
