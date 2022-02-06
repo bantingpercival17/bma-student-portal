@@ -52,4 +52,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
 
     Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
     Route::post('/student-profile/update-store', [StudentController::class, 'update_student_profile'])->name('update-student-profile');
+
+    Route::get('/student-profile/account', [StudentController::class, 'account_view'])->name('student.accounts');
+    Route::post('/student-profile/account/reset-password', [StudentController::class, 'student_change_password'])->name('student.change-password');
 });
