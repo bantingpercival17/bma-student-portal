@@ -121,12 +121,10 @@
                                                 </a>
                                                 <ul class="dropdown-menu  dropdown-menu-lg-end"
                                                     aria-labelledby="navbarDropdown3">
-                                                    <li><a class="dropdown-item"
-                                                            href="../dashboard/app/user-profile.html">My
+                                                    <li><a class="dropdown-item" href="{{ route('home') }}">My
                                                             Profile</a></li>
                                                     <li><a class="dropdown-item"
-                                                            href="../dashboard/app/user-privacy-setting.html">Privacy
-                                                            Setting</a></li>
+                                                            href="{{ route('student.accounts') }}">Accounts</a></li>
                                                     <li>
                                                         <hr class="dropdown-divider">
                                                     </li>
