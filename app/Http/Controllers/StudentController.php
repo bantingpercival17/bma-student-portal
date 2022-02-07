@@ -70,7 +70,7 @@ class StudentController extends Controller
             EnrollmentApplication::create($_details);
             return redirect(route('enrollment'))->with('success', 'Successfully Send your Enrollment Application!');
         } else {
-            return back()->with('error', 'Your Already Submit Enrollment Application!');
+            return redirect(route('enrollment'))->with('error', 'Your Already Submit Enrollment Application!');
         }
     }
     public function payment_application(Request $_request)
