@@ -21,6 +21,24 @@ class CourseSemestralFees extends Model
             ->where('p.particular_tag', '!=', 'addition_tags')
             ->get();
     }
+    public function semestral_tuition($_data)
+    {
+        $_semestral_fee = SemestralFee::select('p.particular_tag')
+            ->selectRaw("sum(pf.particular_amount) as fees")
+            ->join('particular_fees as pf', 'pf.id', 'semestral_fees.particular_fee_id')
+            ->join('particulars as p', 'p.id', 'pf.particular_id')
+            ->where('semestral_fees.course_semestral_fee_id', $_data->payment_assessments->course_semestral_fee->id)
+            ->groupBy('p.particular_tag')
+            ->where('p.particular_tag', '!=', 'addition_tags')
+            ->get();
+
+        if ($_data->course_id == 3) {
+            return $_semestral_fee;
+        } else {
+            // For College 
+            // Get Total Units
+        }
+    }
     public function additional_fees($_data)
     {
         return SemestralFee::select('p.particular_name', 'pf.particular_amount')
