@@ -41,12 +41,14 @@
                             'route' => 'payments',
                             'icon' => 'icon-payment',
                         ],
-                        [
+                    ];
+                    if (Auth::user()->student->enrollment_assessment->course_id != 3) {
+                        $_routes[] = [
                             'name' => 'On-board',
                             'route' => 'on-board',
                             'icon' => 'icon-job',
-                        ],
-                    ];
+                        ];
+                    }
                 @endphp
                 <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
                     @foreach ($_routes as $_route)
