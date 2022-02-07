@@ -69,7 +69,7 @@ class StudentController extends Controller
             EnrollmentApplication::create($_details);
             return redirect(route('enrollment'))->with('success', 'Successfully Send your Enrollment Application!');
         } else {
-            return back()->with('error', 'Your Already Submit Enrollment Application!');
+            return redirect(route('enrollment'))->with('error', 'Your Already Submit Enrollment Application!');
         }
     }
     public function enrollment_view()
@@ -274,7 +274,7 @@ class StudentController extends Controller
             ParentDetails::create($_parent_details);
         }
         //return compact('_account_details');
-        return back()->with('success', 'Successfullly Update your Student Profile.');
+        return redirect(route('academic.clearance'))->with('success', 'Successfullly Update your Student Profile.');
     }
 
     public function grades_view(Request $_request)
