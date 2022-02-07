@@ -36,10 +36,10 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
 
     Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');
     Route::get('/payments', [StudentController::class, 'payments_view'])->name('payments');
-
+    Route::post('/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');
     /* Enrollment */
     Route::get('/enrollment', [StudentController::class, 'enrollment_view'])->name('enrollment');
-
+    Route::get('/enrollment/coe', [StudentController::class, 'enrollment_report_view'])->name('enrollment.coe');
 
 
     // Onboard Training

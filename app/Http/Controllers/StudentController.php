@@ -18,6 +18,7 @@ use App\Models\StudentDetails;
 use App\Models\StudentPasswordReset;
 use App\Models\SubjectClass;
 use App\Models\TrainingCertificates;
+use App\Report\Students\StudentReport;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +72,13 @@ class StudentController extends Controller
         } else {
             return back()->with('error', 'Your Already Submit Enrollment Application!');
         }
+    }
+    public function payment_application(Request $_request)
+    {
+        $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        $_application->payment_mode = $_request->mode;
+        $_application->save();
+        return back()->with('success', 'Successfully Submitted.');
     }
     public function enrollment_view()
     {
@@ -451,5 +459,11 @@ class StudentController extends Controller
         ]);
 
         return back()->with('success', 'Successsfully Change your Password');
+    }
+    public function enrollment_report_view()
+    {
+        $_student_report = new StudentReport();;
+        $_student = Auth::user()->student->enrollment_assessment;
+        return $_student_report->enrollment_information($_student->id);
     }
 }
