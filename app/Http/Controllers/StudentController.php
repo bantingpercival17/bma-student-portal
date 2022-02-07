@@ -268,13 +268,47 @@ class StudentController extends Controller
         if ($_parent_details) {
             ParentDetails::find($_parent_details->id)->update($_parent_info);
         } else {
-            $_parent_details += array(
-                'student_id' => Auth::user()->student_id
+            $_parent_details = array(
+                'student_id' => Auth::user()->student->id,
+                "father_last_name" => trim(ucwords(mb_strtolower($_request->_father_last_name))),
+                "father_first_name" => trim(ucwords(mb_strtolower($_request->_father_first_name))),
+                "father_middle_name" => trim(ucwords(mb_strtolower($_request->_father_middle_name))),
+                "father_educational_attainment" => $_request->_father_educational_attainment,
+                "father_employment_status" => $_request->_father_employment_status,
+                "father_working_arrangement" => $_request->_father_working_arrangement,
+                "father_contact_number" => $_request->_father_contact_number,
+
+                "mother_last_name" => trim(ucwords(mb_strtolower($_request->_mother_last_name))),
+                "mother_first_name" => trim(ucwords(mb_strtolower($_request->_mother_first_name))),
+                "mother_middle_name" => trim(ucwords(mb_strtolower($_request->_mother_middle_name))),
+                "mother_educational_attainment" => $_request->_mother_educational_attainment,
+                "mother_employment_status" => $_request->_mother_employment_status,
+                "mother_working_arrangement" => $_request->_mother_working_arrangement,
+                "mother_contact_number" => $_request->_mother_contact_number,
+
+                "guardian_last_name" => trim(ucwords(mb_strtolower($_request->_guardian_last_name))),
+                "guardian_first_name" => trim(ucwords(mb_strtolower($_request->_guardian_first_name))),
+                "guardian_middle_name" => trim(ucwords(mb_strtolower($_request->_guardian_middle_name))),
+                "guardian_educational_attainment" => $_request->_guardian_educational_attainment,
+                "guardian_employment_status" => $_request->_guardian_employment_status,
+                "guardian_working_arrangement" => $_request->_guardian_working_arrangement,
+                "guardian_contact_number" => $_request->_guardian_contact_number,
+
+                'household_income' => $_request->_household_income,
+                'dswd_listahan' => $_request->_dswd_listahan,
+                'homeownership' => $_request->_homeownership,
+                'car_ownership' => $_request->_car_ownership,
+
+                'available_devices' => serialize($_request->_devices),
+                'available_connection' => $_request->_connection,
+                'available_provider' => serialize($_request->_provider),
+                'learning_modality' => serialize($_request->_learning_modality),
+                'distance_learning_effect' => serialize($_request->_inputs)
             );
             ParentDetails::create($_parent_details);
         }
         //return compact('_account_details');
-        return back()->with('success', 'Successfullly Update your Student Profile.');
+        return redirect(route('academic.clearance'))->with('success', 'Successfullly Update your Student Profile.');
     }
 
     public function grades_view(Request $_request)
