@@ -98,7 +98,7 @@ class StudentController extends Controller
             '_municipality' => 'required',
             '_province' => 'required',
             '_zip_code' => 'required',
-            '_contact_number' => 'required',
+            '_contact_number' => 'required | numeric| min:12',
             '_personal_email' => 'required',
             // Education Background
             'elementary_school_name' => 'required|max:100',
