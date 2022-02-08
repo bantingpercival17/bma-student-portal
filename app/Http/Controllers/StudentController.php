@@ -102,7 +102,11 @@ class StudentController extends Controller
         return  $_url_link . $_file_name;
         $_payment_data = array(
             'student_id' => Auth::user()->student_id,
-            'amount_paid' => str_replace(',','',$_request->_amount_paid)
+            'amount_paid' => str_replace(',','',$_request->_amount_paid),
+            'reference_number' => $_request->_reference_number,
+            'transaction_type' => $_request->_transaction_type,
+            'reciept_attach_path' => $_url_link . $_file_name,
+            ''
         );
         /* $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
         $_application->payment_mode = $_request->mode;
