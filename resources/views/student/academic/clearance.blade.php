@@ -26,7 +26,7 @@ $_title = 'Academic';
                 </div>
                 <div class="card-tool">
                     @if (Auth::user()->student->enrollment_assessment->course_id == 3)
-                        
+                    <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
                     @endif
                     <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
                 </div>
