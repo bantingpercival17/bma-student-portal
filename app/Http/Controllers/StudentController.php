@@ -80,6 +80,35 @@ class StudentController extends Controller
         $_application->save();
         return back()->with('success', 'Successfully Submitted.');
     }
+    public function payment_store(Request $_request)
+    {
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_file_path = '/public/accounting/proof_of_payments/';
+        $_request->validate([
+            '_transaction_date' => 'required',
+            '_amount_paid' => 'required',
+            '_reference_number' => 'required',
+            '_transaction_type' => 'required',
+            '_file' => 'required'
+        ]);
+        $_file = 'proof_payment';
+        $_ext = $_request->_file->getClientOriginalExtension();
+        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_url_link =  $link . '/storage/accounting/proof_of_payments/';
+        $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
+        $_request->_file->storeAs($_file_path, $_file_name);
+        return  $_url_link . $_file_name;
+        $_payment_data = array(
+            'student_id' => Auth::user()->student_id,
+            'amount_paid' => str_replace(',','',$_request->_amount_paid)
+        );
+        /* $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        $_application->payment_mode = $_request->mode;
+        $_application->save();
+        return back()->with('success', 'Successfully Submitted.'); */
+    }
     public function enrollment_view()
     {
         return view('student.enrollment.view');

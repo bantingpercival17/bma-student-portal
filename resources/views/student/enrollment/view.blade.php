@@ -216,44 +216,56 @@ $_title = 'Enrollment';
                                                 </div>
                                             </div>
                                         </div>
+
+
                                         <div class="row">
                                             <div class="col-md">
                                                 <h5 class=" mb-1 fw-bolder">PAYMENT INSTRUCTION</h5>
                                                 <p>For bank deposit or online fund transfer, please us the bank details
                                                     below:
                                                 </p>
-                                                <p>
-                                                    <label for="" class="h6 fw-bolder">SENIOR HIGH SCHOOL</label><br>
-                                                    <label for="">Bank: <br>
-                                                        <span class="fw-bolder text-info">LANDBANK OF THE PHILLIPINES</span>
-                                                    </label>
-                                                    <br>
-                                                    <label for="">Account Name: <br>
-                                                        <span class="fw-bolder text-info">BALIWAG MARITIME FOUNDATION,
-                                                            INC.</span>
-                                                    </label><br>
-                                                    <label for="">Account Number: <br>
-                                                        <span class="fw-bolder text-info">0102112822</span>
-                                                    </label>
-                                                </p>
-                                                <p>
-                                                    <label for="" class="h6 fw-bolder">COLLEGE</label><br>
-                                                    <label for="">Bank: <br>
-                                                        <span class="fw-bolder text-info">BANK OF COMMERCE</span>
-                                                    </label>
-                                                    <br>
-                                                    <label for="">Account Name: <br>
-                                                        <span class="fw-bolder text-info">BALIWAG MARITIME FOUNDATION</span>
-                                                    </label><br>
-                                                    <label for="">Account Number: <br>
-                                                        <span class="fw-bolder text-info">062000001037</span>
-                                                    </label>
-                                                </p>
-
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p>
+                                                            <label for="" class="h6 fw-bolder">SENIOR HIGH
+                                                                SCHOOL</label><br>
+                                                            <label for="">Bank: <br>
+                                                                <span class="fw-bolder text-info">LANDBANK OF THE
+                                                                    PHILLIPINES</span>
+                                                            </label>
+                                                            <br>
+                                                            <label for="">Account Name: <br>
+                                                                <span class="fw-bolder text-info">BALIWAG MARITIME
+                                                                    FOUNDATION,
+                                                                    INC.</span>
+                                                            </label><br>
+                                                            <label for="">Account Number: <br>
+                                                                <span class="fw-bolder text-info">0102112822</span>
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <p>
+                                                            <label for="" class="h6 fw-bolder">COLLEGE</label><br>
+                                                            <label for="">Bank: <br>
+                                                                <span class="fw-bolder text-info">BANK OF COMMERCE</span>
+                                                            </label>
+                                                            <br>
+                                                            <label for="">Account Name: <br>
+                                                                <span class="fw-bolder text-info">BALIWAG MARITIME
+                                                                    FOUNDATION</span>
+                                                            </label><br>
+                                                            <label for="">Account Number: <br>
+                                                                <span class="fw-bolder text-info">062000001037</span>
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-md">
                                                 <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
-                                                <form action="" method="post" enctype="multipart/form-data">
+                                                <form action="{{ route('enrollment.online-transaction-payment') }}"
+                                                    method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="form-group">
                                                         <label for="" class="form-label text-sm">STUDENT NUMBER</label>
@@ -271,7 +283,7 @@ $_title = 'Enrollment';
                                                         <input type="date" class="form-control" name="_transaction_date"
                                                             value="{{ old('_transaction_date') }}">
                                                         @error('_transaction_date')
-                                                            <div class="text-danger">{{ $message }}</div>
+                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group">
@@ -279,7 +291,7 @@ $_title = 'Enrollment';
                                                         <input type="text" class="form-control" name="_amount_paid"
                                                             value="{{ old('_amount_paid') }}">
                                                         @error('_amount_paid')
-                                                            <div class="text-danger">{{ $message }}</div>
+                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group">
@@ -287,7 +299,7 @@ $_title = 'Enrollment';
                                                         <input type="text" class="form-control" name="_reference_number"
                                                             value="{{ old('_reference_number') }}">
                                                         @error('_reference_number')
-                                                            <div class="text-danger">{{ $message }}</div>
+                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group">
@@ -298,7 +310,7 @@ $_title = 'Enrollment';
                                                             </option>
                                                         </select>
                                                         @error('_transaction_type')
-                                                            <div class="text-danger">{{ $message }}</div>
+                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group">
@@ -306,9 +318,10 @@ $_title = 'Enrollment';
                                                         <input type="file" class="form-control" name="_file"
                                                             accept=".png, .jpeg, .jpg, .pdf" value={{ old('_file') }}>
                                                         @error('_file')
-                                                            <div class="text-danger">{{ $message }}</div>
+                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
                                                         @enderror
                                                     </div>
+                                                    <button class="btn btn-primary w-100" type="submit">SUBMIT</button>
                                                 </form>
                                             </div>
                                         </div>
