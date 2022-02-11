@@ -1,6 +1,6 @@
 @extends('app-main')
 @php
-$_title = 'Home';
+$_title = 'Accounts';
 @endphp
 @section('page-title', $_title)
 @section('content-title', $_title)
@@ -11,7 +11,7 @@ $_title = 'Home';
             <path
                 d="M8.15722 19.7714V16.7047C8.1572 15.9246 8.79312 15.2908 9.58101 15.2856H12.4671C13.2587 15.2856 13.9005 15.9209 13.9005 16.7047V16.7047V19.7809C13.9003 20.4432 14.4343 20.9845 15.103 21H17.0271C18.9451 21 20.5 19.4607 20.5 17.5618V17.5618V8.83784C20.4898 8.09083 20.1355 7.38935 19.538 6.93303L12.9577 1.6853C11.8049 0.771566 10.1662 0.771566 9.01342 1.6853L2.46203 6.94256C1.86226 7.39702 1.50739 8.09967 1.5 8.84736V17.5618C1.5 19.4607 3.05488 21 4.97291 21H6.89696C7.58235 21 8.13797 20.4499 8.13797 19.7714V19.7714"
                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>Home
+        </svg>{{ $_title }}
     </li>
 @endsection
 @section('page-content')
@@ -37,50 +37,19 @@ $_title = 'Home';
                             </svg><small
                                 class="mb-0 text-dark">{{ ucwords(Auth::user()->student->municipality . ', ' . Auth::user()->student->province) }}</small></span>
                     </div>
-                    {{-- <div class="ms-4">
-                        <p class="mb-0 text-dark">UI/UX Designer</p>
-                        <p class="me-2 mb-0 text-dark">Email - Hello@gmail.com</p>
-                    </div> --}}
                 </div>
             </div>
-            {{-- <ul class="d-flex mb-0 text-center ">
-                <li class="badge bg-primary py-2 me-2">
-                    <p class="mb-2 mt-1">142</p>
-                    <small class="mb-1 fw-normal">Reviews</small>
-                </li>
-                <li class="badge bg-primary py-2 me-2">
-                    <p class="mb-2 mt-1">201</p>
-                    <small class="mb-1 fw-normal">Photos</small>
-                </li>
-                <li class="badge bg-primary py-2 me-2">
-                    <p class="mb-2 mt-1">3.1k</p>
-                    <small class="mb-1 fw-normal">Followers</small>
-                </li>
-            </ul> --}}
         </div>
     </div>
 
     <div class="col-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 p-3">
-                <div class="header-title">
-                    <div class="row">
-                        <div class="col-md">
-                            <h5 class="mb-1"><b>PROFILE INFORMATION</b></h5>
-                            <p class="text-sm">Student Information of the cadet's/ student's at Baliwag Maritime
-                                Academy</p>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="{{ route('update-profile') }}" class="btn btn-primary btn-sm">Update Student Information</a>
-                        </div>
-                    </div>
-
-                </div>
-
+                <h5 class="mb-1"><b>EMPLOYEE INFORMATION</b></h5>
+                <p class="text-sm">...</p>
             </div>
             <div class="card-body p-3">
-
-                <div class="form-view">
+                {{-- <div class="form-view">
                     <h6 class="mb-1"><b>FULL NAME</b></h6>
                     <div class="row">
                         <div class="col-xl col-md-6 ">
@@ -183,7 +152,7 @@ $_title = 'Home';
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Contact Number</label>
 
-                                <span class="form-control">{{ Auth::user()->contact_number ?: '-' }}</span>
+                                <span class="form-control">{{ Auth::user()->contact_number ?: 'Missing Value' }}</span>
                             </div>
                         </div>
                         <div class="col-xl-6 col-md-6 mb-xl-0">
@@ -193,74 +162,31 @@ $_title = 'Home';
                             </div>
                         </div>
                     </div>
-                    <h6 class="mb-1"><b>PARENTS DETIALS</b></h6>
-                    @php
-                        $_parent_details = Auth::user()->student->parent_details;
-                    @endphp
-                    <label for="example-text-input" class="form-control-label"><b>Father Information</b></label>
-                    <div class="row">
-                        <div class="col-xl col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Last name</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_last_name) : '-' }}</span>
-                            </div>
-                        </div>
-                        <div class="col-xl col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">First name</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_first_name) : '-' }}</span>
-                            </div>
-                        </div>
-                        <div class="col-xl col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Middle name</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_middle_name) : '-' }}</span>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Contact Number</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->father_contact_number) : '-' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <label for="example-text-input" class="form-control-label"><b>Mother Information</b></label>
-                    <div class="row">
-                        <div class="col-xl col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Last name</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_last_name) : '-' }}</span>
-                            </div>
-                        </div>
-                        <div class="col-xl col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">First name</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_first_name) : '-' }}</span>
-                            </div>
-                        </div>
-                        <div class="col-xl col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Middle name</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_middle_name) : '-' }}</span>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-md-6 ">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Contact Number</label>
-                                <span
-                                    class="form-control">{{ $_parent_details ? ucwords($_parent_details->mother_contact_number) : '-' }}</span>
-                            </div>
-                        </div>
-                    </div>
+                </div> --}}
 
-                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header pb-0 p-3">
+                <h5 class="mb-1"><b>Change Password</b></h5>
+            </div>
+            <div class="card-body p-3">
+                <form action="{{ route('student.change-password') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="account" value="{{ base64_encode(Auth::user()->id) }}">
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">New Password:</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">Confirm New Password:</label>
+                        <input type="password" class="form-control" name="password_confirmation" required>
+                    </div>
+                    @error('password')
+                        <span class="text-danger"> {{ $message }} </span>
+                    @enderror
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
 
             </div>
         </div>

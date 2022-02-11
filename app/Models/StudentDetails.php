@@ -25,7 +25,9 @@ class StudentDetails extends Model
         "municipality",
         "province",
         "zip_code",
+        "contact_number",
         "is_removed"
+        
     ];
 
     public function profile_pic($_data)
@@ -59,6 +61,14 @@ class StudentDetails extends Model
     public function account()
     {
         return $this->hasOne(StudentAccount::class, 'student_id');
+    }
+    public function parent_details()
+    {
+        return $this->hasOne(ParentDetails::class, 'student_id');
+    }
+    public function educational_details()
+    {
+        return $this->hasMany(EducationalDetails::class, 'student_id');
     }
     public function section($_academic)
     {

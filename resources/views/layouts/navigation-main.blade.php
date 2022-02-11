@@ -41,12 +41,14 @@
                             'route' => 'payments',
                             'icon' => 'icon-payment',
                         ],
-                        [
+                    ];
+                    if (Auth::user()->student->enrollment_assessment->course_id != 3) {
+                        $_routes[] = [
                             'name' => 'On-board',
                             'route' => 'on-board',
                             'icon' => 'icon-job',
-                        ],
-                    ];
+                        ];
+                    }
                 @endphp
                 <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
                     @foreach ($_routes as $_route)
@@ -121,12 +123,10 @@
                                                 </a>
                                                 <ul class="dropdown-menu  dropdown-menu-lg-end"
                                                     aria-labelledby="navbarDropdown3">
-                                                    <li><a class="dropdown-item"
-                                                            href="../dashboard/app/user-profile.html">My
+                                                    <li><a class="dropdown-item" href="{{ route('home') }}">My
                                                             Profile</a></li>
                                                     <li><a class="dropdown-item"
-                                                            href="../dashboard/app/user-privacy-setting.html">Privacy
-                                                            Setting</a></li>
+                                                            href="{{ route('student.accounts') }}">Accounts</a></li>
                                                     <li>
                                                         <hr class="dropdown-divider">
                                                     </li>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\StudentController;
+use App\Models\StudentDetails;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,8 +27,10 @@ require __DIR__ . '/auth.php';
 
 
 Route::prefix('student')->middleware(['auth:student'])->group(function () {
-    Route::get('/', [StudentController::class, 'index'])->name('home');
-    Route::get('/home', [StudentController::class, 'index'])->name('home');
+    //Route::get('/', [StudentController::class, 'index'])->name('home');
+    //Route::get('/home', [StudentController::class, 'index'])->name('home');
+    Route::get('/', [StudentController::class, 'view_student_profile'])->name('home');
+    Route::get('/home', [StudentController::class, 'view_student_profile'])->name('home');
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
     Route::get('/academic/grades', [StudentController::class, 'academic_grades'])->name('academic.grades');
     Route::get('/academic/clearance', [StudentController::class, 'academic_clearance'])->name('academic.clearance');
@@ -47,4 +50,11 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/on-board/journal', [StudentController::class, 'create_journal'])->name('onboard.journal');
     Route::post('/on-board/journal', [StudentController::class, 'store_journal'])->name('onboard.store-journal');
     Route::get('/on-board/journal/view', [StudentController::class, 'view_journal'])->name('onboard.view-journal');
+
+
+    Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
+    Route::post('/student-profile/update-store', [StudentController::class, 'update_student_profile'])->name('update-student-profile');
+
+    Route::get('/student-profile/account', [StudentController::class, 'account_view'])->name('student.accounts');
+    Route::post('/student-profile/account/reset-password', [StudentController::class, 'student_change_password'])->name('student.change-password');
 });
