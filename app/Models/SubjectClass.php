@@ -38,6 +38,7 @@ class SubjectClass extends Model
     }
     public function e_clearance()
     {
-        return $this->hasOne(StudentClearance::class, 'subject_class_id')->where('student_id', Auth::user()->student_id);
+        return $this->hasOne(StudentClearance::class, 'subject_class_id')->where('student_id', Auth::user()->student_id)->where('is_removed', false);
+        //return $this->hasOne(StudentClearance::class, 'subject_class_id')->where('student_id', Auth::user()->student_id);
     }
 }
