@@ -27,7 +27,7 @@ class StudentDetails extends Model
         "zip_code",
         "contact_number",
         "is_removed"
-        
+
     ];
 
     public function profile_pic($_data)
@@ -67,6 +67,10 @@ class StudentDetails extends Model
         return $this->hasOne(ParentDetails::class, 'student_id');
     }
     public function educational_details()
+    {
+        return $this->hasMany(EducationalDetails::class, 'student_id');
+    }
+    public function educational_background()
     {
         return $this->hasMany(EducationalDetails::class, 'student_id');
     }

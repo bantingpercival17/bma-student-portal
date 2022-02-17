@@ -18,6 +18,7 @@ use App\Models\StudentDetails;
 use App\Models\StudentPasswordReset;
 use App\Models\SubjectClass;
 use App\Models\TrainingCertificates;
+use App\Report\Students\StudentReport;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +72,46 @@ class StudentController extends Controller
         } else {
             return redirect(route('enrollment'))->with('error', 'Your Already Submit Enrollment Application!');
         }
+    }
+    public function payment_application(Request $_request)
+    {
+        $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        $_application->payment_mode = $_request->mode;
+        $_application->save();
+        return back()->with('success', 'Successfully Submitted.');
+    }
+    public function payment_store(Request $_request)
+    {
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_file_path = '/public/accounting/proof_of_payments/';
+        $_request->validate([
+            '_transaction_date' => 'required',
+            '_amount_paid' => 'required',
+            '_reference_number' => 'required',
+            '_transaction_type' => 'required',
+            '_file' => 'required'
+        ]);
+        $_file = 'proof_payment';
+        $_ext = $_request->_file->getClientOriginalExtension();
+        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_url_link =  $link . '/storage/accounting/proof_of_payments/';
+        $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
+        $_request->_file->storeAs($_file_path, $_file_name);
+        return  $_url_link . $_file_name;
+        $_payment_data = array(
+            'student_id' => Auth::user()->student_id,
+            'amount_paid' => str_replace(',','',$_request->_amount_paid),
+            'reference_number' => $_request->_reference_number,
+            'transaction_type' => $_request->_transaction_type,
+            'reciept_attach_path' => $_url_link . $_file_name,
+            ''
+        );
+        /* $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        $_application->payment_mode = $_request->mode;
+        $_application->save();
+        return back()->with('success', 'Successfully Submitted.'); */
     }
     public function enrollment_view()
     {
@@ -451,5 +492,11 @@ class StudentController extends Controller
         ]);
 
         return back()->with('success', 'Successsfully Change your Password');
+    }
+    public function enrollment_report_view()
+    {
+        $_student_report = new StudentReport();;
+        $_student = Auth::user()->student->enrollment_assessment;
+        return $_student_report->enrollment_information($_student->id);
     }
 }

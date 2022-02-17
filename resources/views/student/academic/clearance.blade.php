@@ -25,7 +25,9 @@ $_title = 'Academic';
                     <h4 class="card-title">E-Clearance</h4>
                 </div>
                 <div class="card-tool">
-                    <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
+                    @if (Auth::user()->student->enrollment_assessment->course_id == 3)
+                        <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
+                    @endif
                 </div>
             </div>
             <div class="card-body">

@@ -140,6 +140,7 @@
 
         })
     </script>
+    @yield('js')
     {{-- <script src="{{ asset('resources/js/sweetalert2.js') }}" defer></script> --}}
 
 
