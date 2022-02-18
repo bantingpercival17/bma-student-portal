@@ -65,7 +65,7 @@ $_title = 'Academic';
                                                             @if ($_subject->e_clearance->is_approved == 1)
                                                                 <span class="text-primary"><b>Cleared</b></span>
                                                             @else
-                                                                <span class="text-warning"><b>Not Clear</b></span><br>
+                                                                <span class="text-danger"><b>Not Clear</b></span><br>
                                                             @endif
                                                         @else
                                                             <span class="text-danger">-</span>
@@ -121,7 +121,7 @@ $_title = 'Academic';
                                                         @if (Auth::user()->student->non_academic_clearance($_data)->is_approved == 1)
                                                             <span class="text-primary"><b>Cleared</b></span>
                                                         @else
-                                                            <span class="text-warning"><b>Not Clear</b></span><br>
+                                                            <span class="text-danger"><b>Not Clear</b></span><br>
                                                         @endif
                                                     @else
                                                         <span class="text-danger">-</span>
