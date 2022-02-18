@@ -87,6 +87,11 @@
                                         aria-describedby="password" name="password">
                                 </div>
                             </div>
+                            <div class="justify-content-between">
+                                @if ($errors->any())
+                                    {!! implode('', $errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!}
+                                @endif
+                            </div>
                             <div class="col-lg-12 d-flex justify-content-between">
                                 <div class="form-check mb-3">
                                     <input type="checkbox" class="form-check-input" id="customCheck1" name="remember">
