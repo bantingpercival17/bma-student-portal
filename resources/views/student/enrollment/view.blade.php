@@ -20,7 +20,7 @@ $_title = 'Enrollment';
             var mode = $(this).val();
             if (mode == 2) {
                 console.log('Installment')
-                var _tuition_fee = parseInt($('.tuition-fee').text().replace(/,/g, ''))
+                var _tuition_fee = parseFloat($('.tuition-fee').text().replace(/,/g, ''))
                 _computetion = $('.course').val() == 3 ? computetion_of_senior(_tuition_fee) :
                     computetion_of_college(_tuition_fee)
                 console.log(_computetion)
@@ -40,7 +40,7 @@ $_title = 'Enrollment';
         function computetion_of_senior(_tuition_fee) {
             _interest = 710; // This interest in Static Value
             _tuition_fee += _interest // Total Tuition Fee with Books
-            var _init_tuition = parseInt($('#tuition_tags').val()) + _interest; // uition and Miscellaneous Fee
+            var _init_tuition = parseFloat($('#tuition_tags').val()) + _interest; // uition and Miscellaneous Fee
             _upon_enrollment = /* Get the 20% of Tuition and Miscellaneous */
                 (_init_tuition * 0.20) + (_tuition_fee - _init_tuition)
             /* Subtract the total TFee and Additional Fee to the TFee and Miscellaneous */
@@ -55,13 +55,13 @@ $_title = 'Enrollment';
 
         function computetion_of_college(_tuition_fee) {
             console.log('College')
-            total_fee = 0;
-            _intest = (_tuition_fee * 0.035)
-            _total_fee = _tuition_fee + _intest
+            _total_fee = 0;
+            _intest = (parseFloat(_tuition_fee) * 0.035)
+            _total_fee =parseFloat(_tuition_fee) + _intest
             _monthly_fee = _total_fee / 5;
             _upon_enrollment = _monthly_fee
             return {
-                "total_tuition_fee": _tuition_fee,
+                "total_tuition_fee": _total_fee,
                 'upon_enrollment': _upon_enrollment,
                 'monthly': _monthly_fee
             };
@@ -381,9 +381,13 @@ $_title = 'Enrollment';
                                                                 <div class="col-md-4 ">
                                                                     <span class="mt-2 float-end">
                                                                         @php
-                                                                            $_total_fee += $item->fees;
+                                                                            $_particular_amount = $_assessment->course_id == 3 ? $item->fees : $_course_semestral_fee->particular_tags($item->particular_tag);
+                                                                            
+                                                                            $_total_fee += $_particular_amount;
+                                                                            //$_total_fee += $item->fees;
                                                                         @endphp
-                                                                        <b> {{ number_format($item->fees, 2) }}</b>
+                                                                        <b>
+                                                                            {{ number_format($_particular_amount, 2) }}</b>
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -464,7 +468,6 @@ $_title = 'Enrollment';
                                                                 </span>
                                                             </div>
                                                         </div>
-
                                                     @endforeach
 
 
