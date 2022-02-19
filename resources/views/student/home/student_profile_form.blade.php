@@ -147,7 +147,8 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Birthday</label>
                                     <input class="form-control" type="date"
-                                        value="{{ Auth::user()->student->birthday }}" name="_birthday">
+                                        value="{{ old('_birthday') ?: Auth::user()->student->birthday }}"
+                                        name="_birthday">
                                     @error('_birthday')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -329,7 +330,6 @@ $_title = 'Profile';
                                         </div>
                                     </div>
                                 @endif
-
                             @endforeach
 
                         @else
@@ -776,9 +776,7 @@ $_title = 'Profile';
                                         </option>
                                     </select>
                                     @error('_dswd_listahan')
-
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
-
                                     @enderror
                                 </div>
 
@@ -808,9 +806,7 @@ $_title = 'Profile';
                                 </select>
 
                                 @error('_homeownership')
-
                                     <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
-
                                 @enderror
 
                             </div>
@@ -846,9 +842,7 @@ $_title = 'Profile';
                                 </select>
 
                                 @error('_car_ownership')
-
                                     <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
-
                                 @enderror
 
                             </div>
@@ -998,7 +992,7 @@ $_title = 'Profile';
                             </div>
                         </div>
                         @if ($errors->any())
-                            {!! implode('',$errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!}
+                            {!! implode('', $errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!}
                         @endif
                         <button type="submit" class="btn btn-primary mt-2 w-100">Submit Student Information</button>
                     </div>
