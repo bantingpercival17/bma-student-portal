@@ -9,6 +9,8 @@ use App\Models\Documents;
 use App\Models\EducationalDetails;
 use App\Models\EnrollmentApplication;
 use App\Models\ParentDetails;
+use App\Models\PaymentAssessment;
+use App\Models\PaymentTrasanctionOnline;
 use App\Models\Role;
 use App\Models\Section;
 use App\Models\ShipboardJournal;
@@ -99,15 +101,17 @@ class StudentController extends Controller
         $_url_link =  $link . '/storage/accounting/proof_of_payments/';
         $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
         $_request->_file->storeAs($_file_path, $_file_name);
-        return  $_url_link . $_file_name;
+        //return  $_url_link . $_file_name;
         $_payment_data = array(
-            'student_id' => Auth::user()->student_id,
-            'amount_paid' => str_replace(',','',$_request->_amount_paid),
+            'assessment_id' => base64_decode($_request->_assessment),
+            'amount_paid' => str_replace(',', '', $_request->_amount_paid),
             'reference_number' => $_request->_reference_number,
             'transaction_type' => $_request->_transaction_type,
             'reciept_attach_path' => $_url_link . $_file_name,
-            ''
+            'is_removed' => 0
         );
+        PaymentTrasanctionOnline::create($_payment_data);
+        return back()->with('success', 'Successfully Submitted.');
         /* $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
         $_application->payment_mode = $_request->mode;
         $_application->save();
@@ -358,7 +362,10 @@ class StudentController extends Controller
     }
     public function payments_view(Request $_request)
     {
-        return view('student.payments.view');
+        $_student = Auth::user()->student;
+        //$_course_semestral_fee = $_student->enrollment_assessment->payment_assessments->course_semestral_fee;
+        $_payment_details = $_request->_payment_assessment  ? PaymentAssessment::find(base64_decode($_request->_payment_assessment)) : $_student->enrollment_assessment->payment_assessments;
+        return view('student.payments.view', compact('_payment_details', '_student'));
     }
 
     public function onboard_view(Request $_request)

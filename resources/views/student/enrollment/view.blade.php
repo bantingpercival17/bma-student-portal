@@ -16,10 +16,10 @@ $_title = 'Enrollment';
 @endsection
 @section('js')
     <script>
-       /*  $(document).ready(function() {
-            var mode = $('.payment-mode').val();
-            computation(mode)
-        }); */
+        /*  $(document).ready(function() {
+                                                                                                    var mode = $('.payment-mode').val();
+                                                                                                    computation(mode)
+                                                                                                }); */
         $('.payment-mode').change(function() {
             var mode = $(this).val();
             computation(mode)
@@ -273,66 +273,215 @@ $_title = 'Enrollment';
                                                 </div>
                                             </div>
                                             <div class="col-md">
-                                                <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
-                                                <form action="{{ route('enrollment.online-transaction-payment') }}"
-                                                    method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">STUDENT NUMBER</label>
-                                                        <input type="text" class="form-control"
-                                                            value="{{ $_student->account->student_number }}" disabled>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">STUDENT NAME</label>
-                                                        <input type="text" class="form-control" name="_name"
-                                                            value="{{ strtoupper($_student->first_name . ' ' . $_student->last_name) }}"
-                                                            disabled>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">TRANSCATION DATE</label>
-                                                        <input type="date" class="form-control" name="_transaction_date"
-                                                            value="{{ old('_transaction_date') }}">
-                                                        @error('_transaction_date')
-                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">AMOUNT PAID</label>
-                                                        <input type="text" class="form-control" name="_amount_paid"
-                                                            value="{{ old('_amount_paid') }}">
-                                                        @error('_amount_paid')
-                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">REFERENCE NUMBER</label>
-                                                        <input type="text" class="form-control" name="_reference_number"
-                                                            value="{{ old('_reference_number') }}">
-                                                        @error('_reference_number')
-                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">TRANSACTION TYPE</label>
-                                                        <select name="_transaction_type" id="" class="form-select"
-                                                            value={{ old('_transaction_type') }}>
-                                                            <option value="_upon_enrollment" selected>Upon Enrollment
-                                                            </option>
-                                                        </select>
-                                                        @error('_transaction_type')
-                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-sm">ATTACH RECEIPT</label>
-                                                        <input type="file" class="form-control" name="_file"
-                                                            accept=".png, .jpeg, .jpg, .pdf" value={{ old('_file') }}>
-                                                        @error('_file')
-                                                            <div class="badge bg-danger mt-2">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                    <button class="btn btn-primary w-100" type="submit">SUBMIT</button>
-                                                </form>
+                                                @if ($_payment_details->online_transaction)
+                                                    <h5 class=" mb-1 fw-bolder">PAYMENT VERIFICATION</h5>
+                                                    <ul class="media-story mt-2 p-0">
+                                                        <li class="d-flex  align-items-center">
+                                                            <div class="stories-data ">
+                                                                <p class="mb-0">21, February 2022</p>
+                                                                <div class="row">
+                                                                    <div class="col-md">
+                                                                        <small>REFERENCE NO: </small> <br>
+                                                                        <h5><span
+                                                                                class="text-primary">{{ $_payment_details->online_transaction->reference_number }}</span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <div class="col-md">
+                                                                        <small>AMOUNT: </small> <br>
+                                                                        <h5><span
+                                                                                class="text-primary">{{ number_format($_payment_details->online_transaction->amount_paid) }}</span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <div class="col-md">
+                                                                        <a href="{{ $_payment_details->online_transaction->reciept_attach_path }}"
+                                                                            target="_blank"
+                                                                            class="btn btn-primary btn-sm">view</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between mt-2">
+
+                                                                    @if ($_payment_details->online_transaction->is_approved === null)
+                                                                        <div>
+                                                                            <span class="text-info">This payment is
+                                                                                under verification of Accounting
+                                                                                Office's</span>
+                                                                        </div>
+                                                                    @endif
+                                                                    @if ($_payment_details->online_transaction->is_approved === 0)
+                                                                        <div>
+                                                                            <span class="text-info">This payment was
+                                                                                disapproved because of this Remarks: </span>
+                                                                            <span
+                                                                                class="text-danger">{{ $_payment_details->online_transaction->comment_remarks }}</span>
+                                                                        </div>
+                                                                    @endif
+                                                                    @if ($_payment_details->online_transaction->is_approved == 1)
+                                                                        <div>
+                                                                            <span class="text-info">This payment was
+                                                                                Verified: </span>
+
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    @if ($_payment_details->online_transaction->is_approved === 0)
+                                                        <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
+                                                        <form
+                                                            action="{{ route('enrollment.online-transaction-payment') }}"
+                                                            method="post" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <input type="hidden" name="_assessment"
+                                                                value="{{ base64_encode($_payment_details->id) }}">
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">STUDENT
+                                                                    NUMBER</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="{{ $_student->account->student_number }}"
+                                                                    disabled>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">STUDENT
+                                                                    NAME</label>
+                                                                <input type="text" class="form-control" name="_name"
+                                                                    value="{{ strtoupper($_student->first_name . ' ' . $_student->last_name) }}"
+                                                                    disabled>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">TRANSCATION
+                                                                    DATE</label>
+                                                                <input type="date" class="form-control"
+                                                                    name="_transaction_date"
+                                                                    value="{{ old('_transaction_date') }}">
+                                                                @error('_transaction_date')
+                                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">AMOUNT PAID</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="_amount_paid"
+                                                                    value="{{ old('_amount_paid') }}">
+                                                                @error('_amount_paid')
+                                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">REFERENCE
+                                                                    NUMBER</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="_reference_number"
+                                                                    value="{{ old('_reference_number') }}">
+                                                                @error('_reference_number')
+                                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">TRANSACTION
+                                                                    TYPE</label>
+                                                                <select name="_transaction_type" id=""
+                                                                    class="form-select"
+                                                                    value={{ old('_transaction_type') }}>
+                                                                    <option value="_upon_enrollment" selected>Upon
+                                                                        Enrollment
+                                                                    </option>
+                                                                </select>
+                                                                @error('_transaction_type')
+                                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label text-sm">ATTACH
+                                                                    RECEIPT</label>
+                                                                <input type="file" class="form-control" name="_file"
+                                                                    accept=".png, .jpeg, .jpg, .pdf"
+                                                                    value={{ old('_file') }}>
+                                                                @error('_file')
+                                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <button class="btn btn-primary w-100"
+                                                                type="submit">SUBMIT</button>
+                                                        </form>
+                                                    @endif
+                                                @else
+                                                    <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
+                                                    <form action="{{ route('enrollment.online-transaction-payment') }}"
+                                                        method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="_assessment"
+                                                            value="{{ base64_encode($_payment_details->id) }}">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">STUDENT NUMBER</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $_student->account->student_number }}"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">STUDENT NAME</label>
+                                                            <input type="text" class="form-control" name="_name"
+                                                                value="{{ strtoupper($_student->first_name . ' ' . $_student->last_name) }}"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">TRANSCATION
+                                                                DATE</label>
+                                                            <input type="date" class="form-control"
+                                                                name="_transaction_date"
+                                                                value="{{ old('_transaction_date') }}">
+                                                            @error('_transaction_date')
+                                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">AMOUNT PAID</label>
+                                                            <input type="text" class="form-control" name="_amount_paid"
+                                                                value="{{ old('_amount_paid') }}">
+                                                            @error('_amount_paid')
+                                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">REFERENCE
+                                                                NUMBER</label>
+                                                            <input type="text" class="form-control"
+                                                                name="_reference_number"
+                                                                value="{{ old('_reference_number') }}">
+                                                            @error('_reference_number')
+                                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">TRANSACTION
+                                                                TYPE</label>
+                                                            <select name="_transaction_type" id="" class="form-select"
+                                                                value={{ old('_transaction_type') }}>
+                                                                <option value="_upon_enrollment" selected>Upon Enrollment
+                                                                </option>
+                                                            </select>
+                                                            @error('_transaction_type')
+                                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-sm">ATTACH RECEIPT</label>
+                                                            <input type="file" class="form-control" name="_file"
+                                                                accept=".png, .jpeg, .jpg, .pdf"
+                                                                value={{ old('_file') }}>
+                                                            @error('_file')
+                                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <button class="btn btn-primary w-100" type="submit">SUBMIT</button>
+                                                    </form>
+                                                @endif
+
                                             </div>
                                         </div>
 
