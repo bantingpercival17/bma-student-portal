@@ -369,8 +369,8 @@ $_title = 'Enrollment';
                                                         <span class="text-muted"><b>MODE :</b></span>
                                                         <div class="col-sm">
                                                             <select name="mode" class="form-select payment-mode">
-                                                                <option value="1">Fullpayment</option>
-                                                                <option value="2">Installment</option>
+                                                                <option value="0">Fullpayment</option>
+                                                                <option value="1">Installment</option>
                                                             </select>
                                                         </div>
                                                     </div>
