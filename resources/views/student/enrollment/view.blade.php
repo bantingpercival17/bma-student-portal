@@ -16,10 +16,10 @@ $_title = 'Enrollment';
 @endsection
 @section('js')
     <script>
-        $(document).ready(function() {
+       /*  $(document).ready(function() {
             var mode = $('.payment-mode').val();
             computation(mode)
-        });
+        }); */
         $('.payment-mode').change(function() {
             var mode = $(this).val();
             computation(mode)
