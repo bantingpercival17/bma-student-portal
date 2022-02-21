@@ -158,8 +158,8 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Birth Place</label>
                                     <input class="form-control" type="text"
-                                        value="{{ ucwords(Auth::user()->student->birth_place) }}" name="_birth_place">
-                                    @error('__birth_place')
+                                        value="{{ old('_birth_place')?: ucwords(Auth::user()->student->birth_place) }}" name="_birth_place">
+                                    @error('_birth_place')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>

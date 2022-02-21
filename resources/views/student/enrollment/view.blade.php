@@ -16,9 +16,17 @@ $_title = 'Enrollment';
 @endsection
 @section('js')
     <script>
+        $(document).ready(function() {
+            var mode = $('.payment-mode').val();
+            computation(mode)
+        });
         $('.payment-mode').change(function() {
             var mode = $(this).val();
-            if (mode == 2) {
+            computation(mode)
+        })
+
+        function computation(mode) {
+            if (mode == 1) {
                 console.log('Installment')
                 var _tuition_fee = parseFloat($('.tuition-fee').text().replace(/,/g, ''))
                 _computetion = $('.course').val() == 3 ? computetion_of_senior(_tuition_fee) :
@@ -35,17 +43,16 @@ $_title = 'Enrollment';
                 $('.monthly-fee').text('-')
                 console.log('full')
             }
-        })
+        }
 
         function computetion_of_senior(_tuition_fee) {
             _interest = 710; // This interest in Static Value
             _tuition_fee += _interest // Total Tuition Fee with Books
-            var _init_tuition = parseFloat($('#tuition_tags').val()) + _interest; // uition and Miscellaneous Fee
+            var _init_tuition = parseInt($('#tuition_tags').val()) + _interest; // uition and Miscellaneous Fee
             _upon_enrollment = /* Get the 20% of Tuition and Miscellaneous */
                 (_init_tuition * 0.20) + (_tuition_fee - _init_tuition)
             /* Subtract the total TFee and Additional Fee to the TFee and Miscellaneous */
             _monthly_fee = (_tuition_fee - _upon_enrollment) / 4
-            console.log($('#tuition_tags').val())
             return {
                 "total_tuition_fee": _tuition_fee,
                 'upon_enrollment': _upon_enrollment,
@@ -55,11 +62,14 @@ $_title = 'Enrollment';
 
         function computetion_of_college(_tuition_fee) {
             console.log('College')
-            _total_fee = 0;
-            _intest = (parseFloat(_tuition_fee) * 0.035)
-            _total_fee =parseFloat(_tuition_fee) + _intest
-            _monthly_fee = _total_fee / 5;
-            _upon_enrollment = _monthly_fee
+            total_fee = 0;
+            console.log(_tuition_fee)
+            _intest = (_tuition_fee * 0.035)
+
+            console.log("Payment Interest: " + _intest);
+            _total_fee = parseFloat(_tuition_fee) + parseFloat(_intest)
+            _upon_enrollment = parseFloat(_tuition_fee) * 0.2
+            _monthly_fee = (_total_fee - _upon_enrollment) / 4;
             return {
                 "total_tuition_fee": _total_fee,
                 'upon_enrollment': _upon_enrollment,
