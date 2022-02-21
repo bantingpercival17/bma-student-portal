@@ -40,4 +40,8 @@ class PaymentAssessment extends Model
     {
         return $this->belongsTo(EnrollmentAssessment::class, 'enrollment_id');
     }
+    public function online_transaction()
+    {
+        return $this->hasOne(PaymentTrasanctionOnline::class, 'assessment_id')->where('is_removed', false)->latest('id');
+    }
 }
