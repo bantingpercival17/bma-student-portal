@@ -2,4 +2,4 @@
 .env
 .gitignore
 /vendor
-/public*
+/public/storage
