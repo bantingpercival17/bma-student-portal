@@ -26,7 +26,7 @@ class PaymentAssessment extends Model
     }
     public function course_semestral_fee()
     {
-        return $this->belongsTo(CourseSemestralFees::class, 'course_semestral_fee_id');
+        return $this->belongsTo(CourseSemestralFees::class, 'course_semestral_fee_id')->where('is_removed', false);
     }
     public function total_payment()
     {
