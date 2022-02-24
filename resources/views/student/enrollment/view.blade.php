@@ -258,7 +258,7 @@ $_title = 'Enrollment';
                                                             <br>
                                                             <label for="">Account Name: <br>
                                                                 <span class="fw-bolder text-info">BALIWAG MARITIME
-                                                                    FOUNDATION</span>
+                                                                    ACADEMY INC</span>
                                                             </label><br>
                                                             <label for="">Account Number: <br>
                                                                 <span class="fw-bolder text-info">062000001037</span>
