@@ -273,7 +273,7 @@ $_title = 'Enrollment';
                                                     <ul class="media-story mt-2 p-0">
                                                         <li class="d-flex  align-items-center">
                                                             <div class="stories-data ">
-                                                                <p class="mb-0">21, February 2022</p>
+                                                                <p class="mb-0">{{$_payment_details->online_transaction->created_at->format('d, F Y')}}</p>
                                                                 <div class="row">
                                                                     <div class="col-md">
                                                                         <small>REFERENCE NO: </small> <br>

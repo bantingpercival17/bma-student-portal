@@ -38,7 +38,14 @@ class StudentController extends Controller
     {
         $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-        return view('student.academic.view', compact('_subject_class'));
+
+        $_student = Auth::user()->student->enrollment_assessment;
+        $_academic = AcademicYear::where('is_active', 1)->first();
+        if ($_student->academic_id == $_academic->id) {
+            return redirect('/student/enrollment');
+        } else {
+            return view('student.academic.view', compact('_subject_class'));
+        }
     }
     public function academic_grades(Request $_request)
     {
