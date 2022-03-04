@@ -59,7 +59,7 @@ $_title = 'Narative Report';
                             <div class="d-grid gap-card grid-cols-4">
                                 @include('layouts.icon-main')
                                 @foreach (json_decode($item->file_links) as $links)
-                                    <a {{-- data-fslightbox="gallery" --}} href="{{ $links }}" target="_blank">
+                                    <a data-fslightbox="gallery" href="{{ $links }}" target="_blank">
 
                                         @php
                                             $myFile = pathinfo($links);
@@ -81,7 +81,8 @@ $_title = 'Narative Report';
 
                                             </div>
                                             <div class="col-md">
-                                                <small>{{ str_replace('[' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . ']', '', $_file) }}</small>
+                                                <small>
+                                                    {{ mb_strimwidth(str_replace('[' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . ']', '', $_file),0,10,'...') }}</small>
 
                                             </div>
                                         </div>

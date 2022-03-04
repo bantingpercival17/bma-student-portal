@@ -29,13 +29,7 @@ $_title = 'Create Narative Report';
                         @csrf
                         <div class="form-group">
                             <small class="form-label"><b>MONTHLY REPORT <sup class="text-danger">*</sup></b></small>
-                            <select class="form-select" name="_month" required>
-                                <option selected disabled value="">Choose Month</option>
-                                @for ($month = 1; $month <= 12; $month++)
-                                    <option value="{{ $month }}" {{ old('_month') == $month ? 'selected' : '' }}>
-                                        {{ date('F', mktime(0, 0, 0, $month)) }}</option>
-                                @endfor
-                            </select>
+                            <input class="form-control" type="month" name="_month">
                             @error('_month')
                                 <small class="text-danger"><b>{{ $message }}</b></small>
                             @enderror
@@ -94,7 +88,7 @@ $_title = 'Create Narative Report';
                                 </div>
                             </div>
                         @endforeach
-                      
+
                         <button class="btn btn-primary w-100" type="submit">Submit</button>
                     </form>
 
@@ -105,4 +99,10 @@ $_title = 'Create Narative Report';
 
         </div>
     </div>
+
+@section('js')
+    <script>
+
+    </script>
+@endsection
 @endsection
