@@ -77,8 +77,15 @@ $_title = 'Create Narative Report';
                                 <div class="form-group">
                                     <small class="form-label"><b>ATTACH TRB FILES<sup
                                                 class="text-danger">*</sup></b></small>
-                                    <input class="form-control" type="file" name="{{ $_name[1] }}[]"
-                                        value="{{ old($_name[1]) }}" multiple required>
+                                    <input class="form-control file-input input-file" id="{{ $_name[1] }}"
+                                        data-name={{ $_name[1] }} type="file" value="{{ old($_name[1]) }}" multiple
+                                        required accept="img">
+                                    <input type="hidden" name="{{ $_name[1] }}[]">
+
+                                    <div class="image_frame{{ $_name[1] }} row mt-2">
+                                    </div>
+                                    <section class="progress-area row"></section>
+                                    <section class="uploaded-area row"></section>
                                     @error($_name[1])
                                         <small class="text-danger"><b>{{ $message }}</b></small>
                                     @enderror
@@ -87,6 +94,7 @@ $_title = 'Create Narative Report';
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                         @endforeach
 
                         <button class="btn btn-primary w-100" type="submit">Submit</button>
@@ -101,8 +109,62 @@ $_title = 'Create Narative Report';
     </div>
 
 @section('js')
+    {{-- <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script> --}}
     <script>
+        $('.input-file').change(function(event) {
+            var document = $(this).data('name');
+            var files = $('#' + document)[0].files
+            var file_type = ['image/jpeg', 'image/png', , 'application/pdf'];
+            $('.image_frame' + document).empty()
+            for (let index = 0; index < files.length; index++) {
+                if (!file_type.includes(files[index].type)) {
+                    error += '<div class="alert alert-danger"><b>' + files[index].name +
+                        '</b> Selected File must be .jpg, .png and .pdf Only.</div>';
+                } else {
+                    $('.image_frame' + document).append(fileDisplay(files[index], index))
+                    _upload_file(files[index], index)
+                }
+            }
 
+        })
+
+        function fileDisplay(files, index) {
+            var layout = "<div class='col-md'>" +
+                files.name.substring(0, 10).concat('...') +
+                '<div class="progress bg-soft-success shadow-none w-100" style="height: 6px">' +
+                '<div class="progress-bar progress-bar-' + index +
+                ' bg-success" data-toggle="progress-bar" role="progressbar" aria-valuenow="0" style="width: 20%" aria-valuemin="0" aria-valuemax="100"></div>' +
+                '</div>' +
+                "</div>";
+            return layout;
+        }
+        let fileInput, uploadProgress, message;
+
+        function _upload_file(file, index) {
+            var ajax_request = new XMLHttpRequest();
+            uploadProgress = document.getElementsByClassName('progress-bar-' + index);
+            //uploadProgress.style.width = 50;
+
+            var data = new FormData();
+            data.append('file', file);
+            ajax_request.upload.onloadstart = function(e) {
+                console.log('start uploading')
+            }
+            ajax_request.upload.onprogress = function(e) {
+                uploadProgress.value = e.loaded
+                uploadProgress.max = e.total
+                console.log('uploading')
+            }
+            ajax_request.upload.onloadend = function(e) {
+                uploadProgress.value = 100
+                uploadProgress.max = e.total
+                console.log('End uploading')
+            }
+            ajax_request.open("GET", "/student/on-board/journal/file-upload");
+            ajax_request.send(data)
+
+
+        }
     </script>
 @endsection
 @endsection

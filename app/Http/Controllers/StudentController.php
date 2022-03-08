@@ -42,9 +42,9 @@ class StudentController extends Controller
         $_student = Auth::user()->student->enrollment_assessment;
         $_academic = AcademicYear::where('is_active', 1)->first();
         if ($_student->academic_id == $_academic->id) {
-            return redirect('/student/enrollment');
-        } else {
             return view('student.academic.view', compact('_subject_class'));
+        } else {
+            return redirect('/student/enrollment');
         }
     }
     public function academic_grades(Request $_request)
@@ -485,7 +485,15 @@ class StudentController extends Controller
 
         return view('student.onboard.journal_view', compact('_journal', '_journals'));
     }
-
+    public function upload_journal_file(Request $_request)
+    {
+        $file = $_FILES['file'];
+        $file_name =  $_FILES['file']['name']; //getting file name
+        $tmp_name = $_FILES['file']['tmp_name']; //getting temp_name of file
+        $file_up_name = time() . $file_name; //making file name dynamic by adding time before file name
+        move_uploaded_file($tmp_name, "files/" . $file_up_name); //moving file to the specified folder with dynamic name
+        //return $_request->input('input_file');
+    }
     public function account_view()
     {
         return view('student.home.account_view');
