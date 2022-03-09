@@ -431,6 +431,52 @@ class StudentController extends Controller
     }
     public function store_journal(Request $_request)
     {
+
+        /* $_input_feilds = $_request->validate([
+            '_month' => 'required',
+            '_trb_remark' => 'required',
+            '_journal_remark' => 'required',
+            '_trb_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_journal_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_crew_list.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_mdsd.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+            '_while_at_work.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
+        ]); */
+        $_input_feilds = $_request->validate([
+            '_month' => 'required',
+            '_trb_remark' => 'required',
+            '_journal_remark' => 'required',
+            '_trb_documents' => 'required',
+            '_journal_documents' => 'required',
+            '_crew_list' => 'required',
+            '_mdsd'  => 'required',
+            '_while_at_work'  => 'required',
+        ]);
+        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_narative_details = [
+            ['Training Record Book', '_trb_documents', '_trb_remark'],
+            ['Daily Journal', '_journal_documents', '_journal_remark'],
+            ['Crew List', '_crew_list'],
+            ["Master's Declaration of Safe Departure", '_mdsd'],
+            ['Picture while at work', '_while_at_work']
+        ];
+        foreach ($_narative_details as $key => $details) {
+           
+            $_data_narative = array(
+                'student_id' => Auth::user()->student->id,
+                'month' => $_request->_month,
+                'file_links' => $_request->input($details[1]),
+                'journal_type' => $details[0],
+                'remark' => count($details) > 2 ? $_input_feilds[$details[2]] : null,
+                'is_removed' => false,
+            );
+            ShipboardJournal::create($_data_narative);
+        }
+        //return dd($_data_narative);
+        return redirect('/student/on-board/journal/view?_j=' . base64_encode($_request->_month))->with('success', 'Successfully Created Journal');
+    }
+    /*  public function store_journal(Request $_request)
+    {
         $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $link .= "://";
         $link .= $_SERVER['HTTP_HOST'];
@@ -474,7 +520,7 @@ class StudentController extends Controller
             ShipboardJournal::create($_data_narative);
         }
         return redirect('/student/on-board/journal/view?_j=' . base64_encode(date('Y') . $_month . "-" . date('d')))->with('success', 'Successfully Created Journal');
-    }
+    } */
     public function view_journal(Request $_request)
     {
         $_journal = ShipboardJournal::where([

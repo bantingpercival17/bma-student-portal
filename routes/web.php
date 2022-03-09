@@ -51,7 +51,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/on-board/journal', [StudentController::class, 'create_journal'])->name('onboard.journal');
     Route::post('/on-board/journal', [StudentController::class, 'store_journal'])->name('onboard.store-journal');
     Route::get('/on-board/journal/view', [StudentController::class, 'view_journal'])->name('onboard.view-journal');
-    Route::get('/on-board/journal/file-upload', [StudentController::class, 'upload_journal_file'])->name('onboard.file-upload');
+    Route::post('/on-board/journal/file-upload', [StudentController::class, 'upload_journal_file'])->name('onboard.file-upload');
 
 
     Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
