@@ -44,6 +44,7 @@ class StudentController extends Controller
         if ($_student->academic_id == $_academic->id) {
             return view('student.academic.view', compact('_subject_class'));
         } else {
+            return view('student.academic.view', compact('_subject_class'));
             return redirect('/student/enrollment');
         }
     }
@@ -487,12 +488,19 @@ class StudentController extends Controller
     }
     public function upload_journal_file(Request $_request)
     {
-        $file = $_FILES['file'];
-        $file_name =  $_FILES['file']['name']; //getting file name
-        $tmp_name = $_FILES['file']['tmp_name']; //getting temp_name of file
-        $file_up_name = time() . $file_name; //making file name dynamic by adding time before file name
-        move_uploaded_file($tmp_name, "files/" . $file_up_name); //moving file to the specified folder with dynamic name
-        //return $_request->input('input_file');
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_url_link =  $link . '/storage/onboard/shipboard-journal/' . $_user . '/';
+        $_file_path = '/public/onboard/shipboard-journal/' . $_user . '/';
+        $file = $_request->file('file');
+        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_date = date('dmYhms');
+        $_file_name = '[' . $_user . ']' . $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
+        $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+        $_file_links = $_url_link . $_file_name; // Get the Link of the Files
+        return  $_file_links;
     }
     public function account_view()
     {
