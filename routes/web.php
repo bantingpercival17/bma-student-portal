@@ -39,6 +39,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');
     Route::get('/payments', [StudentController::class, 'payments_view'])->name('payments');
     Route::post('/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');
+    Route::post('/payments/payment-transaction', [StudentController::class, 'payment_store'])->name('enrollment.online-transaction-payment');
     /* Enrollment */
     Route::get('/enrollment', [StudentController::class, 'enrollment_view'])->name('enrollment');
     Route::get('/enrollment/coe', [StudentController::class, 'enrollment_report_view'])->name('enrollment.coe');
@@ -50,7 +51,9 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/on-board/journal', [StudentController::class, 'create_journal'])->name('onboard.journal');
     Route::post('/on-board/journal', [StudentController::class, 'store_journal'])->name('onboard.store-journal');
     Route::get('/on-board/journal/view', [StudentController::class, 'view_journal'])->name('onboard.view-journal');
-
+    Route::post('/on-board/journal/file-upload', [StudentController::class, 'upload_journal_file'])->name('onboard.file-upload');
+    Route::post('/on-board/journal/file-recent-upload', [StudentController::class, 'recent_upload_journal_file'])->name('onboard.recent-file-upload');
+    Route::get('/on-board/journal/remove', [StudentController::class, 'remove_journal'])->name('onboard.journal-remove');
 
     Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
     Route::post('/student-profile/update-store', [StudentController::class, 'update_student_profile'])->name('update-student-profile');

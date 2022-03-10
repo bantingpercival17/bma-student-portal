@@ -147,7 +147,8 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Birthday</label>
                                     <input class="form-control" type="date"
-                                        value="{{ Auth::user()->student->birthday }}" name="_birthday">
+                                        value="{{ old('_birthday') ?: Auth::user()->student->birthday }}"
+                                        name="_birthday">
                                     @error('_birthday')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -157,8 +158,9 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Birth Place</label>
                                     <input class="form-control" type="text"
-                                        value="{{ ucwords(Auth::user()->student->birth_place) }}" name="_birth_place">
-                                    @error('__birth_place')
+                                        value="{{ old('_birth_place') ?: ucwords(Auth::user()->student->birth_place) }}"
+                                        name="_birth_place">
+                                    @error('_birth_place')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
@@ -204,7 +206,7 @@ $_title = 'Profile';
                                     <label for="example-text-input" class="form-control-label">Hous no / Street / Bldg
                                         no</label>
                                     <input class="form-control" type="text" name="_street"
-                                        value={{ old('_street') ?: ucwords(Auth::user()->student->street) }}>
+                                        value="{{ old('_street') ?: ucwords(Auth::user()->student->street) }}">
                                     @error('_street')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -214,7 +216,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Barangay</label>
                                     <input class="form-control" type="text" name="_barangay"
-                                        value={{ old('_barangay') ?: ucwords(Auth::user()->student->barangay) }}>
+                                        value="{{ old('_barangay') ?: ucwords(Auth::user()->student->barangay) }}">
                                     @error('_barangay')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -224,7 +226,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Zip Code</label>
                                     <input class="form-control" type="text" name="_zip_code"
-                                        value={{ old('_zip_code') ?: ucwords(Auth::user()->student->zip_code) }}>
+                                        value="{{ old('_zip_code') ?: ucwords(Auth::user()->student->zip_code) }}">
                                     @error('_zip_code')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -234,7 +236,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Municipality</label>
                                     <input type="text" name="_municipality"
-                                        value={{ old('_municipality') ?: ucwords(Auth::user()->student->municipality) }}
+                                        value="{{ old('_municipality') ?: ucwords(Auth::user()->student->municipality) }}"
                                         class="form-control">
                                     @error('_municipality')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
@@ -245,7 +247,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Province</label>
                                     <input class="form-control" type="text" name="_province"
-                                        value={{ old('_province') ?: ucwords(Auth::user()->student->province) }}>
+                                        value="{{ old('_province') ?: ucwords(Auth::user()->student->province) }}">
                                     @error('_province')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -259,7 +261,7 @@ $_title = 'Profile';
                                     <label for="example-text-input" class="form-control-label">Contact Number</label>
 
                                     <input class="form-control" type="text" name="_contact_number"
-                                        value={{ old('_contact_number') ?: Auth::user()->student->contact_number ?: '' }}>
+                                        value="{{ old('_contact_number') ?: Auth::user()->student->contact_number ?: '' }}">
                                     @error('_contact_number')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -269,7 +271,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Email</label>
                                     <input class="form-control" type="text" name="_personal_email"
-                                        value={{ old('_personal_email') ?: Auth::user()->personal_email ?: '' }}>
+                                        value="{{ old('_personal_email') ?: Auth::user()->personal_email ?: '' }}">
                                     @error('_personal_email')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -329,7 +331,6 @@ $_title = 'Profile';
                                         </div>
                                     </div>
                                 @endif
-
                             @endforeach
 
                         @else
@@ -776,9 +777,7 @@ $_title = 'Profile';
                                         </option>
                                     </select>
                                     @error('_dswd_listahan')
-
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
-
                                     @enderror
                                 </div>
 
@@ -808,9 +807,7 @@ $_title = 'Profile';
                                 </select>
 
                                 @error('_homeownership')
-
                                     <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
-
                                 @enderror
 
                             </div>
@@ -846,9 +843,7 @@ $_title = 'Profile';
                                 </select>
 
                                 @error('_car_ownership')
-
                                     <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
-
                                 @enderror
 
                             </div>
@@ -998,7 +993,7 @@ $_title = 'Profile';
                             </div>
                         </div>
                         @if ($errors->any())
-                            {!! implode('',$errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!}
+                            {!! implode('', $errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!}
                         @endif
                         <button type="submit" class="btn btn-primary mt-2 w-100">Submit Student Information</button>
                     </div>

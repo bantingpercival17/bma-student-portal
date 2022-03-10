@@ -15,6 +15,9 @@ $_title = 'Narative Report';
     <li class="breadcrumb-item active" aria-current="page">{{ $_title }}</li>
 @endsection
 @section('page-content')
+    @php
+    $_narative_details = ['Training Record Book', 'Daily Journal', 'Crew List', "Master's Declaration of Safe Departure", 'Picture while at work'];
+    @endphp
     <div class="row">
         <div class="col-md">
             <div class="card">
@@ -25,8 +28,8 @@ $_title = 'Narative Report';
                         </p>
                         <small class="text-muted"><b>MONTH JOURNAL</b></small>
                     </div>
-                    {{-- <div class="card-tool">
-                        <a href="/student/on-board/journal?edit={{ request()->input('_j') }}"
+                    <div class="card-tool">
+                        <a href="/student/on-board/journal/view?edit={{ request()->input('_j') }}"
                             class="btn btn-primary btn-sm mt-2">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -34,7 +37,9 @@ $_title = 'Narative Report';
                                     fill="currentColor"></path>
                             </svg>
                         </a>
-                        <button type="button" class="btn btn-danger btn-sm mt-2"><svg xmlns="http://www.w3.org/2000/svg"
+
+                        <a href="{{ route('onboard.journal-remove') }}?_journal={{ request()->input('_j') }}"
+                            class="btn btn-danger btn-sm mt-2"><svg xmlns="http://www.w3.org/2000/svg"
                                 class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -45,56 +50,117 @@ $_title = 'Narative Report';
                                 <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
                                 <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
                             </svg>
-                        </button>
-                    </div> --}}
+                        </a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    @foreach ($_journal as $item)
-                        <div class="">
-                            <h5 class="card-title">{{ strtoupper($item->journal_type) }}</h5>
-                            {{-- <small class="text-muted">Last updated 3 mins ago</small> --}}
-                            <p class="card-text">
-                                {{ $item->remark }}
-                            </p>
-                            <div class="d-grid gap-card grid-cols-4">
-                                @include('layouts.icon-main')
-                                @foreach (json_decode($item->file_links) as $links)
-                                    <a {{-- data-fslightbox="gallery" --}} href="{{ $links }}" target="_blank">
 
-                                        @php
-                                            $myFile = pathinfo($links);
-                                            $_ext = $myFile['extension'];
-                                            $_file = $myFile['basename'];
-                                        @endphp
-                                        <div class="row">
-                                            <div class="col-md">
-                                                @if ($_ext == 'docx' || $_ext == 'doc')
-                                                    @yield('icon-doc')
-                                                @elseif ($_ext == 'pdf')
-                                                    @yield('icon-pdf')
-                                                @elseif ($_ext == 'png')
-                                                    @yield('icon-png')
-                                                @elseif ($_ext == 'jpg' || $_ext == 'jpeg')
-                                                    @yield('icon-jpg')
-                                                @else
-                                                @endif
-
-                                            </div>
-                                            <div class="col-md">
-                                                <small>{{ str_replace('[' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . ']', '', $_file) }}</small>
-
-                                            </div>
-                                        </div>
-                                    </a>
-                                @endforeach
-
-                            </div>
-                            <br>
-
-                        </div>
-                    @endforeach
-                </div>
             </div>
+            @foreach ($_journal as $item)
+                @if (in_array($item->journal_type, $_narative_details))
+                    <div class="card">
+                        <div class="card-body">
+                            @php
+                                $index = array_search($item->journal_type, $_narative_details);
+                                unset($_narative_details[$index]);
+                            @endphp
+                            <div class="">
+                                <h5 class="card-title">{{ strtoupper($item->journal_type) }}</h5>
+                                {{-- <small class="text-muted">Last updated 3 mins ago</small> --}}
+                                <p class="card-text">
+                                    {{ $item->remark }}
+                                </p>
+                                <div class="d-grid gap-card grid-cols-4">
+                                    @include('layouts.icon-main')
+                                    @foreach (json_decode($item->file_links) as $links)
+                                        <a data-fslightbox="gallery" href="{{ $links }}" target="_blank">
+
+                                            @php
+                                                $myFile = pathinfo($links);
+                                                $_ext = $myFile['extension'];
+                                                $_file = $myFile['basename'];
+                                            @endphp
+                                            <div class="row">
+                                                <div class="col-md">
+                                                    @if ($_ext == 'docx' || $_ext == 'doc')
+                                                        @yield('icon-doc')
+                                                    @elseif ($_ext == 'pdf')
+                                                        @yield('icon-pdf')
+                                                    @elseif ($_ext == 'png')
+                                                        @yield('icon-png')
+                                                    @elseif ($_ext == 'jpg' || $_ext == 'jpeg')
+                                                        @yield('icon-jpg')
+                                                    @else
+                                                    @endif
+
+                                                </div>
+                                                <div class="col-md">
+                                                    <small>
+                                                        {{ mb_strimwidth(str_replace('[' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . ']', '', $_file),0,10,'...') }}</small>
+
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+            @foreach ($_narative_details as $_name)
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route('onboard.recent-file-upload') }}" method="post">
+                            <input type="hidden" class="token" name="_token" value="{{ csrf_token() }}" />
+                            <input type="hidden" name="_name" value="{{ $_name }}">
+                            <input type="hidden" name="_month" value="{{ request()->input('_j') }}">
+                            <div class="form-group">
+                                <p class="h6">
+                                    <b>{{ strtoupper($_name) }}</b>
+                                </p>
+                                @if (in_array($_name, ['Training Record Book', 'Daily Journal']))
+                                    <div class="form-group">
+                                        <small class="form-label"><b>REMARKS<sup
+                                                    class="text-danger">*</sup></b></small>
+                                        <textarea name="_remarks" class="form-control" cols="30" rows="3"
+                                            required>{{ old($_name) }}</textarea>
+                                        @error($_name)
+                                            <small class="text-danger"><b>{{ $message }}</b></small>
+                                        @enderror
+                                    </div>
+                                @endif
+
+
+                                <div class="form-group">
+                                    <small class="form-label"><b>ATTACH TRB FILES<sup
+                                                class="text-danger">*</sup></b></small>
+                                    <input class="form-control file-input"
+                                        id="{{ str_replace(' ', '_', strtolower($_name)) }}"
+                                        data-name={{ str_replace(' ', '_', strtolower($_name)) }} type="file" multiple
+                                        required accept="img">
+                                    <input type="hidden" class="{{ str_replace(' ', '_', strtolower($_name)) }}-file"
+                                        name="_file_url" value="{{ old(str_replace(' ', '_', strtolower($_name))) }}">
+
+                                    <div class="image_frame{{ str_replace(' ', '_', strtolower($_name)) }} row mt-2">
+                                    </div>
+                                    @error(str_replace(' ', '_', strtolower($_name)))
+                                        <small class="text-danger"><b>{{ $message }}</b></small>
+                                    @enderror
+                                    <div class="invalid-feedback">
+                                        Please attach a files for {{ ucwords($_name[0]) }} .
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit">SUBMIT</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <hr>
+            @endforeach
         </div>
         <div class="col-md-4">
             <div class="card">
@@ -127,4 +193,7 @@ $_title = 'Narative Report';
             </div>
         </div>
     </div>
+@section('js')
+    <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script>
+@endsection
 @endsection

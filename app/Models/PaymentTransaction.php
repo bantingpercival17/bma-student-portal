@@ -19,4 +19,5 @@ class PaymentTransaction extends Model
         'staff_id',
         'is_removed'
     ];
+  
 }

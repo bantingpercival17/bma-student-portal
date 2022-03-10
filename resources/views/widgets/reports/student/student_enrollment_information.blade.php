@@ -92,7 +92,6 @@
 
                                     </tr>
                                 @endif
-
                             @endforeach
                         @else
                             <tr>
@@ -145,23 +144,26 @@
                                     </td>
                                     <td class="text-center">
                                         @php
-                                            $_total_payment += $item->fees;
+                                            $_particular_amount = $_enrollment_assessment->course_id == 3 ? $item->fees : $_course_semestral_fee->particular_tags($item->particular_tag);
+                                            $_total_payment += $_particular_amount;
                                         @endphp
-                                        <b> {{ number_format($item->fees, 2) }}</b>
+                                        <b> {{ number_format($_particular_amount, 2) }}</b>
                                     </td>
                                 </tr>
                             @endforeach
                             @if ($_enrollment_assessment->course_id == 3)
                                 @foreach ($_course_semestral_fee->additional_fees($_course_semestral_fee->id) as $item)
                                     <tr>
-                                        <td> <span class="mt-2 badge bg-success">
+                                        <td> <span class="mt-2 ">
                                                 {{ ucwords(str_replace(['_', 'tags'], [' ', 'Fee'], $item->particular_name)) }}</span>
+
                                         </td>
                                         <td class="text-center">
                                             @php
-                                                $_total_payment += $item->particular_amount;
+                                                $_particular_amount = $item->particular_amount;
+                                                $_total_payment += $_particular_amount;
                                             @endphp
-                                            <b> {{ number_format($item->particular_amount, 2) }}</b>
+                                            <b> {{ number_format($_particular_amount, 2) }}</b>
                                         </td>
                                     </tr>
                                 @endforeach

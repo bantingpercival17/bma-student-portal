@@ -24,18 +24,14 @@ $_title = 'Create Narative Report';
                     </div>
                 </div>
                 <div class="card-body">
+
                     <form action="{{ route('onboard.store-journal') }}" method="post" enctype="multipart/form-data"
                         class="needs-validation" novalidate>
-                        @csrf
+                        {{-- @csrf --}}
+                        <input type="hidden" class="token" name="_token" value="{{ csrf_token() }}" />
                         <div class="form-group">
                             <small class="form-label"><b>MONTHLY REPORT <sup class="text-danger">*</sup></b></small>
-                            <select class="form-select" name="_month" required>
-                                <option selected disabled value="">Choose Month</option>
-                                @for ($month = 1; $month <= 12; $month++)
-                                    <option value="{{ $month }}" {{ old('_month') == $month ? 'selected' : '' }}>
-                                        {{ date('F', mktime(0, 0, 0, $month)) }}</option>
-                                @endfor
-                            </select>
+                            <input class="form-control" type="month" name="_month">
                             @error('_month')
                                 <small class="text-danger"><b>{{ $message }}</b></small>
                             @enderror
@@ -83,8 +79,13 @@ $_title = 'Create Narative Report';
                                 <div class="form-group">
                                     <small class="form-label"><b>ATTACH TRB FILES<sup
                                                 class="text-danger">*</sup></b></small>
-                                    <input class="form-control" type="file" name="{{ $_name[1] }}[]"
-                                        value="{{ old($_name[1]) }}" multiple required>
+                                    <input class="form-control file-input" id="{{ $_name[1] }}"
+                                        data-name={{ $_name[1] }} type="file" multiple required accept="img">
+                                    <input type="hidden" class="{{ $_name[1] }}-file" name="{{ $_name[1] }}"
+                                        value="{{ old($_name[1]) }}">
+
+                                    <div class="image_frame{{ $_name[1] }} row mt-2">
+                                    </div>
                                     @error($_name[1])
                                         <small class="text-danger"><b>{{ $message }}</b></small>
                                     @enderror
@@ -93,8 +94,9 @@ $_title = 'Create Narative Report';
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                         @endforeach
-                      
+
                         <button class="btn btn-primary w-100" type="submit">Submit</button>
                     </form>
 
@@ -105,4 +107,8 @@ $_title = 'Create Narative Report';
 
         </div>
     </div>
+
+@section('js')
+    <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script>
+@endsection
 @endsection

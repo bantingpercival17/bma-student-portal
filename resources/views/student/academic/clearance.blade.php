@@ -25,7 +25,10 @@ $_title = 'Academic';
                     <h4 class="card-title">E-Clearance</h4>
                 </div>
                 <div class="card-tool">
+                    {{-- {{ Auth::user()->student->clearance_status() }} --}}
                     @if (Auth::user()->student->enrollment_assessment->course_id == 3)
+                        <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
+                    @elseif(Auth::user()->student->clearance_status() == 1)
                         <a href="{{ route('academic.enroll-now') }}" class="btn btn-primary">Enroll Now</a>
                     @endif
                 </div>
@@ -62,7 +65,7 @@ $_title = 'Academic';
                                                             @if ($_subject->e_clearance->is_approved == 1)
                                                                 <span class="text-primary"><b>Cleared</b></span>
                                                             @else
-                                                                <span class="text-warning"><b>Not Clear</b></span><br>
+                                                                <span class="text-danger"><b>Not Clear</b></span><br>
                                                             @endif
                                                         @else
                                                             <span class="text-danger">-</span>
@@ -73,14 +76,13 @@ $_title = 'Academic';
                                                         @if ($_subject->e_clearance)
                                                             @if ($_subject->e_clearance->is_approved != 1)
                                                                 <span class="text-muted">
-                                                                    <b>{{ $_subject->e_clearance->comment }}</b></span>
+                                                                    <b>{{ $_subject->e_clearance->comments }}</b></span>
                                                             @endif
                                                         @endif
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                             @endif
-
                                         @endforeach
                                     @else
                                         <tr>
@@ -119,13 +121,20 @@ $_title = 'Academic';
                                                         @if (Auth::user()->student->non_academic_clearance($_data)->is_approved == 1)
                                                             <span class="text-primary"><b>Cleared</b></span>
                                                         @else
-                                                            <span class="text-warning"><b>Not Clear</b></span><br>
+                                                            <span class="text-danger"><b>Not Clear</b></span><br>
                                                         @endif
                                                     @else
                                                         <span class="text-danger">-</span>
                                                     @endif
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    @if (Auth::user()->student->non_academic_clearance($_data))
+                                                        @if (Auth::user()->student->non_academic_clearance($_data)->is_approved != 1)
+                                                            <span class="text-muted">
+                                                                <b>{{ Auth::user()->student->non_academic_clearance($_data)->comments }}</b></span>
+                                                        @endif
+                                                    @endif
+                                                </td>
                                                 <td></td>
                                             </tr>
                                         @endforeach

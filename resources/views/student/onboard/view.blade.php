@@ -16,70 +16,51 @@ $_title = 'On Board Training';
         <div class="header-title d-flex justify-content-between">
             <h5 class=" fw-bolder">NARATIVE REPORT</h5>
         </div>
-        <div class="swiper swiper-container mySwiper position-relative">
-            @if ($_count = count(Auth::user()->student->shipboard_journal) > 3)
-                <div class="swiper-button-next1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="34" viewBox="0 0 33 34" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M16.4993 1.58398C7.98601 1.58398 1.08268 8.48565 1.08268 17.0007C1.08268 25.514 7.98601 32.4173 16.4993 32.4173C25.0127 32.4173 31.916 25.514 31.916 17.0007C31.916 8.48565 25.0127 1.58398 16.4993 1.58398Z"
-                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M18.9023 11.2148L13.0923 16.9998L18.9023 22.7848" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-            @endif
+        <div class="table-responsive mt-4">
+            <table id="basic-table" class="table table-striped mb-0" role="grid">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="text-center">
+                                <div class="card-body ">
+                                    <a href="{{ route('onboard.journal') }}">
+                                        <i class="icon text-primary">
+                                            @yield('icon-add')
+                                        </i>
 
-            @include('layouts.icon-main')
-            <div class="swiper-wrapper row-cols-2 row-cols-lg-5 list-inline">
+                                        <h5 class="text-muted mt-3">Add Narative Report</h5>
+                                    </a>
 
-                <div class="swiper-slide">
-                    <div class="text-center">
-                        <div class="card-body ">
-                            <a href="{{ route('onboard.journal') }}">
-                                <i class="icon text-primary">
-                                    @yield('icon-add')
-                                </i>
-
-                                <h5 class="text-muted mt-3">Add Narative Report</h5>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-                @if (count($_journal) > 0)
-                    @foreach ($_journal as $_journal)
-                        <div class="text-center">
-                            <div class="card-body ">
-                                <a href="{{ route('onboard.view-journal') }}?_j={{ base64_encode($_journal->month) }}">
-                                    <i class="icon text-muted">
-                                        @yield('icon-document')
-                                    </i>
-
-                                    <h5 class="text-muted mt-3">{{ date('F - Y', strtotime($_journal->month)) }}
-                                    </h5>
-                                </a>
-
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        </td>
+                        @if (count($_journal) > 0)
+                            @foreach ($_journal as $_journal)
+                                <th>
+                                    <div class="text-center">
+                                        <div class="card-body ">
+                                            <a
+                                                href="{{ route('onboard.view-journal') }}?_j={{ base64_encode($_journal->month) }}">
+                                                <i class="icon text-muted">
+                                                    @yield('icon-document')
+                                                </i>
 
-                @endif
-            </div>
-            @if ($_count)
-                <div class="swiper-button-prev1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="34" viewBox="0 0 33 34" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M16.5007 32.416C25.014 32.416 31.9173 25.5143 31.9173 16.9993C31.9173 8.48602 25.014 1.58268 16.5007 1.58268C7.98732 1.58268 1.08398 8.48602 1.08398 16.9993C1.08398 25.5143 7.98732 32.416 16.5007 32.416Z"
-                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M14.0977 22.7852L19.9077 17.0002L14.0977 11.2152" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-            @endif
+                                                <h5 class="text-muted mt-3">
+                                                    {{ date('F - Y', strtotime($_journal->month)) }}
+                                                </h5>
+                                            </a>
 
+                                        </div>
+                                    </div>
+                                </th>
+                            @endforeach
+                        @endif
+                    </tr>
+                </tbody>
+            </table>
         </div>
     @endif
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-7">
             @if ($_shipboard_training = Auth::user()->student->shipboard_training)
                 <div class="card">
@@ -152,7 +133,6 @@ $_title = 'On Board Training';
                                 {{-- 18194 --}}
                             </form>
                         @else
-
                         @endif
                     </div>
                 </div>
@@ -183,7 +163,6 @@ $_title = 'On Board Training';
                                                 class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                                 <div class="d-flex align-items-center">
                                                     @if ($_student_document = $_document->midshipman_document)
-
                                                         @if ($_student_document->document_status == 1)
                                                             <button
                                                                 class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
@@ -293,7 +272,6 @@ $_title = 'On Board Training';
                                     </div>
                                 </li>
                             @endforeach
-
                         @else
                             <li class="d-flex mb-4 align-items-center">
 
