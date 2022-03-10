@@ -383,7 +383,7 @@ class StudentController extends Controller
         $_assess = DeploymentAssesment::where('student_id', Auth::user()->student_id)->where('is_removed', 0)->first();
         $_document_requirement = DocumentRequirements::where('student_id', Auth::user()->student_id)->where('is_removed', 0)->get();
         $_agency = ShippingAgencies::where('is_removed', 1)->get();
-        $_journal = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->groupBy('month')->get();
+        $_journal = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->where('is_removed', false)->groupBy('month')->get();
         return view('student.onboard.view', compact('_certificates', '_documents', '_agency', '_assess', '_document_requirement', '_journal'));
     }
     public function onboard_pre_deployment_store(Request $_request)
@@ -461,7 +461,7 @@ class StudentController extends Controller
             ['Picture while at work', '_while_at_work']
         ];
         foreach ($_narative_details as $key => $details) {
-           
+
             $_data_narative = array(
                 'student_id' => Auth::user()->student->id,
                 'month' => $_request->_month,
@@ -475,52 +475,29 @@ class StudentController extends Controller
         //return dd($_data_narative);
         return redirect('/student/on-board/journal/view?_j=' . base64_encode($_request->_month))->with('success', 'Successfully Created Journal');
     }
-    /*  public function store_journal(Request $_request)
+    public function recent_upload_journal_file(Request $_request)
     {
-        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-        $link .= "://";
-        $link .= $_SERVER['HTTP_HOST'];
-        $_file_path = '/public/onboard/shipboard-journal/';
-        $_input_feilds = $_request->validate([
-            '_month' => 'required',
-            '_trb_remark' => 'required',
-            '_journal_remark' => 'required',
-            '_trb_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_journal_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_crew_list.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_mdsd.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_while_at_work.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-        ]);
-        $_file_path = '/public/onboard/shipboard-journal/';
-        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
-        $_url_link =  $link . '/storage/onboard/shipboard-journal/';
-        $_narative_details = [
-            ['Training Record Book', '_trb_documents', '_trb_remark'],
-            ['Daily Journal', '_journal_documents', '_journal_remark'],
-            ['Crew List', '_crew_list'],
-            ["Master's Declaration of Safe Departure", '_mdsd'],
-            ['Picture while at work', '_while_at_work']
-        ];
-        foreach ($_narative_details as $key => $details) {
-            $_file_links = [];
-            foreach ($_request->file($details[1]) as $key => $file) {
-                $_file_name = '[' . $_user . ']' . $file->getClientOriginalName(); // Set a File name with Username and the Original File name
-                $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
-                $_file_links[] = $_url_link . $_file_name; // Get the Link of the Files
-            }
-            $_month = $_request->_month > 9 ? '-' . $_request->_month : '-0' . $_request->_month; // Get the Month
-            $_data_narative = array(
-                'student_id' => Auth::user()->student->id,
-                'month' =>  date('Y') . $_month . "-" . date('d'),
-                'file_links' => json_encode($_file_links),
-                'journal_type' => $details[0],
-                'remark' => count($details) > 2 ? $_input_feilds[$details[2]] : null,
-                'is_removed' => false,
-            );
-            ShipboardJournal::create($_data_narative);
+        $_data = array(
+            'student_id' => Auth::user()->student->id,
+            'month' => base64_decode($_request->_month),
+            'journal_type' => $_request->_name,
+            'is_removed' => 0
+        );
+        $_journal = ShipboardJournal::where($_data)->first();
+
+        if (!$_journal) {
+            $_data['file_links'] = $_request->_file_url;
+            $_data['remark'] = $_request->_remarks;
+            //return $_data;
+            ShipboardJournal::create($_data);
+            return back()->with('success', 'Successfully Upload');
+        } else {
+            # code...
         }
-        return redirect('/student/on-board/journal/view?_j=' . base64_encode(date('Y') . $_month . "-" . date('d')))->with('success', 'Successfully Created Journal');
-    } */
+
+        return $_request;
+        //
+    }
     public function view_journal(Request $_request)
     {
         $_journal = ShipboardJournal::where([
@@ -547,6 +524,15 @@ class StudentController extends Controller
         $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
         $_file_links = $_url_link . $_file_name; // Get the Link of the Files
         return  $_file_links;
+    }
+    public function remove_journal(Request $_request)
+    {
+        //return base64_decode($_request->_journal);
+        ShipboardJournal::where('month', base64_decode($_request->_journal))
+            ->where('student_id', Auth::user()->student->id)
+            ->where('is_removed', 0)
+            ->update(['is_removed' => true]);
+        return redirect('student/on-board')->with('success', 'Narative Report Successfully Removed');
     }
     public function account_view()
     {
