@@ -33,8 +33,9 @@ $_title = 'School Hand Book';
                 <div class="form-group">
                     <span class="fw-bold"><small>AGREED BY </small><span
                             class="text-primary">{{ strtoupper(Auth::user()->student->last_name . ', ' . Auth::user()->student->first_name) }}</span>
-                        <small>AT</small> <span
-                            class="text-info">{{ $_student_handbook->created_at; /* ['created_at'] */ }}</span>
+                        <small>AT</small>
+                        <span class="text-info">{{ $_student_handbook->created_at}}</span>
+                        {{-- <span class="text-info">{{ $_student_handbook->created_at /* ['created_at'] */ }}</span> --}}
                     </span>
                 </div>
             @else
