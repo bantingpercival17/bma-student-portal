@@ -26,12 +26,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
     public function index()
     {
         return view('student.home.view');
+    }
+    public function view_student_manual()
+    {
+        $_enrollment = Auth::user()->student->enrollment_assessment;
+        if ($_enrollment->course_id == 3) {
+            $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'));
+        } else {
+            $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'));
+        }
+        return view('student.home.school_handbook', compact('_documents'));
+    }
+    public function store_student_manual(Request $_request)
+    {
+        $_log_name = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_log_detials = array(
+            'student_id' => Auth::user()->student_id,
+            'agree_statement' => $_request->status,
+            'created_at' => now()
+        );
+        Storage::disk('public')->put('/student-handbook/' . $_log_name . '.json', json_encode($_log_detials));
+        return back()->with('success', 'Successfully Submitted');
     }
     public function academic_view(Request $_request)
     {

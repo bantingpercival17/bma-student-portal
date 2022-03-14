@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class StudentDetails extends Model
@@ -115,5 +116,14 @@ class StudentDetails extends Model
             return 0;
         }
         //return $_non_academic_count == $_student_clearance->count() ? 'CLEARED' : 'NOT CLEARED';
+    }
+
+    public function student_handbook()
+    {
+        $_log_name = str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . '.json';
+        if (file_exists(public_path() . '/storage/student-handbook/' . $_log_name)) {
+            $_path = public_path() . '/storage/student-handbook/' . $_log_name;
+            return json_decode(file_get_contents($_path), true);
+        }
     }
 }

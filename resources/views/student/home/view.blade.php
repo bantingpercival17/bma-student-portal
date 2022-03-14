@@ -52,7 +52,7 @@ $_title = 'Home';
                     <p class="mb-2 mt-1">201</p>
                     <small class="mb-1 fw-normal">Photos</small>
                 </li> --}}
-                @php
+              {{--   @php
                     $_enrollment = Auth::user()->student->enrollment_assessment;
                     if ($_enrollment->course_id == 3) {
                         $_layout = asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf');
@@ -64,7 +64,7 @@ $_title = 'Home';
                     data-bs-target=".document-view-modal" data-document-url="{{ $_layout }}">
                     <p class="mb-2 mt-1">SCHOOL </p>
                     <small class="mb-1 fw-normal">HANDBOOK</small>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>

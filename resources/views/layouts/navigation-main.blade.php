@@ -41,6 +41,11 @@
                             'route' => 'payments',
                             'icon' => 'icon-payment',
                         ],
+                        [
+                            'name' => 'School Handbook',
+                            'route' => 'student-manual',
+                            'icon' => 'icon-job',
+                        ],
                     ];
                     if (Auth::user()->student->enrollment_assessment->course_id != 3) {
                         $_routes[] = [
