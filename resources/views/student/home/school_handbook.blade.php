@@ -18,7 +18,8 @@ $_title = 'School Hand Book';
     <div class="card">
         <div class="card-header">
             <h6><b>SCHOOL HAND BOOK</b></h6>
-            @if ($_student_handbook = Auth::user()->student->student_handbook())
+            {{-- @if ($_student_handbook = Auth::user()->student->student_handbook()) --}}
+            @if ($_student_handbook = Auth::user()->student->enrollment_assessment)
                 <div class="form-group">
                     <div class="form-check d-block">
                         <input class="form-check-input" type="checkbox" name="status" id="flexCheckDefault2" checked
@@ -32,7 +33,8 @@ $_title = 'School Hand Book';
                 <div class="form-group">
                     <span class="fw-bold"><small>AGREED BY </small><span
                             class="text-primary">{{ strtoupper(Auth::user()->student->last_name . ', ' . Auth::user()->student->first_name) }}</span>
-                        <small>AT</small> <span class="text-info">{{ $_student_handbook["created_at"] }}</span>
+                        <small>AT</small> <span
+                            class="text-info">{{ $_student_handbook->created_at /* ['created_at'] */ }}</span>
                     </span>
                 </div>
             @else
