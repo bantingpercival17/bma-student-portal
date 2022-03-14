@@ -38,7 +38,7 @@ class StudentController extends Controller
     {
         $_enrollment = Auth::user()->student->enrollment_assessment;
         if ($_enrollment->course_id == 3) {
-            $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'));
+            $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'), asset('/assets/files/SHS-Handbook.2021.QMR.pdf'));
         } else {
             $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'));
         }
@@ -52,7 +52,8 @@ class StudentController extends Controller
             'agree_statement' => $_request->status,
             'created_at' => now()
         );
-        Storage::disk('public')->put('/student-handbook/' . $_log_name . '.json', json_encode($_log_detials));
+        $_course = Auth::user()->student->enrollment_assessment->course->course_code;
+        Storage::disk('public')->put('/student-handbook/' . $_course . '/' . $_log_name . '.json', json_encode($_log_detials));
         return back()->with('success', 'Successfully Submitted');
     }
     public function academic_view(Request $_request)

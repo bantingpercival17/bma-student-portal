@@ -120,7 +120,8 @@ class StudentDetails extends Model
 
     public function student_handbook()
     {
-        $_log_name = str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . '.json';
+        $_course = Auth::user()->student->enrollment_assessment->course->course_code;
+        $_log_name = $_course . '/' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . '.json';
         if (file_exists(public_path() . '/storage/student-handbook/' . $_log_name)) {
             $_path = public_path() . '/storage/student-handbook/' . $_log_name;
             return json_decode(file_get_contents($_path), true);
