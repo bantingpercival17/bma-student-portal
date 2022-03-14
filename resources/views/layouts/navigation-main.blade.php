@@ -42,7 +42,7 @@
                             'icon' => 'icon-payment',
                         ],
                         [
-                            'name' => 'School Handbook',
+                            'name' => 'Student Handbook',
                             'route' => 'student-manual',
                             'icon' => 'icon-job',
                         ],
