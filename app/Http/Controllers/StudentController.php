@@ -40,22 +40,50 @@ class StudentController extends Controller
         if ($_enrollment->course_id == 3) {
             $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'), asset('/assets/files/SHS-Handbook.2021.QMR.pdf'));
         } else {
-            $_documents = array(asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf'));
+            $_documents = array(asset('/assets/files/BMA-Midshipman-Handbook-Draft-June-18-2021-1.pdf'));
         }
         return view('student.home.school_handbook', compact('_documents'));
     }
     public function store_student_manual(Request $_request)
     {
         $_log_name = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+        $_course = Auth::user()->student->enrollment_assessment->course->course_code;
         $_log_detials = array(
             'student_id' => Auth::user()->student_id,
             'agree_statement' => $_request->status,
             'created_at' => now()
         );
-        $_course = Auth::user()->student->enrollment_assessment->course->course_code;
+
+
+        $_course_log_name = '/student-handbook/' . $_course . '/' . $_course . '.json';
+        $_array_log = Storage::disk('public')->exists($_course_log_name) ? json_decode(Storage::disk('public')->get($_course_log_name)) : [];
+        array_push($_array_log, $_log_detials);
+        Storage::disk('public')->put($_course_log_name, json_encode($_array_log));
         Storage::disk('public')->put('/student-handbook/' . $_course . '/' . $_log_name . '.json', json_encode($_log_detials));
         return back()->with('success', 'Successfully Submitted');
     }
+    function store(Request $request)
+    {
+
+        try {
+            // my data storage location is project_root/storage/app/data.json file.
+            $contactInfo = Storage::disk('local')->exists('data.json') ? json_decode(Storage::disk('local')->get('data.json')) : [];
+
+            $inputData = $request->only(['name', 'email', 'message', 'subject']);
+
+            $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
+
+            array_push($contactInfo, $inputData);
+
+            Storage::disk('local')->put('data.json', json_encode($contactInfo));
+
+            return $inputData;
+        } catch (Exception $e) {
+
+            return ['error' => true, 'message' => $e->getMessage()];
+        }
+    }
+
     public function academic_view(Request $_request)
     {
         $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
