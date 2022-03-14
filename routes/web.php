@@ -29,13 +29,12 @@ require __DIR__ . '/auth.php';
 Route::prefix('student')->middleware(['auth:student'])->group(function () {
     //Route::get('/', [StudentController::class, 'index'])->name('home');
     //Route::get('/home', [StudentController::class, 'index'])->name('home');
-    Route::get('/', [StudentController::class, 'view_student_profile'])->name('home');
-    Route::get('/home', [StudentController::class, 'view_student_profile'])->name('home');
+    Route::get('/', [StudentController::class, 'index'])->name('home');
+    Route::get('/home', [StudentController::class, 'index'])->name('home');
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
     Route::get('/academic/grades', [StudentController::class, 'academic_grades'])->name('academic.grades');
     Route::get('/academic/clearance', [StudentController::class, 'academic_clearance'])->name('academic.clearance');
     Route::get('/academic/enroll-now', [StudentController::class, 'enrollment_application'])->name('academic.enroll-now');
-
     Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');
     Route::get('/payments', [StudentController::class, 'payments_view'])->name('payments');
     Route::post('/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');

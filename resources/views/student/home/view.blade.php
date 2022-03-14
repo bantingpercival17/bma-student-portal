@@ -43,20 +43,29 @@ $_title = 'Home';
                     </div> --}}
                 </div>
             </div>
-            {{-- <ul class="d-flex mb-0 text-center ">
-                <li class="badge bg-primary py-2 me-2">
+            <ul class="d-flex mb-0 text-center ">
+                {{-- <li class="badge bg-primary py-2 me-2">
                     <p class="mb-2 mt-1">142</p>
                     <small class="mb-1 fw-normal">Reviews</small>
                 </li>
                 <li class="badge bg-primary py-2 me-2">
                     <p class="mb-2 mt-1">201</p>
                     <small class="mb-1 fw-normal">Photos</small>
+                </li> --}}
+                @php
+                    $_enrollment = Auth::user()->student->enrollment_assessment;
+                    if ($_enrollment->course_id == 3) {
+                        $_layout = asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf');
+                    } else {
+                        $_layout = asset('/assets/files/ADDENDUM-TO-THE-PROVISIONS-OF-SENIOR-HIGH-SCHOOL-HANDBOOK2020.QMR.pdf');
+                    }
+                @endphp
+                <li class="badge bg-primary py-2 me-2 btn-form-document" data-bs-toggle="modal"
+                    data-bs-target=".document-view-modal" data-document-url="{{ $_layout }}">
+                    <p class="mb-2 mt-1">SCHOOL </p>
+                    <small class="mb-1 fw-normal">HANDBOOK</small>
                 </li>
-                <li class="badge bg-primary py-2 me-2">
-                    <p class="mb-2 mt-1">3.1k</p>
-                    <small class="mb-1 fw-normal">Followers</small>
-                </li>
-            </ul> --}}
+            </ul>
         </div>
     </div>
 
@@ -71,7 +80,8 @@ $_title = 'Home';
                                 Academy</p>
                         </div>
                         <div class="col-md-3">
-                            <a href="{{ route('update-profile') }}" class="btn btn-primary btn-sm">Update Student Information</a>
+                            <a href="{{ route('update-profile') }}" class="btn btn-primary btn-sm">Update Student
+                                Information</a>
                         </div>
                     </div>
 
@@ -183,7 +193,7 @@ $_title = 'Home';
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Contact Number</label>
 
-                                <span class="form-control">{{ Auth::user()->contact_number ?: '-' }}</span>
+                                <span class="form-control">{{ Auth::user()->student->contact_number ?: '-' }}</span>
                             </div>
                         </div>
                         <div class="col-xl-6 col-md-6 mb-xl-0">
@@ -265,4 +275,40 @@ $_title = 'Home';
             </div>
         </div>
     </div>
+    <div class="modal fade document-view-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">SCHOOL MANUAL</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <iframe class="iframe-container form-view iframe-placeholder" src="" width="100%" height="600px">
+                </iframe>
+            </div>
+        </div>
+    </div>
+@section('js')
+    <script>
+        $(document).on('click', '.btn-form-document', function(evt) {
+            var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'webp'];
+            var file = $(this).data('document-url');
+            console.log(file)
+            $('.form-view').attr('src', $(this).data('document-url'))
+            //console.log(fileExtension);
+            // $('.image-fr').empty()
+            /* if (fileExtension.includes(file)) {
+                $(".form-view").contents().find("body").html('');
+                $('.form-view').contents().find('body').append($("<img/>").attr('class', 'image-frame').attr("src",
+                    $(this).data('document-url')).attr("title",
+                    "sometitle").attr('width', '100%'))
+                console.log(file)
+            } else {
+                $('.form-view').attr('src', $(this).data('document-url'))
+                console.log(file)
+            } */
+
+        });
+    </script>
+@endsection
 @endsection

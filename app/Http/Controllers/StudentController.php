@@ -33,7 +33,6 @@ class StudentController extends Controller
     {
         return view('student.home.view');
     }
-
     public function academic_view(Request $_request)
     {
         $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
