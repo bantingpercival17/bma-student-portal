@@ -25,7 +25,7 @@ $_title = 'School Hand Book';
                         <input class="form-check-input" type="checkbox" name="status" id="flexCheckDefault2" checked
                             required>
                         <label class="form-check-label" for="flexCheckDefault2">
-                            By ticking, you are confirming that you Have Read, Understood & Agree to Baliwag Maritime
+                            By ticking, you are confirming that you have read, understood & agreed to Baliwag Maritime
                             Academy's Student Handbook
                         </label>
                     </div>
@@ -34,7 +34,7 @@ $_title = 'School Hand Book';
                     <span class="fw-bold"><small>AGREED BY </small><span
                             class="text-primary">{{ strtoupper(Auth::user()->student->last_name . ', ' . Auth::user()->student->first_name) }}</span>
                         <small>AT</small> <span
-                            class="text-info">{{ $_student_handbook->created_at /* ['created_at'] */ }}</span>
+                            class="text-info">{{ $_student_handbook->created_at; /* ['created_at'] */ }}</span>
                     </span>
                 </div>
             @else
