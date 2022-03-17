@@ -19,5 +19,8 @@ class PaymentTransaction extends Model
         'staff_id',
         'is_removed'
     ];
-  
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
 }

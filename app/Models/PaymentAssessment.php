@@ -28,6 +28,10 @@ class PaymentAssessment extends Model
     {
         return $this->belongsTo(CourseSemestralFees::class, 'course_semestral_fee_id');
     }
+    public function payment_history()
+    {
+        return $this->hasMany(PaymentTransaction::class, 'assessment_id')->where('is_removed', false);
+    }
     public function total_payment()
     {
         return $this->hasMany(PaymentTransaction::class, 'assessment_id')->where('payment_transaction', 'TUITION FEE')->sum('payment_amount');

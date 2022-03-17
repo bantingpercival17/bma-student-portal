@@ -88,7 +88,6 @@ $_title = 'Payments';
                                         <label class="h5 text-primary form-label">
                                             @if ($_payment_details->payment_mode == 1)
                                                 {{ $_payment_details? ($_payment_details->course_semestral_fee_id? number_format($_payment_details->course_semestral_fee->monthly_fees($_payment_details), 2): $_payment_details->total_paid_amount->sum('payment_amount') / 5): '-' }}
-
                                             @else
                                                 0.00
                                             @endif
@@ -107,6 +106,55 @@ $_title = 'Payments';
                             </div>
 
                         </div>
+                        <div class="payment-history">
+                            <span class="text-primary h5"><b>TRANSACTION HISTORY</b></span>
+                            <div class="mt-2">
+                                @if ($_payment_details)
+                                    @if (count($_payment_details->payment_history) > 0)
+                                        @foreach ($_payment_details->payment_history as $_payment)
+                                            <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+
+                                                <div>
+                                                    <small>PARTIAL: </small> <br>
+                                                    <h5><span class="text-primary">{{ $_payment->remarks }}</span>
+                                                    </h5>
+                                                </div>
+                                                <div>
+                                                    <small>AMOUNT: </small> <br>
+                                                    <h5><span
+                                                            class="text-primary">{{ number_format($_payment->payment_amount, 2) }}</span>
+                                                    </h5>
+                                                </div>
+                                                <div>
+                                                    <small>OR NUMBER: </small> <br>
+                                                    <h5><span class="text-primary">{{ $_payment->or_number }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                                                <div>
+                                                    <small>TRANSACT BY : <span
+                                                            class=" fw-bolder">{{ strtoupper($_payment->staff->user->name) }}</span>
+                                                    </small>
+                                                </div>
+                                                <div>
+                                                    <small>DATE TRANSACT: <span
+                                                            class="fw-bolder">{{ $_payment->created_at->format('F d, Y') }}</span>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                                            <div>
+                                                <h5>No Payment Transaction</h5>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endif
+
+                            </div>
+                        </div>
                     @else
                         <div class="d-inline-block w-100">
                             <span class="text-primary h5"><b>| Your Currently under Enrollment</b></span>
@@ -117,7 +165,330 @@ $_title = 'Payments';
 
                 </div>
             </div>
+            @if ($_payment_details)
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md">
+                            <h5 class=" mb-1 fw-bolder text-info">PAYMENT INSTRUCTION</h5>
+                            <p>For bank deposit or online fund transfer, please us the bank details
+                                below:
+                            </p>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label for="" class="fw-bolder h6 text-muted">SENIOR HIGH SCHOOL</label><br>
+                                    <div class="d-inline-block">
+                                        <div><small>Bank:</small></div>
+                                        <div>
+                                            <span class="fw-bolder text-info">LANDBANK OF THE PHILLIPINES</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <div><small>Account Name:</small></div>
+                                        <div>
+                                            <span class="fw-bolder text-info">BALIWAG MARITIME FOUNDATION, INC.</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <div><small>Account Number:</small></div>
+                                        <div>
+                                            <span class="fw-bolder text-info">0102112822</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <label for="" class="fw-bolder h6 text-muted">COLLEGE</label><br>
+                                    <div class="d-inline-block">
+                                        <div><small>Bank:</small></div>
+                                        <div>
+                                            <span class="fw-bolder text-info">BANK OF COMMERCE</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <div><small>Account Name:</small></div>
+                                        <div>
+                                            <span class="fw-bolder text-info">BALIWAG MARITIME ACADEMY INC</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <div><small>Account Number:</small></div>
+                                        <div>
+                                            <span class="fw-bolder text-info">062000001037</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if ($_payment_details->online_transaction)
+                                    {{-- <h5 class=" mb-1 fw-bolder">PAYMENT VERIFICATION</h5>
+                                    <ul class="media-story mt-2 p-0">
+                                        <li class="d-flex  align-items-center">
+                                            <div class="stories-data ">
+                                                <p class="mb-0">
+                                                    {{ $_payment_details->online_transaction->created_at->format('d, F Y') }}
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md">
+                                                        <small>REFERENCE NO: </small> <br>
+                                                        <h5><span
+                                                                class="text-primary">{{ $_payment_details->online_transaction->reference_number }}</span>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <small>AMOUNT: </small> <br>
+                                                        <h5><span
+                                                                class="text-primary">{{ number_format($_payment_details->online_transaction->amount_paid) }}</span>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <a href="{{ $_payment_details->online_transaction->reciept_attach_path }}"
+                                                            target="_blank" class="btn btn-primary btn-sm">view</a>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between mt-2">
 
+                                                    @if ($_payment_details->online_transaction->is_approved === null)
+                                                        <div>
+                                                            <span class="text-info">This payment is
+                                                                under verification of Accounting
+                                                                Office's</span>
+                                                        </div>
+                                                    @endif
+                                                    @if ($_payment_details->online_transaction->is_approved === 0)
+                                                        <div>
+                                                            <span class="text-info">This payment was
+                                                                disapproved because of this Remarks: </span>
+                                                            <span
+                                                                class="text-danger">{{ $_payment_details->online_transaction->comment_remarks }}</span>
+                                                        </div>
+                                                    @endif
+                                                    @if ($_payment_details->online_transaction->is_approved == 1)
+                                                        <div>
+                                                            <span class="text-info">This payment was
+                                                                Verified: </span>
+
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                            </div>
+                                        </li>
+                                    </ul> --}}
+                                    @if ($_payment_details->online_transaction->is_approved === 0)
+                                        <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
+                                        <form action="{{ route('enrollment.online-transaction-payment') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="_assessment"
+                                                value="{{ base64_encode($_payment_details->id) }}">
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">STUDENT
+                                                    NUMBER</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $_student->account->student_number }}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">STUDENT
+                                                    NAME</label>
+                                                <input type="text" class="form-control" name="_name"
+                                                    value="{{ strtoupper($_student->first_name . ' ' . $_student->last_name) }}"
+                                                    disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">TRANSCATION
+                                                    DATE</label>
+                                                <input type="date" class="form-control" name="_transaction_date"
+                                                    value="{{ old('_transaction_date') }}">
+                                                @error('_transaction_date')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">AMOUNT PAID</label>
+                                                <input type="text" class="form-control" name="_amount_paid"
+                                                    value="{{ old('_amount_paid') }}">
+                                                @error('_amount_paid')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">REFERENCE
+                                                    NUMBER</label>
+                                                <input type="text" class="form-control" name="_reference_number"
+                                                    value="{{ old('_reference_number') }}">
+                                                @error('_reference_number')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">TRANSACTION
+                                                    TYPE</label>
+                                                <select name="_transaction_type" id="" class="form-select"
+                                                    value={{ old('_transaction_type') }}>
+                                                    <option value="_upon_enrollment" selected>Upon
+                                                        Enrollment
+                                                    </option>
+                                                </select>
+                                                @error('_transaction_type')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">ATTACH
+                                                    RECEIPT</label>
+                                                <input type="file" class="form-control" name="_file"
+                                                    accept=".png, .jpeg, .jpg, .pdf" value={{ old('_file') }}>
+                                                @error('_file')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <button class="btn btn-primary w-100" type="submit">SUBMIT</button>
+                                        </form>
+                                    @else
+                                        <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
+                                        <form action="{{ route('enrollment.online-transaction-payment') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="_assessment"
+                                                value="{{ base64_encode($_payment_details->id) }}">
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">STUDENT NUMBER</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $_student->account->student_number }}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">STUDENT NAME</label>
+                                                <input type="text" class="form-control" name="_name"
+                                                    value="{{ strtoupper($_student->first_name . ' ' . $_student->last_name) }}"
+                                                    disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">TRANSCATION
+                                                    DATE</label>
+                                                <input type="date" class="form-control" name="_transaction_date"
+                                                    value="{{ old('_transaction_date') }}">
+                                                @error('_transaction_date')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">AMOUNT PAID</label>
+                                                <input type="text" class="form-control" name="_amount_paid"
+                                                    value="{{ old('_amount_paid') }}">
+                                                @error('_amount_paid')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">REFERENCE
+                                                    NUMBER</label>
+                                                <input type="text" class="form-control" name="_reference_number"
+                                                    value="{{ old('_reference_number') }}">
+                                                @error('_reference_number')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">TRANSACTION
+                                                    TYPE</label>
+                                                <select name="_transaction_type" id="" class="form-select"
+                                                    value={{ old('_transaction_type') }}>
+                                                    <option value="_upon_enrollment" selected>Upon Enrollment
+                                                    </option>
+                                                </select>
+                                                @error('_transaction_type')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label text-sm">ATTACH RECEIPT</label>
+                                                <input type="file" class="form-control" name="_file"
+                                                    accept=".png, .jpeg, .jpg, .pdf" value={{ old('_file') }}>
+                                                @error('_file')
+                                                    <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <button class="btn btn-primary w-100" type="submit">SUBMIT</button>
+                                        </form>
+                                    @endif
+                                @else
+                                    <h5 class=" mb-1 fw-bolder">ENTER PAYMENT DETAILS:</h5>
+                                    <form action="{{ route('enrollment.online-transaction-payment') }}" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="_assessment"
+                                            value="{{ base64_encode($_payment_details->id) }}">
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">STUDENT NUMBER</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $_student->account->student_number }}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">STUDENT NAME</label>
+                                            <input type="text" class="form-control" name="_name"
+                                                value="{{ strtoupper($_student->first_name . ' ' . $_student->last_name) }}"
+                                                disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">TRANSCATION
+                                                DATE</label>
+                                            <input type="date" class="form-control" name="_transaction_date"
+                                                value="{{ old('_transaction_date') }}">
+                                            @error('_transaction_date')
+                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">AMOUNT PAID</label>
+                                            <input type="text" class="form-control" name="_amount_paid"
+                                                value="{{ old('_amount_paid') }}">
+                                            @error('_amount_paid')
+                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">REFERENCE
+                                                NUMBER</label>
+                                            <input type="text" class="form-control" name="_reference_number"
+                                                value="{{ old('_reference_number') }}">
+                                            @error('_reference_number')
+                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">TRANSACTION
+                                                TYPE</label>
+                                            <select name="_transaction_type" id="" class="form-select"
+                                                value={{ old('_transaction_type') }}>
+                                                <option value="_upon_enrollment" selected>Upon Enrollment
+                                                </option>
+                                            </select>
+                                            @error('_transaction_type')
+                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label text-sm">ATTACH RECEIPT</label>
+                                            <input type="file" class="form-control" name="_file"
+                                                accept=".png, .jpeg, .jpg, .pdf" value={{ old('_file') }}>
+                                            @error('_file')
+                                                <div class="badge bg-danger mt-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <button class="btn btn-primary w-100" type="submit">SUBMIT</button>
+                                    </form>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-md-4">
             <p class="h5 fw-bolder text-muted">Enrollment History</p>
