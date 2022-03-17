@@ -32,7 +32,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return view('student.home.view');
+        return view('pages.student.home.view');
     }
     public function view_student_manual()
     {
@@ -42,7 +42,7 @@ class StudentController extends Controller
         } else {
             $_documents = array(asset('/assets/files/BMA-Midshipman-Handbook-Draft-June-18-2021-1.pdf'));
         }
-        return view('student.home.school_handbook', compact('_documents'));
+        return view('pages.student.home.school_handbook', compact('_documents'));
     }
     public function store_student_manual(Request $_request)
     {
@@ -92,9 +92,9 @@ class StudentController extends Controller
         $_student = Auth::user()->student->enrollment_assessment;
         $_academic = AcademicYear::where('is_active', 1)->first();
         if ($_student->academic_id == $_academic->id) {
-            return view('student.academic.view', compact('_subject_class'));
+            return view('pages.student.academic.view', compact('_subject_class'));
         } else {
-            return view('student.academic.view', compact('_subject_class'));
+            return view('pages.student.academic.view', compact('_subject_class'));
             return redirect('/student/enrollment');
         }
     }
@@ -102,14 +102,14 @@ class StudentController extends Controller
     {
         $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-        return view('student.academic.grades', compact('_subject_class'));
+        return view('pages.student.academic.grades', compact('_subject_class'));
     }
     public function academic_clearance(Request $_request)
     {
         $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
         $_roles = Role::get();
-        return view('student.academic.clearance', compact('_subject_class', '_roles'));
+        return view('pages.student.academic.clearance', compact('_subject_class', '_roles'));
     }
 
 
@@ -177,12 +177,12 @@ class StudentController extends Controller
     }
     public function enrollment_view()
     {
-        return view('student.enrollment.view');
+        return view('pages.student.enrollment.view');
     }
 
     public function view_student_profile(Request $_request)
     {
-        return view('student.home.student_profile_form');
+        return view('pages.student.home.student_profile_form');
     }
     public function update_student_profile(Request $_request)
     {
@@ -416,14 +416,14 @@ class StudentController extends Controller
 
     public function grades_view(Request $_request)
     {
-        return view('student.grades.view');
+        return view('pages.student.grades.view');
     }
     public function payments_view(Request $_request)
     {
         $_student = Auth::user()->student;
         //$_course_semestral_fee = $_student->enrollment_assessment->payment_assessments->course_semestral_fee;
         $_payment_details = $_request->_payment_assessment  ? PaymentAssessment::find(base64_decode($_request->_payment_assessment)) : $_student->enrollment_assessment->payment_assessments;
-        return view('student.payments.view', compact('_payment_details', '_student'));
+        return view('pages.student.payments.view', compact('_payment_details', '_student'));
     }
 
     public function onboard_view(Request $_request)
@@ -434,7 +434,7 @@ class StudentController extends Controller
         $_document_requirement = DocumentRequirements::where('student_id', Auth::user()->student_id)->where('is_removed', 0)->get();
         $_agency = ShippingAgencies::where('is_removed', 1)->get();
         $_journal = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->where('is_removed', false)->groupBy('month')->get();
-        return view('student.onboard.view', compact('_certificates', '_documents', '_agency', '_assess', '_document_requirement', '_journal'));
+        return view('pages.student.onboard.view', compact('_certificates', '_documents', '_agency', '_assess', '_document_requirement', '_journal'));
     }
     public function onboard_pre_deployment_store(Request $_request)
     {
@@ -477,7 +477,7 @@ class StudentController extends Controller
     }
     public function create_journal()
     {
-        return view('student.onboard.journal_create');
+        return view('pages.student.onboard.journal_create');
     }
     public function store_journal(Request $_request)
     {
@@ -557,7 +557,7 @@ class StudentController extends Controller
         ])->get();
         $_journals = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->groupBy('month')->get();
 
-        return view('student.onboard.journal_view', compact('_journal', '_journals'));
+        return view('pages.student.onboard.journal_view', compact('_journal', '_journals'));
     }
     public function upload_journal_file(Request $_request)
     {
@@ -586,7 +586,7 @@ class StudentController extends Controller
     }
     public function account_view()
     {
-        return view('student.home.account_view');
+        return view('pages.student.home.account_view');
     }
     public function student_change_password(Request $_request)
     {
