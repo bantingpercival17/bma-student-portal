@@ -96,7 +96,7 @@ $_title = 'Admission - Baliwag Maritime Academy';
                                     <input class="form-check-input" type="checkbox" name="agreement"
                                         id="flexCheckDefault11">
                                     <label class="form-check-label" for="flexCheckDefault11">
-                                        Terms & Agreement
+                                        <a href="{{asset('assets/term_and_agreement.html')}}">Terms & Agreement</a>
                                     </label>
                                 </div>
                                 @error('agreement')
@@ -111,7 +111,7 @@ $_title = 'Admission - Baliwag Maritime Academy';
                             <button type="submit" class="btn btn-primary btn-rounded w-100">APPLY NOW</button>
                             <a href="{{ route('applicant-login') }}"
                                 class="btn btn-info  btn-rounded w-100 text-white mt-3">
-                                I ALREADY REGISTER
+                                ALREADY REGISTER
                             </a>
                         </form>
                     </div>
