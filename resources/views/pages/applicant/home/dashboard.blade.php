@@ -94,68 +94,80 @@ $_title = 'Overview';
                         </div>
                     </li>
                     <li>
-                        <div class="timeline-dots1 border-primary  text-primary">
-                            {{-- <div
+                        @if ($_applicant)
+                            <div class="timeline-dots1 border-primary  text-primary">
+                                {{-- <div
                             class="timeline-dots1 {{ count($_applicant_documents) ? 'border-secondary  text-muted' : 'border-primary  text-primary' }}"> --}}
-                            @if (count($_applicant_documents) > 0)
-                                <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.09C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.09V7.92C2 4.38 4.28 2 7.67 2ZM7.52 13.2C6.86 13.2 6.32 12.66 6.32 12C6.32 11.34 6.86 10.801 7.52 10.801C8.18 10.801 8.72 11.34 8.72 12C8.72 12.66 8.18 13.2 7.52 13.2ZM10.8 12C10.8 12.66 11.34 13.2 12 13.2C12.66 13.2 13.2 12.66 13.2 12C13.2 11.34 12.66 10.801 12 10.801C11.34 10.801 10.8 11.34 10.8 12ZM15.28 12C15.28 12.66 15.82 13.2 16.48 13.2C17.14 13.2 17.67 12.66 17.67 12C17.67 11.34 17.14 10.801 16.48 10.801C15.82 10.801 15.28 11.34 15.28 12Z"
-                                        fill="currentColor"></path>
-                                </svg>
-                            @else
-                                <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.09C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.09V7.92C2 4.38 4.28 2 7.67 2ZM7.52 13.2C6.86 13.2 6.32 12.66 6.32 12C6.32 11.34 6.86 10.801 7.52 10.801C8.18 10.801 8.72 11.34 8.72 12C8.72 12.66 8.18 13.2 7.52 13.2ZM10.8 12C10.8 12.66 11.34 13.2 12 13.2C12.66 13.2 13.2 12.66 13.2 12C13.2 11.34 12.66 10.801 12 10.801C11.34 10.801 10.8 11.34 10.8 12ZM15.28 12C15.28 12.66 15.82 13.2 16.48 13.2C17.14 13.2 17.67 12.66 17.67 12C17.67 11.34 17.14 10.801 16.48 10.801C15.82 10.801 15.28 11.34 15.28 12Z"
-                                        fill="currentColor"></path>
-                                </svg>
-                            @endif
-                        </div>
+
+                                @if (count($_applicant_documents) > 0)
+                                    <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.09C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.09V7.92C2 4.38 4.28 2 7.67 2ZM7.52 13.2C6.86 13.2 6.32 12.66 6.32 12C6.32 11.34 6.86 10.801 7.52 10.801C8.18 10.801 8.72 11.34 8.72 12C8.72 12.66 8.18 13.2 7.52 13.2ZM10.8 12C10.8 12.66 11.34 13.2 12 13.2C12.66 13.2 13.2 12.66 13.2 12C13.2 11.34 12.66 10.801 12 10.801C11.34 10.801 10.8 11.34 10.8 12ZM15.28 12C15.28 12.66 15.82 13.2 16.48 13.2C17.14 13.2 17.67 12.66 17.67 12C17.67 11.34 17.14 10.801 16.48 10.801C15.82 10.801 15.28 11.34 15.28 12Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                @else
+                                    <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.09C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.09V7.92C2 4.38 4.28 2 7.67 2ZM7.52 13.2C6.86 13.2 6.32 12.66 6.32 12C6.32 11.34 6.86 10.801 7.52 10.801C8.18 10.801 8.72 11.34 8.72 12C8.72 12.66 8.18 13.2 7.52 13.2ZM10.8 12C10.8 12.66 11.34 13.2 12 13.2C12.66 13.2 13.2 12.66 13.2 12C13.2 11.34 12.66 10.801 12 10.801C11.34 10.801 10.8 11.34 10.8 12ZM15.28 12C15.28 12.66 15.82 13.2 16.48 13.2C17.14 13.2 17.67 12.66 17.67 12C17.67 11.34 17.14 10.801 16.48 10.801C15.82 10.801 15.28 11.34 15.28 12Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                @endif
+                            </div>
+                        @else
+                            <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
+                        @endif
+
                         <h5
                             class="float-left mb-1 {{ $_applicant ? ($_applicant_documents ? 'text-primary' : 'text-info') : 'text-muted' }} fw-bolder">
                             STEP 2: Document
                             Requirements</h5>
                         <div class="d-inline-block w-100">
-                            @if (count($_applicant_documents) > 0)
-                                <div class="row">
-                                    @foreach ($_applicant_documents as $item)
-                                        <div class="col-md-4 mt-2">
-                                            <h5 class="text-muted fw-bolder">{{ $item->document->document_name }}</h5>
-                                            @if ($item->is_approved === null)
-                                                <span class="text-info">This Document is under verification</span>
-                                                <a class="btn-form-document col" data-bs-toggle="modal"
-                                                    data-bs-target=".document-view-modal"
-                                                    data-document-url="{{ json_decode($item->file_links)[0] }}">
-                                                    view document
-                                                </a>
-                                            @else
-                                                @if ($item->is_approved === 1)
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <span class="text-primary">APPROVED DOCUMENT</span>
-                                                        </div>
-                                                        <div class="col-md">
-                                                            <div class="form-group">
-                                                                <small for="" class="form-label">VERIFIED BY:</small>
-                                                                <span
-                                                                    class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
-                                                                <small for="" class="form-label">VERIFIED DATE:</small>
-                                                                <span
-                                                                    class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
+                            @if ($_applicant)
+                                @if (count($_applicant_documents) > 0)
+                                    <div class="row">
+                                        @foreach ($_applicant_documents as $item)
+                                            <div class="col-md-4 mt-2">
+                                                <h5 class="text-muted fw-bolder">{{ $item->document->document_name }}
+                                                </h5>
+                                                @if ($item->is_approved === null)
+                                                    <span class="text-info">This Document is under verification</span>
+                                                    <a class="btn-form-document col" data-bs-toggle="modal"
+                                                        data-bs-target=".document-view-modal"
+                                                        data-document-url="{{ json_decode($item->file_links)[0] }}">
+                                                        view document
+                                                    </a>
+                                                @else
+                                                    @if ($item->is_approved === 1)
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <span class="text-primary">APPROVED DOCUMENT</span>
+                                                            </div>
+                                                            <div class="col-md">
+                                                                <div class="form-group">
+                                                                    <small for="" class="form-label">VERIFIED
+                                                                        BY:</small>
+                                                                    <span
+                                                                        class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
+                                                                    <small for="" class="form-label">VERIFIED
+                                                                        DATE:</small>
+                                                                    <span
+                                                                        class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @else
-                                                    {{-- Reupload files --}}
+                                                    @else
+                                                        {{-- Reupload files --}}
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @else
-                                Kindly upload your Documents Requirements,<a
-                                    href="{{ route('applicant.document-view') }}"> click here.</a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    Kindly upload your Documents Requirements,<a
+                                        href="{{ route('applicant.document-view') }}"> click here.</a>
+                                @endif
                             @endif
+
                         </div>
                     </li>
                     <li>
