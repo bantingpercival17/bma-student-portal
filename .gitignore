@@ -3,4 +3,4 @@
 */vendor/*
 /public/storage
 *.lock
-
+composer.lock
