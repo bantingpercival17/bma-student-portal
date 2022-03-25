@@ -50,7 +50,7 @@ $_title = 'Baliwag Maritime Academy';
                     </div>
                     <div class="col-lg-5 banner-img">
                         <div class="img text-end" id="hero-img">
-                            <img src="{{ asset('assets/image/BANNER2.png') }}" class="img-fluid bg-img" alt="img8">
+                            <img src="http://bma.edu.ph:90/img/new-banner.png" class="img-fluid bg-img" alt="img8">
                         </div>
                     </div>
                 </div>
