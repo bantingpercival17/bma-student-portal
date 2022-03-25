@@ -328,8 +328,7 @@ $_title = 'Payments';
                                                     TYPE</label>
                                                 <select name="_transaction_type" id="" class="form-select"
                                                     value={{ old('_transaction_type') }}>
-                                                    <option value="_upon_enrollment" selected>Upon
-                                                        Enrollment
+                                                    <option value="_upon_enrollment" selected>Upon Enrollment
                                                     </option>
                                                     <option value="1ST MONTHLY">1ST MONTHLY</option>
                                                     <option value="2ND MONTHLY">2ND MONTHLY</option>
@@ -404,6 +403,10 @@ $_title = 'Payments';
                                                     value={{ old('_transaction_type') }}>
                                                     <option value="_upon_enrollment" selected>Upon Enrollment
                                                     </option>
+                                                    <option value="1ST MONTHLY">1ST MONTHLY</option>
+                                                    <option value="2ND MONTHLY">2ND MONTHLY</option>
+                                                    <option value="3RD MONTHLY">3RD MONTHLY</option>
+                                                    <option value="4TH MONTHLY">4TH MONTHLY</option>
                                                 </select>
                                                 @error('_transaction_type')
                                                     <div class="badge bg-danger mt-2">{{ $message }}</div>
@@ -471,6 +474,10 @@ $_title = 'Payments';
                                                 value={{ old('_transaction_type') }}>
                                                 <option value="_upon_enrollment" selected>Upon Enrollment
                                                 </option>
+                                                <option value="1ST MONTHLY">1ST MONTHLY</option>
+                                                <option value="2ND MONTHLY">2ND MONTHLY</option>
+                                                <option value="3RD MONTHLY">3RD MONTHLY</option>
+                                                <option value="4TH MONTHLY">4TH MONTHLY</option>
                                             </select>
                                             @error('_transaction_type')
                                                 <div class="badge bg-danger mt-2">{{ $message }}</div>
