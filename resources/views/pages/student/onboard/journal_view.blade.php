@@ -154,6 +154,7 @@ $_title = 'Narative Report';
                                                 <small class="form-label"><b>ATTACH FILES<sup
                                                             class="text-danger">*</sup></b></small>
                                                 <input class="form-control file-input" id="{{ $item->id }}"
+                                                    data-url="/student/on-board/journal/file-upload"
                                                     data-name={{ $item->id }} type="file" multiple required
                                                     accept="img">
                                                 <input type="hidden" class="{{ $item->id }}-file" name="_file_url"
@@ -168,41 +169,6 @@ $_title = 'Narative Report';
                                                     Please attach a files for {{ ucwords($item->journal_type) }} .
                                                 </div>
                                             </div>
-                                            {{-- <div class="form-group">
-                                                <p class="h6">
-                                                    <b>{{ strtoupper($_name[0]) }}</b>
-                                                </p>
-                                                @if (count($_name) > 2)
-                                                    <div class="form-group">
-                                                        <small class="form-label"><b>REMARKS<sup
-                                                                    class="text-danger">*</sup></b></small>
-                                                        <textarea name="{{ $_name[2] }}" class="form-control" cols="30" rows="3"
-                                                            required>{{ old($_name[2]) }}</textarea>
-                                                        @error($_name[2])
-                                                            <small class="text-danger"><b>{{ $message }}</b></small>
-                                                        @enderror
-                                                    </div>
-                                                @endif
-
-                                                <div class="form-group">
-                                                    <small class="form-label"><b>ATTACH FILES<sup
-                                                                class="text-danger">*</sup></b></small>
-                                                    <input class="form-control file-input" id="{{ $_name[1] }}"
-                                                        data-name={{ $_name[1] }} type="file" multiple required
-                                                        accept="img">
-                                                    <input type="hidden" class="{{ $_name[1] }}-file"
-                                                        name="{{ $_name[1] }}" value="{{ old($_name[1]) }}">
-
-                                                    <div class="image_frame{{ $_name[1] }} row mt-2">
-                                                    </div>
-                                                    @error($_name[1])
-                                                        <small class="text-danger"><b>{{ $message }}</b></small>
-                                                    @enderror
-                                                    <div class="invalid-feedback">
-                                                        Please attach a files for {{ ucwords($_name[0]) }} .
-                                                    </div>
-                                                </div>
-                                            </div> --}}
                                             <button class="btn btn-primary btn-sm w-100" type="submit">SUBMIT</button>
                                         </form>
                                     @else
@@ -243,6 +209,7 @@ $_title = 'Narative Report';
                                                 class="text-danger">*</sup></b></small>
                                     <input class="form-control file-input"
                                         id="{{ str_replace(' ', '_', strtolower($_name)) }}"
+                                        data-url="/student/on-board/journal/file-upload"
                                         data-name={{ str_replace(' ', '_', strtolower($_name)) }} type="file" multiple
                                         required accept="img">
                                     <input type="hidden" class="{{ str_replace(' ', '_', strtolower($_name)) }}-file"

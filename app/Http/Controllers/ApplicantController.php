@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApplicantDetials;
+use App\Models\ApplicantDocuments;
+use App\Models\Documents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -87,7 +89,43 @@ class ApplicantController extends Controller
         ApplicantDetials::create($_data);
         return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
     }
+    public function document_view(Request $_request)
+    {
+        $_level = Auth::user()->course_id == 3 ? 11 : 4;
+        $_documents = Documents::where('year_level', $_level)->where('department_id', 2)->where('is_removed', false)->get();
+        return view('pages.applicant.home.document_view', compact('_documents'));
+    }
+    public function store_documents(Request $_request)
+    {
+        foreach ($_request->file_url as $key => $value) {
+            $_data = array(
+                'applicant_id' => Auth::user()->id,
+                'document_id' => (int) $_request->document[$key],
+                'file_links' => $value,
+                'is_removed' => 0
+            );
+            ApplicantDocuments::create($_data);
+        }
+        return redirect(route('applicant.home'))->with('success', 'Successfully Upload the Document Requirement');
+        return dd($_data);
+    }
 
+
+    public function upload_document_file(Request $_request)
+    {
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_user = str_replace(' ', '_', strtolower(trim(Auth::user()->name)));
+        $_url_link =  $link . '/storage/registrar/applicant-documents/' . $_user . '/';
+        $_file_path = '/public/registrar/applicant-documents/' . $_user . '/';
+        $file = $_request->file('file');
+        $_date = date('dmYhms');
+        $_file_name = '[' . $_user . ']' . $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
+        $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+        $_file_links = $_url_link . $_file_name; // Get the Link of the Files
+        return  $_file_links;
+    }
     public function logout(Request $request)
     {
         Auth::guard('applicant')->logout();
