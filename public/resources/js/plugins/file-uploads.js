@@ -6,17 +6,18 @@ function file_upload() {
     input_file = [];
     var document = $(this).data('name');
     var files = $('#' + document)[0].files
+    var url = $(this).data('url');
     $('.image_frame' + document).empty()
     for (let index = 0; index < files.length; index++) {
       $('.image_frame' + document).append(fileDisplay(files[index], index, document))
-      fileUpload(files[index], document, index, input_file)
+      fileUpload(files[index], document, index, input_file, url)
     }
     console.log('.' + document + '-file')
 
   })
 }
 
-function fileUpload(file, document, index, input_file) {
+function fileUpload(file, document, index, input_file, url) {
   let request = new XMLHttpRequest();
   let data = new FormData();
   data.append('file', file)
@@ -43,7 +44,7 @@ function fileUpload(file, document, index, input_file) {
     uploadProgress.max = e.total
   }
 
-  request.open("POST", "/student/on-board/journal/file-upload", true);
+  request.open("POST", url, true);
   request.send(data)
   request.onload = function () {
     if (request.readyState === request.DONE) {

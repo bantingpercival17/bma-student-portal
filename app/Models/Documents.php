@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Documents extends Model
 {
     use HasFactory;
-
+    protected $connection = 'mysql';
 
     public function midshipman_document()
     {

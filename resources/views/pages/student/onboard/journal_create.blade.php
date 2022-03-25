@@ -80,7 +80,8 @@ $_title = 'Create Narative Report';
                                     <small class="form-label"><b>ATTACH FILES<sup
                                                 class="text-danger">*</sup></b></small>
                                     <input class="form-control file-input" id="{{ $_name[1] }}"
-                                        data-name={{ $_name[1] }} type="file" multiple required accept="img">
+                                        data-url="/student/on-board/journal/file-upload" data-name={{ $_name[1] }}
+                                        type="file" multiple required accept="img">
                                     <input type="hidden" class="{{ $_name[1] }}-file" name="{{ $_name[1] }}"
                                         value="{{ old($_name[1]) }}">
 
