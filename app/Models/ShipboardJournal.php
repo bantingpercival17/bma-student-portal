@@ -22,4 +22,8 @@ class ShipboardJournal extends Model
             'file_links' => json_encode($_files),
             'journal_type' => 'journal',
             'is_removed' => false, */
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
 }

@@ -43,13 +43,9 @@ $_title = 'Admission - Baliwag Maritime Academy';
                 <div class="col-4">
                     <h4 class="fw-bolder">APPLICATION FORM</h4>
                     <div class="contact-form mt-3">
-                        @if (Session::get('error-message'))
-                            <div class="alert alert-danger">
-                                <label for="">{{ Session::get('error-message') }}</label>
-                            </div>
-                        @endif
-                        <form action="/application-form" method="POST">
+                        <form action="{{ route('website.admission-store') }}" method="POST">
                             <div class="form-group">
+                                @csrf
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name"
                                     value="{{ old('first_name') }}">
                                 @error('first_name')
@@ -67,6 +63,13 @@ $_title = 'Admission - Baliwag Maritime Academy';
                                 <input type="email" name="email" id="" class="form-control"
                                     placeholder="Google Email Address" value="{{ old('email') }}">
                                 @error('email')
+                                    <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="Password"
+                                    value="{{ old('password') }}">
+                                @error('password')
                                     <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>
@@ -100,7 +103,16 @@ $_title = 'Admission - Baliwag Maritime Academy';
                                     <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary btn-rounded">APPLY NOW</button>
+                            @if (Session::has('_message_errors'))
+                                @foreach (Session::has('_message_errors') as $item)
+                                    <span class="badge bg-danger"><strong>{{ $item }}</strong></span>
+                                @endforeach
+                            @endif
+                            <button type="submit" class="btn btn-primary btn-rounded w-100">APPLY NOW</button>
+                            <a href="{{ route('applicant-login') }}"
+                                class="btn btn-info  btn-rounded w-100 text-white mt-3">
+                                I ALREADY REGISTER
+                            </a>
                         </form>
                     </div>
                 </div>

@@ -77,7 +77,7 @@ $_title = 'Create Narative Report';
                                 @endif
 
                                 <div class="form-group">
-                                    <small class="form-label"><b>ATTACH TRB FILES<sup
+                                    <small class="form-label"><b>ATTACH FILES<sup
                                                 class="text-danger">*</sup></b></small>
                                     <input class="form-control file-input" id="{{ $_name[1] }}"
                                         data-name={{ $_name[1] }} type="file" multiple required accept="img">
