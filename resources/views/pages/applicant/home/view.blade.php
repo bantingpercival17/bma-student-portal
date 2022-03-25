@@ -141,7 +141,7 @@ $_title = 'Applicant Information';
                         <div class="row">
                             <div class="col-xl-5 col-md-6 mb-xl-0">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Hous no / Street / Bldg
+                                    <label for="example-text-input" class="form-control-label">House no / Street / Bldg
                                         no</label>
                                     <input class="form-control" type="text" name="street" value="{{ old('street') }}">
                                     @error('street')
@@ -271,7 +271,7 @@ $_title = 'Applicant Information';
                             </div>
                         @endforeach
 
-                        <h6 class="mb-1"><b>PARENTS DETIALS</b></h6>
+                        <h6 class="mb-1"><b>PARENTS DETAILS</b></h6>
                         @php
                             $_parents = ['father', 'mother', 'guardian'];
                             $_educational_attainment = ['Elementary Graduate', 'High School Graduate', 'College', 'Vocational', "Master's / Doctorate Degree", 'Did not attend school', 'N/A'];
