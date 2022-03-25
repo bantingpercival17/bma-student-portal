@@ -29,9 +29,9 @@
                             <!-- item-->
                             {{-- <li><a class="dropdown-item " href="http://bma.edu.ph:70">Employee</a></li> --}}
                             <!-- item-->
-                            <li><a class="dropdown-item " href="http://one.bma.edu.ph/login">Student</a></li>
+                            <li><a class="dropdown-item " href="{{ route('login') }}">Student</a></li>
                             <!-- item-->
-                            <li><a class="dropdown-item " href="http://one.bma.edu.ph/applicants/login">Applicant</a>
+                            <li><a class="dropdown-item " href="{{ route('applicant-login') }}">Applicant</a>
                             </li>
                         </ul>
                     </li>

@@ -544,9 +544,32 @@ class StudentController extends Controller
         } else {
             # code...
         }
-
-        return $_request;
         //
+    }
+    public function reupload_journal_file(Request $_request)
+    {
+        $_request->validate([
+            'file_links' => 'required',
+        ]);
+        $_data = array(
+            'student_id' => Auth::user()->student->id,
+            'month' => $_request->_month,
+            'journal_type' => $_request->_name,
+            'is_removed' => 0
+        );
+        $_journal = ShipboardJournal::where($_data)->first();
+
+        if ($_journal) {
+            $_data['file_links'] = $_request->_file_url;
+            $_data['remark'] = $_request->_remarks;
+            //return $_data;
+            $_journal->is_removed = 1;
+            $_journal->save();
+            ShipboardJournal::create($_data);
+            return back()->with('success', 'Successfully Re-Upload Files');
+        } else {
+            # code...
+        }
     }
     public function view_journal(Request $_request)
     {

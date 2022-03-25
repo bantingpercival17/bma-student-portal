@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseOffer extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     protected $fillable = ['course_name', 'course_code', 'school_level', 'is_removed'];
     public function course_subject($_data)
     {

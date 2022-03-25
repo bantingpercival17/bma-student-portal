@@ -32,6 +32,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/on-board/journal/view', [StudentController::class, 'view_journal'])->name('onboard.view-journal');
     Route::post('/on-board/journal/file-upload', [StudentController::class, 'upload_journal_file'])->name('onboard.file-upload');
     Route::post('/on-board/journal/file-recent-upload', [StudentController::class, 'recent_upload_journal_file'])->name('onboard.recent-file-upload');
+    Route::post('/on-board/journal/file-reupload', [StudentController::class, 'reupload_journal_file'])->name('onboard.reupload-file');
     Route::get('/on-board/journal/remove', [StudentController::class, 'remove_journal'])->name('onboard.journal-remove');
 
     Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
