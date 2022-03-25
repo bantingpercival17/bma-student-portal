@@ -20,7 +20,7 @@ $_title = 'Admission - Baliwag Maritime Academy';
     <div class="card">
         <div class="card-body">
             <div class="row mt-5 ">
-                <div class="col-8">
+                <div class="col-md-8">
                     <h4 class="fw-bolder">SENIOR HIGH SCHOOL ADMISSION REQUIREMENTS</h4>
                     <ul class="contact-details">
                         <li> Grade 10 Report Card with Grades in English, Math,
@@ -40,7 +40,7 @@ $_title = 'Admission - Baliwag Maritime Academy';
                         <li> Height Requirements: at least 5'4"</li>
                     </ul>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4">
                     <h4 class="fw-bolder">APPLICATION FORM</h4>
                     <div class="contact-form mt-3">
                         <form action="{{ route('website.admission-store') }}" method="POST">
