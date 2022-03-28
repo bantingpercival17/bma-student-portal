@@ -100,9 +100,11 @@ class StudentController extends Controller
     }
     public function academic_grades(Request $_request)
     {
-        $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
+        $_section = Auth::user()->student->section;
+        //return $_section->section;
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-        return view('pages.student.academic.grades', compact('_subject_class'));
+        $_student = Auth::user()->student;
+        return view('pages.student.academic.grades', compact('_section','_student'));
     }
     public function academic_clearance(Request $_request)
     {

@@ -27,52 +27,46 @@ $_title = 'Academic';
                     <table class="table">
                         <thead>
                             <tr>
-                                <th><b>Subject</b></th>
-                                <th><b>Midterm Grade</b></th>
-                                <th><b>Final Grade</b></th>
+                                <th><b>SUBJECT</b></th>
+                                <th>PERCENT</th>
+                                <th>POINTS</th>
+                                <th>REMARKS</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($_subject_class) > 0)
-                                @foreach ($_subject_class as $_subject)
-                                    @if ($_subject->curriculum_subject->subject->subject_code == 'BRDGE')
-                                        @if (Auth::user()->student->enrollment_assessment->bridging_program != 'without')
-                                            <tr>
-                                                <td>
-                                                    <b class="text-primary">
-                                                        {{ $_subject->curriculum_subject->subject->subject_code }} </b>
-                                                    <br>
-                                                    <small
-                                                        class="text-muted"><b>{{ strtoupper($_subject->staff->user->name) }}</b></small>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                            </tr>
-                                        @endif
+                            @foreach ($_section->section->subject_class as $item)
+                                @php
+                                    $_final_grade = number_format($_student->final_grade($item->id, 'finals'), 2);
+                                    $_final_grade = $_student->percentage_grade($_final_grade);
+                                    // $_average += $_final_grade;
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <span class="text-primary fw-bolder">
+                                            {{ $item->curriculum_subject->subject->subject_code }}
+                                        </span> -
+                                        <small class="text-muted">{{ $item->staff->user->name }}</small>
+                                        <br>
+                                        <small
+                                            class="text-muted">{{ $item->curriculum_subject->subject->subject_name }}</small>
+                                    </td>
+                                    @if ($_student->grade_publish)
+                                        <td> {{ number_format($_student->final_grade($item->id, 'finals'), 2) }}</td>
+                                        <td>
+                                            {{ number_format($_student->percentage_grade(number_format($_student->final_grade($item->id, 'finals'), 2)), 2) }}
+                                        </td>
+
+                                        <td>
+                                            {{ $_student->percentage_grade(number_format($_student->final_grade($item->id, 'finals'), 2)) >= 5? 'FAILED': 'PASSED' }}
+                                        </td>
                                     @else
-                                        <tr>
-                                            <td>
-                                                <b class="text-primary">
-                                                    {{ $_subject->curriculum_subject->subject->subject_code }} </b>
-                                                <br>
-                                                <small
-                                                    class="text-muted"><b>{{ strtoupper($_subject->staff->user->name) }}</b></small>
-                                            </td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                            </td>
-                                        </tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     @endif
 
-                                @endforeach
-                            @else
-                                <tr>
-                                    <th colspan="4" class="text-center text-muted"> Empty Subject</th>
                                 </tr>
-                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -43,8 +43,8 @@ class StudentDetails extends Model
     }
     public function current_enrollment()
     {
-        $_academic = request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
-        return $_academic;
+        return request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
+
         //return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
     }
     public function enrollment_application()
@@ -75,10 +75,12 @@ class StudentDetails extends Model
     {
         return $this->hasMany(EducationalDetails::class, 'student_id');
     }
-    public function section($_academic)
+    public function section()
     {
+        $_academic = request()->input('_academic') ? AcademicYear::find(base64_decode(request()->input('_academic'))) : AcademicYear::where('is_active', 1)->first();
+        //return $_academic->id;
         return $this->hasOne(StudentSection::class, 'student_id')->select('student_sections.id', 'student_sections.student_id', 'student_sections.section_id')
-            ->join('sections', 'sections.id', 'student_sections.section_id')->where('sections.academic_id', $_academic)->where('student_sections.is_removed', false);
+            ->join('sections', 'sections.id', 'student_sections.section_id')->where('sections.academic_id', $_academic->id)->where('student_sections.is_removed', false);
     }
     public function shipboard_training()
     {
@@ -126,5 +128,103 @@ class StudentDetails extends Model
             $_path = public_path() . '/storage/student-handbook/' . $_log_name;
             return json_decode(file_get_contents($_path), true);
         }
+    }
+    /* Grading Query */
+    public function subject_score($_data)
+    {
+        $_score =  $this->hasOne(GradeEncode::class, 'student_id')
+            ->where('subject_class_id', $_data[0])
+            ->where('period', $_data[1])
+            ->where('is_removed', false)
+            ->where('type', $_data[2])->first();
+        return $_score ? $_score->score : '';
+    }
+    public function subject_average_score($_data)
+    {
+        $_percent = $_data['2'] == 'Q' || $_data['2'] == 'O' || $_data['2'] == 'R'  ? .15 : .55;
+        return $this->hasMany(GradeEncode::class, 'student_id')
+            ->where('subject_class_id', $_data[0])
+            ->where('period', $_data[1])
+            ->where('is_removed', false)
+            ->where('type', 'like',  $_data[2] . "%")->average('score') * $_percent;
+    }
+    function lec_grade($_data)
+    {
+        $_tScore = 0;
+        $_category = [['Q', 15], ['O', 15], ['R', 15], [$_data[1][0] . 'E', 55]];
+        $_count = 0;
+        foreach ($_category as $key => $_categ) {
+            $_score = $this->hasMany(GradeEncode::class, 'student_id')
+                ->where('subject_class_id', $_data[0])
+                ->where('period', $_data[1])
+                ->where('is_removed', false)
+                ->where('type', 'like',  $_categ[0] . "%")->average('score');
+            $_count +=   $_score > 0 ? 1 : 0;
+            $_tScore += $_score * ($_categ[1] / 100);
+        }
+        return 4 == $_count ? $_tScore * .4 : 0;
+    }
+    public function lab_grade($_data)
+    {
+        return $this->hasMany(GradeEncode::class, 'student_id')
+            ->where('subject_class_id', $_data[0])
+            ->where('period', $_data[1])
+            ->where('type', 'like',  "A%")
+            ->where('is_removed', false)->average('score') * .60;
+    }
+    public function final_grade($_data, $_period)
+    {
+
+        $_final_grade = 0;
+        $midtermGradeLecture = $this->lec_grade([$_data, 'midterm']);
+        $midtermGradeLaboratory = $this->lab_grade([$_data, 'midterm']);;
+        $finalGradeLecture = $this->lec_grade([$_data, 'finals']);
+        $finalGradeLaboratory = $this->lab_grade([$_data, 'finals']);
+        if ($_period == 'midterm') {
+            if ($midtermGradeLaboratory > 0) {
+                $_final_grade = $midtermGradeLecture + $midtermGradeLaboratory; // Midterm Grade Formula With Laboratory
+            } else {
+                $_final_grade = $midtermGradeLecture / .4; // Midterm Grade Formula without Laboratory
+            }
+        } else {
+            if ($finalGradeLaboratory > 0) {
+                if ($midtermGradeLaboratory > 0) {
+                    $_final_grade =  (($midtermGradeLecture + $midtermGradeLaboratory) * .5) + (($finalGradeLecture + $finalGradeLaboratory) * .5);
+                } else {
+                    $_final_grade =  (($midtermGradeLecture / .4) * .5) + (($finalGradeLecture + $finalGradeLaboratory) * .5);
+                }
+            } else {
+                if ($midtermGradeLaboratory > 0) {
+                    $_final_grade =  (($midtermGradeLecture + $midtermGradeLaboratory) * .5) + (($finalGradeLecture + $finalGradeLaboratory) * .5);
+                } else {
+                    $_final_grade =  (($midtermGradeLecture / .4) * .5) + (($finalGradeLecture / .4) * .5);
+                }
+            }
+        }
+        return $_final_grade;
+    }
+    public function percentage_grade($_grade)
+    {
+        $_percent = [
+            [0, 69.46, 5.0],
+            [69.47, 72.88, 3.0],
+            [72.89, 76.27, 2.75],
+            [76.28, 79.66, 2.5],
+            [79.67, 83.05, 2.25],
+            [83.06, 86.44, 2.00],
+            [86.45, 89.83, 1.75],
+            [89.84, 93.22, 1.5],
+            [93.23, 96.61, 1.25],
+            [96.62, 100, 1.0]
+        ];
+        $_percentage = 0;
+        foreach ($_percent as $key => $value) {
+            $_percentage = $_grade >= $value[0]  && $_grade <= $value[1] ? $value[2] : $_percentage;
+        }
+        return $_percentage;
+    }
+    public function grade_publish()
+    {
+        return $this->hasOne(GradePublish::class, 'student_id')/* ->where('is_removed', false) */;
     }
 }
