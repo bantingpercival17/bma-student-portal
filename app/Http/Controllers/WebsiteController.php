@@ -46,7 +46,7 @@ class WebsiteController extends Controller
         ];
         //return $_details;
         $user = ApplicantAccount::create($_details);
-        event(new Registered($user));
+        //event(new Registered($user));
         Auth::guard('applicant')->login($user);
 
         return redirect('/bma/applicant')->with('success', 'Successfully Register');
@@ -67,7 +67,7 @@ class WebsiteController extends Controller
                 'message' => 'Invalid Creds',
             ], 401);
         } else {
-            event(new Registered($_applicant));
+            // event(new Registered($_applicant));
             Auth::guard('applicant')->login($_applicant);
             return redirect('bma/applicant');
         }
