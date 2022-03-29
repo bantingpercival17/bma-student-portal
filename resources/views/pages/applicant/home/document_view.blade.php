@@ -29,7 +29,8 @@ $_title = 'Applicant Document Requirements';
                 </div>
             </div>
             <div class="card-body">
-                <form action="" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form action="{{ route('applicant.store-documents') }}" method="post" enctype="multipart/form-data"
+                    class="needs-validation" novalidate>
                     <input type="hidden" class="token" name="_token" value="{{ csrf_token() }}" />
 
                     <div class="row">
@@ -60,7 +61,7 @@ $_title = 'Applicant Document Requirements';
             </div>
         </div>
     </div>
-    
+
 @section('js')
     <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script>
 @endsection

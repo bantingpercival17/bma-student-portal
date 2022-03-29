@@ -156,6 +156,61 @@ $_title = 'Overview';
                                                             </div>
                                                         </div>
                                                     @else
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <span class="text-danger fw-bolder">DISAPPROVED
+                                                                    DOCUMENT</span>
+                                                            </div>
+                                                            <div class="col-md">
+                                                                <div class="form-group">
+                                                                    <small for="" class="form-label">VERIFIED
+                                                                        BY:</small>
+                                                                    <span
+                                                                        class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
+                                                                    <small for="" class="form-label">VERIFIED
+                                                                        DATE:</small>
+                                                                    <span
+                                                                        class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <form action="{{ route('applicant.reupload-documents') }}" method="post"
+                                                            enctype="multipart/form-data" class="needs-validation"
+                                                            novalidate>
+                                                            <input type="hidden" class="token" name="_token"
+                                                                value="{{ csrf_token() }}" />
+                                                            <input type="hidden" name="applicant_doc"
+                                                                value="{{ $item->id }}">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <small class="form-label"><b>ATTACH
+                                                                                FILES<sup
+                                                                                    class="text-danger">*</sup></b></small>
+                                                                        <input class="form-control file-input"
+                                                                            id="{{ $item->id }}"
+                                                                            data-url="{{ route('applicant.file-upload') }}"
+                                                                            data-name="{{ $item->id }}" type="file"
+                                                                            required accept="img">
+                                                                        <input type="hidden" name="document"
+                                                                            value="{{ $item->document_id }}">
+                                                                        <input type="hidden"
+                                                                            class="{{ $item->id }}-file"
+                                                                            name="file_link" value="">
+
+                                                                        <div
+                                                                            class="image_frame{{ $item->id }} row mt-2">
+                                                                        </div>
+                                                                        <div class="invalid-feedback">
+                                                                            Please attach a files for
+                                                                            {{ $item->document_name }}.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-sm">Submit</button>
+                                                            </div>
+                                                        </form>
                                                         {{-- Reupload files --}}
                                                     @endif
                                                 @endif
@@ -217,6 +272,7 @@ $_title = 'Overview';
         </div>
     </div>
 @section('js')
+    <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script>
     <script src="{{ asset('resources/js/plugins/custom-document-viewer.js') }}"></script>
 @endsection
 @endsection

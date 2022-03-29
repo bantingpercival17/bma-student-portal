@@ -109,7 +109,20 @@ class ApplicantController extends Controller
         return redirect(route('applicant.home'))->with('success', 'Successfully Upload the Document Requirement');
         return dd($_data);
     }
-
+    public function reupload_documents(Request $_request)
+    {
+        $_data = array(
+            'applicant_id' => Auth::user()->id,
+            'document_id' => (int) $_request->document,
+            'file_links' => $_request->file_link,
+            'is_removed' => 0
+        );
+        $_documents = ApplicantDocuments::find($_request->applicant_doc);
+        $_documents->is_removed = 1;
+        $_documents->save();
+        ApplicantDocuments::create($_data);
+        return redirect(route('applicant.home'))->with('success', 'Successfully Upload the Document Requirement');
+    }
 
     public function upload_document_file(Request $_request)
     {
