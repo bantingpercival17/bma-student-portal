@@ -19,7 +19,8 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         'applicant_number',
         'contact_number',
         'course_id',
-        'academic_id'
+        'academic_id',
+        'is_removed'
     ];
 
     protected $hidden = [

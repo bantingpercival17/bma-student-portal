@@ -42,7 +42,8 @@ class WebsiteController extends Controller
             'contact_number' => $_request->contact_number,
             'password' => Hash::make($_request->password),
             'applicant_number' => 'TR-' . date('ymd') . (ApplicantAccount::all()->count() + 1),
-            'academic_id' => $_academic->id
+            'academic_id' => $_academic->id,
+            'is_removed' => 0
         ];
         //return $_details;
         $user = ApplicantAccount::create($_details);
