@@ -36,36 +36,38 @@ $_title = 'Academic';
                         <tbody>
                             @foreach ($_section->section->subject_class as $item)
                                 @php
+                                    $_status = $_student->current_enrollment->bridging_program == 'with' || $item->curriculum_subject->subject->subject_code != 'BRDGE';
                                     $_final_grade = number_format($_student->final_grade($item->id, 'finals'), 2);
                                     $_final_grade = $_student->percentage_grade($_final_grade);
                                     // $_average += $_final_grade;
                                 @endphp
-                                <tr>
-                                    <td>
-                                        <span class="text-primary fw-bolder">
-                                            {{ $item->curriculum_subject->subject->subject_code }}
-                                        </span> -
-                                        <small class="text-muted">{{ $item->staff->user->name }}</small>
-                                        <br>
-                                        <small
-                                            class="text-muted">{{ $item->curriculum_subject->subject->subject_name }}</small>
-                                    </td>
-                                    @if ($_student->grade_publish)
-                                        <td> {{ number_format($_student->final_grade($item->id, 'finals'), 2) }}</td>
+                                @if ($_status)
+                                    <tr>
                                         <td>
-                                            {{ number_format($_student->percentage_grade(number_format($_student->final_grade($item->id, 'finals'), 2)), 2) }}
+                                            <span class="text-primary fw-bolder">
+                                                {{ $item->curriculum_subject->subject->subject_code }}
+                                            </span> -
+                                            <small class="text-muted">{{ $item->staff->user->name }}</small>
+                                            <br>
+                                            <small
+                                                class="text-muted">{{ $item->curriculum_subject->subject->subject_name }}</small>
                                         </td>
+                                        @if ($_student->grade_publish)
+                                            <td> {{ number_format($_student->final_grade($item->id, 'finals'), 2) }}</td>
+                                            <td>
+                                                {{ number_format($_student->percentage_grade(number_format($_student->final_grade($item->id, 'finals'), 2)), 2) }}
+                                            </td>
 
-                                        <td>
-                                            {{ $_student->percentage_grade(number_format($_student->final_grade($item->id, 'finals'), 2)) >= 5? 'FAILED': 'PASSED' }}
-                                        </td>
-                                    @else
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    @endif
-
-                                </tr>
+                                            <td>
+                                                {{ $_student->percentage_grade(number_format($_student->final_grade($item->id, 'finals'), 2)) >= 5? 'FAILED': 'PASSED' }}
+                                            </td>
+                                        @else
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        @endif
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
