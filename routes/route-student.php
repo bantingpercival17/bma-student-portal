@@ -40,4 +40,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
 
     Route::get('/student-profile/account', [StudentController::class, 'account_view'])->name('student.accounts');
     Route::post('/student-profile/account/reset-password', [StudentController::class, 'student_change_password'])->name('student.change-password');
+
+    Route::get('/attendance', [StudentController::class, 'attendance_form_view'])->name('bma-qrcode');
+    Route::post('/attendance', [StudentController::class, 'attendance_store'])->name('bma-qrcode-generate');
 });

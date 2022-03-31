@@ -46,6 +46,11 @@
                             'route' => 'student-manual',
                             'icon' => 'icon-job',
                         ],
+                        [
+                            'name' => 'BMA QR-CODE',
+                            'route' => 'bma-qrcode',
+                            'icon' => 'icon-job',
+                        ],
                     ];
                     if (Auth::user()->student->enrollment_assessment->course_id != 3) {
                         $_routes[] = [
