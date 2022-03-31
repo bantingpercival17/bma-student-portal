@@ -104,7 +104,7 @@ class StudentController extends Controller
         //return $_section->section;
         $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
         $_student = Auth::user()->student;
-        return view('pages.student.academic.grades', compact('_section','_student'));
+        return view('pages.student.academic.grades', compact('_section', '_student'));
     }
     public function academic_clearance(Request $_request)
     {
@@ -635,5 +635,34 @@ class StudentController extends Controller
         $_student_report = new StudentReport();;
         $_student = Auth::user()->student->enrollment_assessment;
         return $_student_report->enrollment_information($_student->id);
+    }
+    public function attendance_form_view()
+    {
+        return view('pages.student.qr-code.view');
+    }
+    public function attendance_store(Request $_request)
+    {
+        $_request->validate([
+            'employee' => 'required ',
+            'body_temp' => 'required',
+            'question1' => 'required',
+            'question2' => 'required',
+            'question3' => 'required'
+        ]);
+        $_staff_details = array(
+            $_request->employee,
+            json_encode(array(
+                $_request->body_temp,
+                $_request->question1,
+                $_request->question2,
+                $_request->question3,
+
+            )),
+            date('Y-m-d H:i:s'),
+        );
+        $_data = json_encode($_staff_details);
+        $_data = base64_encode($_data);
+        return view('pages.student.qr-code.generate', compact('_data'));
+        //return back()/* redirect() */->with('qr-code', $_data);
     }
 }
