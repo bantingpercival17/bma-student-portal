@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ApplicantDetials;
 use App\Models\ApplicantDocuments;
 use App\Models\Documents;
+use App\Report\Students\StudentReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,6 +89,12 @@ class ApplicantController extends Controller
         $_data += ['applicant_id' => Auth::user()->id];
         ApplicantDetials::create($_data);
         return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
+    }
+    public function applicant_form_pdf()
+    {
+        $_student_report = new StudentReport();;
+        $_student = Auth::user();
+        return $_student_report->applicant_form($_student);
     }
     public function document_view(Request $_request)
     {

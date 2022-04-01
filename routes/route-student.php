@@ -9,6 +9,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     //Route::get('/home', [StudentController::class, 'index'])->name('home');
     Route::get('/', [StudentController::class, 'index'])->name('home');
     Route::get('/home', [StudentController::class, 'index'])->name('home');
+   
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
     Route::get('/academic/grades', [StudentController::class, 'academic_grades'])->name('academic.grades');
     Route::get('/academic/clearance', [StudentController::class, 'academic_clearance'])->name('academic.clearance');

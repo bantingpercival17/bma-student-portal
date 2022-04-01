@@ -18,9 +18,10 @@ Route::prefix('bma')->group(function () {
     Route::prefix('applicant')->middleware(['auth:applicant'])->group(function () {
         Route::get('/', [ApplicantController::class, 'index'])->name('applicant.home');
         Route::get('/student-information', [ApplicantController::class, 'applicant_view'])->name('applicant.student-view');
+        Route::get('/student-information/applicant-form', [ApplicantController::class, 'applicant_form_pdf'])->name('applicant-form');
         Route::get('/documents', [ApplicantController::class, 'document_view'])->name('applicant.document-view');
         Route::post('/documents', [ApplicantController::class, 'store_documents'])->name('applicant.store-documents');
-        Route::post('/documents/reupload',[ApplicantController::class,'reupload_documents'])->name('applicant.reupload-documents');
+        Route::post('/documents/reupload', [ApplicantController::class, 'reupload_documents'])->name('applicant.reupload-documents');
         Route::post('/applicant', [ApplicantController::class, 'create_applicant_details'])->name('applicant.store-detials');
         Route::post('/applicant/logout', [ApplicantController::class, 'logout'])->name('applicant.logout');
 
