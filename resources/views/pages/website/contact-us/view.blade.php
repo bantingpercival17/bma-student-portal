@@ -9,40 +9,39 @@ $_title = 'Contact Us - Baliwag Maritime Academy';
         <div class="col-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="fw-bolder">CREATE REPORT TICKET</h4>
+                    <h4 class="fw-bolder">CREATE TICKET</h4>
                     <div class="contact-form mt-3">
-                        @if (Session::get('error-message'))
-                            <div class="alert alert-danger">
-                                <label for="">{{ Session::get('error-message') }}</label>
-                            </div>
-                        @endif
-                        <form action="/application-form" method="POST">
+                        <form action="{{ route('website.contact-us-store') }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="form-group col-md">
-                                    <label for="" class="form-label"></label>
-                                    <input type="text" class="form-control" name="first_name" placeholder="First Name"
-                                        value="{{ old('first_name') }}">
-                                    @error('first_name')
+                                    <label for="" class="form-label fw-bolder">NAME</label>
+                                    <input type="text" class="form-control" name="full_name" placeholder="Full name"
+                                        value="{{ old('full_name') }}">
+                                    @error('full_name')
                                         <span class="badge bg-danger"> <strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                                 <div class="form-group col-md">
-                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name"
-                                        value="{{ old('last_name') }}">
-                                    @error('last_name')
-                                        <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-8">
+                                    <label for="" class="form-label fw-bolder">EMAIL</label>
                                     <input type="email" name="email" id="" class="form-control"
                                         placeholder="Google Email Address" value="{{ old('email') }}">
                                     @error('email')
                                         <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-8">
+                                    <label for="" class="form-label fw-bolder">ADDRESS</label>
+                                    <input type="text" name="address" id="" class="form-control" placeholder="Address"
+                                        value="{{ old('address') }}">
+                                    @error('address')
+                                        <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
                                 <div class="form-group col-4">
+                                    <label for="" class="form-label fw-bolder">CONTACT NUMBER</label>
                                     <input type="text" class="form-control" name="contact_number"
                                         placeholder="Contact Number" value="{{ old('contact_number') }}">
                                     @error('contact_number')
@@ -52,23 +51,28 @@ $_title = 'Contact Us - Baliwag Maritime Academy';
                             </div>
 
                             <div class="form-group">
-                                <select name="_course" id="" class="form-select" value="{{ old('_course') }}">
-                                    <option value="" disable>Select Course / Strand</option>
-                                    <option value="1">BS MARINE ENGINEERING - COLLEGE</option>
-                                    <option value="2">BS MARINE TRANSPORTATION - COLLEGE</option>
-                                    <option value="3">PRE-BACCALAUREATE - SENIOR HIGHSCHOOL</option>
+                                <label for="" class="form-label fw-bolder">CONSERN ISSUE</label>
+                                <select name="concern" class="form-select">
+                                    <option value="" selected disabled>Select Concern</option>
+                                    @if ($_concern)
+                                        @foreach ($_concern as $item)
+                                            <option value="{{ $item->id }}" {{ old('concern') == $item->id? 'selected' : '' }}>
+                                                {{ $item->issue_name }}</option>
+                                        @endforeach
+
+                                    @endif
                                 </select>
-                                @error('_course')
+                                @error('concern')
                                     <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Write your concern...."></textarea>
-                                @error('agreement')
+                                <textarea name="concern_message" id="" cols="30" rows="10" class="form-control" placeholder="Write your concern...."></textarea>
+                                @error('concern_message')
                                     <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary btn-rounded">APPLY NOW</button>
+                            <button type="submit" class="btn btn-primary btn-rounded">SUBMIT</button>
                         </form>
                     </div>
                 </div>
