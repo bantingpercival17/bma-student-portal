@@ -10,4 +10,13 @@ class TicketConcern extends Model
     use HasFactory;
     protected $connection = 'mysql2';
     protected $fillable = ['ticket_id', 'issue_id', 'ticket_message'];
+
+    public function issue()
+    {
+        return $this->belongsTo(TicketIssue::class, 'issue_id');
+    }
+    public function chat()
+    {
+        return $this->hasOne(TicketChat::class, 'ticket_id');
+    }
 }

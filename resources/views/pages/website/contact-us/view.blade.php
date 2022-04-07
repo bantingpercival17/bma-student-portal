@@ -51,12 +51,13 @@ $_title = 'Contact Us - Baliwag Maritime Academy';
                             </div>
 
                             <div class="form-group">
-                                <label for="" class="form-label fw-bolder">CONSERN ISSUE</label>
+                                <label for="" class="form-label fw-bolder">CONCERN ISSUE</label>
                                 <select name="concern" class="form-select">
                                     <option value="" selected disabled>Select Concern</option>
                                     @if ($_concern)
                                         @foreach ($_concern as $item)
-                                            <option value="{{ $item->id }}" {{ old('concern') == $item->id? 'selected' : '' }}>
+                                            <option value="{{ $item->id }}"
+                                                {{ old('concern') == $item->id ? 'selected' : '' }}>
                                                 {{ $item->issue_name }}</option>
                                         @endforeach
 
@@ -67,7 +68,8 @@ $_title = 'Contact Us - Baliwag Maritime Academy';
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <textarea name="concern_message" id="" cols="30" rows="10" class="form-control" placeholder="Write your concern...."></textarea>
+                                <textarea name="concern_message" id="" cols="30" rows="10" class="form-control"
+                                    placeholder="Write your concern...."></textarea>
                                 @error('concern_message')
                                     <span class="badge bg-danger"><strong>{{ $message }}</strong></span>
                                 @enderror
@@ -84,9 +86,16 @@ $_title = 'Contact Us - Baliwag Maritime Academy';
                     <span>SIGN IN TICKER NUMBER</span>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Ticket Number">
-                    </div>
+                    <form action="{{ route('ticket-login') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="ticket" placeholder="Ticket Number">
+                            @error('ticket')
+                                <span class="mt-2 badge bg-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

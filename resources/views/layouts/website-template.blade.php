@@ -14,6 +14,7 @@
 
     {{-- <script src="{{ asset('js/app-1.js') }}"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> --}}
+    @yield('css')
 
 </head>
 
@@ -77,7 +78,15 @@
             })
             /* toastr.success("{{ session('message') }}") */
         @endif
-
+        @if (Session::has('error'))
+            Swal.fire({
+            title: 'Invalid!',
+            text:"{{ session('error') }}",
+            icon: 'error',
+            confirmButtonText: 'Okay'
+            })
+            /* toastr.success("{{ session('message') }}") */
+        @endif
         $('.validate-checkbox').click(function() {
             var data = $(this).data('input'),
                 check = $(this).prop('checked')
