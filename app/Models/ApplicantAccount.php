@@ -55,4 +55,8 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         //return $_document_verified;
         //return $this->hasMany(ApplicantDocuments::class, 'applicant_id')->having(DB::raw("COUNT(CASE WHEN is_approved = 1 THEN 1 END)", '>=', $_documents))->groupBy('applicant_id');
     }
+    public function payment()
+    {
+        return $this->hasOne(ApplicantPayment::class, 'applicant_id')->where('is_removed', false);
+    }
 }

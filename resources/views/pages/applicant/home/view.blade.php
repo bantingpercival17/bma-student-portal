@@ -87,12 +87,12 @@ $_title = 'Applicant Information';
                             <div class="col-xl-2 col-md-6 ">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Extension</label>
-                                    <input class="form-control input-extension" name="_extension_name"
+                                    <input class="form-control input-extension" name="extention_name"
                                         value="{{ old('extension') }}">
                                     <div class="form-check">
                                         <input class="form-check-input validate-checkbox" data-input="input-extension"
                                             {{ old('extension_name') == 'n/a' ? 'checked' : '' }} type="checkbox"
-                                            value="n/a" name="extension_name" id="flexCheckDefault2">
+                                            value="n/a" name="extention_name" id="flexCheckDefault2">
                                         <label class="form-check-label" for="flexCheckDefault2">
                                             none
                                         </label>

@@ -25,6 +25,7 @@ $_title = 'Overview';
                 $_applicant = Auth::user()->applicant;
                 $_applicant_documents = Auth::user()->documents;
                 $_document_status = Auth::user()->document_status();
+                $_payment = Auth::user()->payment ? (Auth::user()->payment->is_approved == 1 ? true : false) : false;
             @endphp
             <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
                 <ul class="list-inline p-0 m-0">
@@ -88,7 +89,13 @@ $_title = 'Overview';
                                 @if ($_applicant)
                                     Successfully Complete your Application Form, now you can proceed to the Document
                                     Requirements for Uploading the Files.
-                                    <a href="{{route('applicant-form')}}" class="btn btn-primary btn-sm">View Applicantion Form</a>
+                                    <a href="{{ route('applicant.update-information') }}"
+                                        class="btn btn-info btn-sm text-white">
+                                        Update Applicantion Form
+                                    </a>
+                                    <a href="{{ route('applicant-form') }}" class="btn btn-primary btn-sm">View
+                                        Applicantion
+                                        Form</a>
                                 @else
                                     Kindly Fill-up the Form for your Additional Infromation,<a
                                         href="{{ route('applicant.student-view') }}">click here.</a>
@@ -243,45 +250,39 @@ $_title = 'Overview';
                             <h5 class="float-left mb-1 text-muted fw-bolder">
                                 <i> STEP 2: Document Requirements</i>
                             </h5>
-                            {{-- <div class="d-inline-block w-100">
-                                Kindly upload your Documents Requirements,
-                                <a href="{{ route('applicant.document-view') }}"> click here. </a>
-                            </div> --}}
                         @endif
                     </li>
                     {{-- Entrance Examination Payment --}}
                     <li>
-                        @if ($_applicant)
-                            @if ($_document_status)
-                                <div class="timeline-dots1 border-primary text-primary">
-                                    <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.09C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.09V7.92C2 4.38 4.28 2 7.67 2ZM7.52 13.2C6.86 13.2 6.32 12.66 6.32 12C6.32 11.34 6.86 10.801 7.52 10.801C8.18 10.801 8.72 11.34 8.72 12C8.72 12.66 8.18 13.2 7.52 13.2ZM10.8 12C10.8 12.66 11.34 13.2 12 13.2C12.66 13.2 13.2 12.66 13.2 12C13.2 11.34 12.66 10.801 12 10.801C11.34 10.801 10.8 11.34 10.8 12ZM15.28 12C15.28 12.66 15.82 13.2 16.48 13.2C17.14 13.2 17.67 12.66 17.67 12C17.67 11.34 17.14 10.801 16.48 10.801C15.82 10.801 15.28 11.34 15.28 12Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </div>
-                                <h5 class="float-left mb-1 text-primary fw-bolder">
-                                    STEP 3: Entrance Examination Payment
-                                </h5>
+                        @include('pages.applicant.components.payment')
+                        {{-- Applicant Done --}}
+                        @if ($_applicant && $_document_status)
+                            {{-- Document Verification --}}
+                            @if (!Auth::user()->payment)
+                                @yield('step-3-dot-active')
+                                @yield('payment-view')
                             @else
-                                <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
-                                <h5 class="float-left mb-1 text-muted fw-bolder">
-                                    <i> STEP 3 Entrance Examination Payment</i>
-                                </h5>
+                                @if (Auth::user()->payment->is_approved != 1)
+                                    @yield('step-3-dot-active')
+                                    @yield('payment-transaction-view')
+                                @else
+                                    @yield('step-3-dot-done')
+                                @endif
+
                             @endif
                         @else
-                            <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
-                            <h5 class="float-left mb-1 text-muted fw-bolder">
-                                <i> STEP 3 Entrance Examination Payment</i>
-                            </h5>
+                            @yield('step-3-dot')
                         @endif
 
                     </li>
                     <li>
-                        <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
-                        <h5 class="float-left mb-1 text-muted fw-bolder">
-                            <i> STEP 4 Entrance Examination Schedule</i>
-                        </h5>
+                        @include('pages.applicant.components.entrance-examination')
+                        @if ($_applicant && $_document_status && $_payment)
+                            @yield('step-4-dot-active')
+                            @yield('step-4-active-content')
+                        @else
+                            @yield('step-4-dot')
+                        @endif
                     </li>
                     <li>
                         <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
@@ -313,8 +314,9 @@ $_title = 'Overview';
             </div>
         </div>
     </div>
+
+@endsection
 @section('js')
     <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script>
     <script src="{{ asset('resources/js/plugins/custom-document-viewer.js') }}"></script>
-@endsection
 @endsection

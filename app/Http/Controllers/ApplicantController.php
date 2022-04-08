@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantDetials;
 use App\Models\ApplicantDocuments;
+use App\Models\ApplicantPayment;
 use App\Models\Documents;
 use App\Report\Students\StudentReport;
 use Illuminate\Http\Request;
@@ -19,13 +20,18 @@ class ApplicantController extends Controller
     {
         return view('pages.applicant.home.view');
     }
+    public function applicant_update_view()
+    {
+        $_applicant = Auth::user()->applicant;
+        return view('pages.applicant.home.update-information', compact('_applicant'));
+    }
     public function create_applicant_details(Request $_request)
     {
         $_inputs = [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'middle_name' => 'required|string',
-            'extension_name' => 'required|string',
+            'extention_name' => 'required|string',
             'birthday' => 'required|date',
             'birth_place' => 'required|string',
             'street' => 'required|string',
@@ -42,11 +48,6 @@ class ApplicantController extends Controller
             'junior_high_school_name' => 'required|max:100',
             'junior_high_school_address' => 'required|max:255',
             'junior_high_school_year' => 'required|max:100',
-            /* 'father_name' => 'required',
-            'father_contact_number' => 'required',
-            'mother_name' => 'required',
-            'mother_contact_number' => 'required',
-            'parent_address' => 'required', */
         ];
         if (Auth::user()->course_id != 3) {
             $_inputs += [
@@ -82,13 +83,29 @@ class ApplicantController extends Controller
         ];
         $_inputs = $_request->validate($_inputs);
         $_data = [];
+        //return $_inputs['junior_high_school_year'];
         foreach ($_inputs as $key => $value) {
             //$_data[$value] = trim(ucwords(strtolower($_request->input('_first_name')))) ;
             $_data[$key] = ucwords(mb_strtolower(trim($value)));
         }
         $_data += ['applicant_id' => Auth::user()->id];
-        ApplicantDetials::create($_data);
-        return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
+        if (Auth::user()->applicant) {
+            Auth::user()->applicant->update($_data);
+            Auth::user()->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
+            Auth::user()->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
+            if (Auth::user()->course_id != 3) {
+                Auth::user()->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
+            }
+            return redirect(route('applicant.home'))->with('success', 'Successfully Update Applicant Information');
+        } else {
+            ApplicantDetials::create($_data);
+            Auth::user()->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
+            Auth::user()->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
+            if (Auth::user()->course_id != 3) {
+                Auth::user()->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
+            }
+            return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
+        }
     }
     public function applicant_form_pdf()
     {
@@ -155,5 +172,39 @@ class ApplicantController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/bma/login');
+    }
+
+
+    public function payment_store(Request $_request)
+    {
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_file_path = '/public/accounting/applicant/proof_of_payments/';
+        $_request->validate([
+            '_transaction_date' => 'required',
+            '_amount_paid' => 'required',
+            '_reference_number' => 'required',
+            '_transaction_type' => 'required',
+            '_file' => 'required'
+        ]);
+        $_ext = $_request->_file->getClientOriginalExtension();
+        $_user = str_replace(' ', '_', Auth::user()->name);
+        $_url_link =  $link . '/storage/accounting/applicant/proof_of_payments/';
+        $_file_name =   strtolower($_user . "-" . 'proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
+        $_request->_file->storeAs($_file_path, $_file_name);
+        $_payment_data = array(
+            'applicant_id' => Auth::user()->id,
+            'amount_paid' => str_replace(',', '', $_request->_amount_paid),
+            'reference_number' => $_request->_reference_number,
+            'transaction_type' => $_request->_transaction_type,
+            'reciept_attach_path' => $_url_link . $_file_name,
+            'is_removed' => 0
+        );
+        if (Auth::user()->payment) {
+            Auth::user()->payment->update(['is_removed' => true]);
+        }
+        ApplicantPayment::create($_payment_data);
+        return back()->with('success', 'Successfully Submitted.');
     }
 }
