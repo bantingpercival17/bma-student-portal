@@ -58,4 +58,8 @@ class ApplicantDetials extends Model
         'senior_high_school_year',
         "is_removed"
     ];
+    public function account()
+    {
+        return $this->belongsTo(ApplicantAccount::class, 'applicant_id');
+    }
 }
