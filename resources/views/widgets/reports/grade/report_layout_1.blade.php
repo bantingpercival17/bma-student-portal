@@ -192,11 +192,12 @@
 
         .form-label {
             float: left;
-            text-combine-upright:unset ;
+            text-combine-upright: unset;
             margin-top: 0.2em;
             margin-left: 2.0em;
-           
+
         }
+
         .subject-list-table {
             font-family: "Times New Roman", Times, serif;
             border-collapse: collapse;
@@ -242,13 +243,17 @@
                 <tr>
                     <td>
                         <small>
+                          THIS IS A SYSTEM GENERATED REPORT. SIGNATURE IS NOT REQUIRED.
+                        </small>
+                    </td>
+                    <td>
+                         <small>
                             GENERATED DATE: @php
                                 date_default_timezone_set('Asia/Manila');
                                 echo date('m/d/Y h:m:s');
                             @endphp
-                        </small>
+                            </small>
                     </td>
-                    <td><small>GENERATE BY: {{ strtoupper(Auth::user()->name) }}</small></td>
 
                 </tr>
             </tbody>
