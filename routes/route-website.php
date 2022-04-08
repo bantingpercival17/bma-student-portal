@@ -11,7 +11,10 @@ Route::prefix('bma')->group(function () {
     Route::get('/about-us', [WebsiteController::class, 'index'])->name('website.about-us'); // 
     Route::get('/contact-us', [WebsiteController::class, 'contact_us_view'])->name('website.contact-us');
     Route::post('/admission', [WebsiteController::class, 'admission_store'])->name('website.admission-store');
-
+    Route::post('/contact-us', [WebsiteController::class, 'contact_us_store'])->name('website.contact-us-store');
+    Route::post('/ticket', [WebsiteController::class, 'ticket_login'])->name('ticket-login');
+    Route::get('/ticket/view', [WebsiteController::class, 'ticket_view'])->name('ticket-view');
+    Route::post('/ticket/chat-message', [WebsiteController::class, 'ticket_message_chat'])->name('ticket.chat-store');
 
     Route::get('/login', [WebsiteController::class, 'login_view'])->name('applicant-view')->middleware('guest:applicant');
     Route::post('/login', [WebsiteController::class, 'login'])->name('applicant-login')->middleware('guest:applicant');
