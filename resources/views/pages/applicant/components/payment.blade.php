@@ -104,13 +104,14 @@
                         @csrf
                         <div class="form-group">
                             <label for="" class="form-label text-sm">APPLICANT NUMBER</label>
-                            <input type="text" class="form-control" value="{{ $_applicant->account->applicant_number }}"
-                                disabled>
+                            <input type="text" class="form-control"
+                                value="{{ $_applicant ? $_applicant->account->applicant_number : '' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="" class="form-label text-sm">APPLICANT NAME</label>
                             <input type="text" class="form-control" name="_name"
-                                value="{{ ucwords($_applicant->first_name . '  ' . $_applicant->last_name) }}" disabled>
+                                value="{{ $_applicant ? ucwords($_applicant->first_name . '  ' . $_applicant->last_name) : '' }}"
+                                disabled>
                         </div>
                         <div class="form-group">
                             <label for="" class="form-label text-sm">TRANSCATION
@@ -277,7 +278,7 @@
                             <div class="form-group">
                                 <label for="" class="form-label text-sm">APPLICANT NUMBER</label>
                                 <input type="text" class="form-control"
-                                    value="{{ $_applicant->account->applicant_number }}" disabled>
+                                    value="{{ $_applicant ? $_applicant->account->applicant_number : '' }}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="" class="form-label text-sm">APPLICANT NAME</label>

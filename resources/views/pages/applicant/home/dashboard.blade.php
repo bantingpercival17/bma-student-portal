@@ -276,7 +276,9 @@ $_title = 'Overview';
 
                     </li>
                     <li>
-                        @include('pages.applicant.components.entrance-examination')
+                        @include(
+                            'pages.applicant.components.entrance-examination'
+                        )
                         @if ($_applicant && $_document_status && $_payment)
                             @yield('step-4-dot-active')
                             @yield('step-4-active-content')
