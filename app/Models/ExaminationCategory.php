@@ -22,6 +22,6 @@ class ExaminationCategory extends Model
     }
     public function questions()
     {
-        return $this->hasMany(ExaminationQuestion::class, 'category_id')->where('is_removed', false)->limit(1)/* ->inRandomOrder() */;
+        return $this->hasMany(ExaminationQuestion::class, 'category_id')/* ->where('is_removed', false)->limit(1) */->inRandomOrder();
     }
 }
