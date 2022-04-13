@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantDetials;
 use App\Models\ApplicantDocuments;
+use App\Models\ApplicantEntranceExamination;
+use App\Models\ApplicantExaminationAnswer;
 use App\Models\ApplicantPayment;
 use App\Models\Documents;
+use App\Models\Examination;
 use App\Report\Students\StudentReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -206,5 +209,54 @@ class ApplicantController extends Controller
         }
         ApplicantPayment::create($_payment_data);
         return back()->with('success', 'Successfully Submitted.');
+    }
+    public function examination_view(Request $_request)
+    {
+        if (Auth::user()->examination) {
+            $_examinee =  Auth::user()->examination;
+        } else {
+            $_data = array(
+                'applicant_id' => Auth::id(),
+                'is_finish' => 0
+            );
+            $_examinee = ApplicantEntranceExamination::create($_data);
+        }
+        $_department = Auth::user()->course->id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
+        $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->first();
+        return view('pages.applicant.home.examination_questioner', compact('_examination'));
+    }
+    public function examination_store(Request $_request)
+    {
+        $_department = Auth::user()->course->id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
+        $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->first();
+        $fields = [];
+        foreach ($_examination->categories as $key => $category) {
+            foreach ($category->questions as $key_category => $question) {
+                $fields += [base64_encode($question->id) => 'required'];
+            }
+        }
+        $_request->validate($fields);
+        $_data = [];
+        //return Auth::user()->examination->id;
+        foreach ($_request->input() as $key => $inputs) {
+            if ($key != "_token") {
+                $_data = array(
+                    'question_id' => base64_decode($key),
+                    'choices_id' => $inputs,
+                    'examination_id' => Auth::user()->examination->id,
+                );
+                $_answer = ApplicantExaminationAnswer::where([
+                    'question_id' => base64_decode($key),
+                    'examination_id' => Auth::user()->examination->id,
+                ])->first();
+                if (!$_answer) {
+                    ApplicantExaminationAnswer::create($_data);
+                }
+            }
+        }
+        $_examinee = ApplicantEntranceExamination::where('applicant_id', Auth::id())->where('is_removed', 0)->first();
+        $_examinee->is_finish = true;
+        $_examinee->save();
+        return redirect(route('applicant.home'))->with('success', 'Examination Finish');
     }
 }
