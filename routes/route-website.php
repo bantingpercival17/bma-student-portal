@@ -32,7 +32,7 @@ Route::prefix('bma')->group(function () {
         Route::post('/payment', [ApplicantController::class, 'payment_store'])->name('applicant.payment-transaction');
         // Examination
         Route::get('/examination/view', [ApplicantController::class, 'examination_view'])->name('applicant.entrance-examination');
-
+        Route::post('/examination/store', [ApplicantController::class, 'examination_store'])->name('applicant.examination-store');
 
         Route::post('/logout', [ApplicantController::class, 'logout'])->name('applicant.logout');
         Route::post('/documents/file-upload', [ApplicantController::class, 'upload_document_file'])->name('applicant.file-upload');

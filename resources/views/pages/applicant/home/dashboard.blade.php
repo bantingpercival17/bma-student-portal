@@ -280,8 +280,12 @@ $_title = 'Overview';
                             'pages.applicant.components.entrance-examination'
                         )
                         @if ($_applicant && $_document_status && $_payment)
-                            @yield('step-4-dot-active')
-                            @yield('step-4-active-content')
+                            @if (Auth::user()->examination)
+                                @yield('step-4-dot-done')
+                            @else
+                                @yield('step-4-dot-active')
+                                @yield('step-4-active-content')
+                            @endif
                         @else
                             @yield('step-4-dot')
                         @endif

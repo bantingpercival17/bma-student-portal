@@ -28,9 +28,43 @@ $_title = ' STEP 4: Entrance Examination';
         {{ $_title }}
     </h5>
     <div class="d-inline-block w-100">
-        <p class="mb-0">
-            Your Payment was Verified. You may can now take the Entrance Examination
-        </p>
+        @if (Auth::user()->examination)
+            @if (Auth::user()->examination->is_finish == 1)
+                {{ Auth::user()->examination->result() }}
+                @if (Auth::user()->examination->result())
+                    <p class="mb-0">
+                        Congratulation you Passed the Entrance Examination, Kindly wait the announcement to your email
+                        account
+                        for the Annoument.
+                    </p>
+                @else
+                    <p class="mb-0">
+                        Thank you
+                        If you really want to go Baliwag Maritime Academy, Kindly create a letter of intent send to
+                        <b>dean@bma.edu.ph </b> and <b>registar@bma.edu.ph</b>
+                    </p>
+                @endif
+            @else
+                <p class="mb-0">
+                <div class="mt-3">
+                    <p class="text-primary fw-bolder h5">Welcome Applicants</p>
+                    <p> <span class="fw-bolder">INSTRUCTION</span></p>
+                    <p class="m-0">1. Ensure that you have a strong internet connection.</p>
+                    <p class="m-0">2. Once you are logged in, read carefully and understand the guidelines prior
+                        to
+                        and
+                        after the Examination</p>
+                    <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at the
+                        system.</p>
+                    <p class="m-0">4. You are allotted (1) hours to finish the examination.</p>
+                    <a href="{{ route('applicant.entrance-examination') }}" class="btn btn-primary btn-sm">Take Entrance
+                        Examination</a>
+                </div>
+                </p>
+            @endif
+        @endif
+
+
     </div>
 @endsection
 
