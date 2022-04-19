@@ -17,7 +17,9 @@ class ApplicantController extends Controller
 {
     public function index()
     {
-        return view('pages.applicant.home.dashboard');
+        $_level = Auth::user()->course_id == 3 ? 11 : 4;
+        $_documents = Documents::where('year_level', $_level)->where('department_id', 2)->where('is_removed', false)->get();
+        return view('pages.applicant.home.dashboard', compact('_documents'));
     }
     public function applicant_view()
     {
@@ -35,6 +37,7 @@ class ApplicantController extends Controller
             'last_name' => 'required|string',
             'middle_name' => 'required|string',
             'extention_name' => 'required|string',
+            'sex' => 'required|string',
             'birthday' => 'required|date',
             'birth_place' => 'required|string',
             'street' => 'required|string',
@@ -101,11 +104,11 @@ class ApplicantController extends Controller
             }
             return redirect(route('applicant.home'))->with('success', 'Successfully Update Applicant Information');
         } else {
-            ApplicantDetials::create($_data);
-            Auth::user()->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
-            Auth::user()->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
-            if (Auth::user()->course_id != 3) {
-                Auth::user()->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
+            $_user = ApplicantDetials::create($_data);
+            $_user->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
+            $_user->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
+            if ($_user->course_id != 3) {
+                $_user->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
             }
             return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
         }
@@ -222,7 +225,7 @@ class ApplicantController extends Controller
             $_examinee = ApplicantEntranceExamination::create($_data);
         }
         $_department = Auth::user()->course->id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
-        $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->first();
+        $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->where('is_removed',false)->first();
         return view('pages.applicant.home.examination_questioner', compact('_examination'));
     }
     public function examination_store(Request $_request)
