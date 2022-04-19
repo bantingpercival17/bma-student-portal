@@ -3,8 +3,17 @@
 $_form_number = $_account->course_id == 3 ? ' RG-02' : ' RG-01';
 $_department = $_account->course_id == 3 ? 'SENIOR HIGH SCHOOL' : 'COLLGE';
 @endphp
-@section('title-report', $_form_number . ' - STUDENT REGISTRATION : ' . strtoupper($_account->applicant->last_name . ', ' .
-    $_account->applicant->first_name . ' ' . $_account->applicant->middle_name))
+@section('title-report',
+    $_form_number .
+    ' - STUDENT REGISTRATION : ' .
+    strtoupper(
+    $_account->applicant->last_name .
+    ',
+    ' .
+    $_account->applicant->first_name .
+    ' ' .
+    $_account->applicant->middle_name,
+    ),)
 @section('form-code', $_form_number)
 @section('content')
     <main class="content">
@@ -17,9 +26,9 @@ $_department = $_account->course_id == 3 ? 'SENIOR HIGH SCHOOL' : 'COLLGE';
         <table class="table">
             <tbody>
                 <tr>
-                    <td colspan="2"><small>APPLICANT NO:</small> <b>-{{ $_account->applicant->account_number }}</b> </td>
+                    <td colspan="2"><small>APPLICANT NO:</small> <b>{{ $_account->applicant_number }}</b> </td>
                     <td> <small>APPLICATION DATE:</small>
-                        <b>{{-- {{ strtoupper(date('F j, Y', strtotime($_account->applicant->created_at))) }} --}}-</b>
+                        <b>{{ strtoupper(date('F j, Y', strtotime($_account->created_at))) }}</b>
                     </td>
                 </tr>
                 <tr>
@@ -27,7 +36,8 @@ $_department = $_account->course_id == 3 ? 'SENIOR HIGH SCHOOL' : 'COLLGE';
                         <small>APPLICANT NAME: </small>
                         <b>{{ strtoupper($_account->applicant->last_name . ', ' . $_account->applicant->first_name . ' ' . $_account->applicant->middle_name) }}</b>
                     </td>
-                    <td><small>BIRTH DATE:</small> <b>{{ Str::upper(date('F j, Y', strtotime($_account->applicant->birthday))) }}</b>
+                    <td><small>BIRTH DATE:</small>
+                        <b>{{ Str::upper(date('F j, Y', strtotime($_account->applicant->birthday))) }}</b>
                     </td>
                 </tr>
                 <tr>
@@ -102,10 +112,79 @@ $_department = $_account->course_id == 3 ? 'SENIOR HIGH SCHOOL' : 'COLLGE';
         <table class="table">
             @if ($_account->course_id != 3)
                 <tbody>
+                    <tr>
+                        <td>
+                            <small>ELEMENTARY SCHOOL</small><br>
+                            <span>
+                                <b> {{ $_account->applicant->elementary_school_name }}</b>
+                            </span>
+                        </td>
+                        <td>
+                            <small>SCHOOL ADDRESS</small><br>
+                            <span>
+                                <b> {{ $_account->applicant->elementary_school_address }}</b>
+                            </span>
+                        </td>
+                        <td>
+                            <small>Graduated Year</small><br>
+                            <span>
+                                <b>
+                                    {{ strtoupper(date('F  Y', strtotime($_account->applicant->elementary_school_year))) }}</b>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <small>JUNIOR HIGH SCHOOL</small>
+                            <br>
+                            <span>
+                                <b>
+                                    {{ $_account->applicant->junior_high_school_name }}
+                                </b>
+                            </span>
+                        </td>
+                        <td>
+                            <small>SCHOOL ADDRESS</small><br>
+                            <span>
+                                <b> {{ $_account->applicant->junior_high_school_address }}</b>
+                            </span>
+                        </td>
+                        <td>
+                            <small>Graduated Year</small><br>
+                            <span>
+                                <b>
+                                    {{ strtoupper(date('F  Y', strtotime($_account->applicant->junior_high_school_year))) }}</b>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <small>ELEMENTARY SCHOOL</small>
+                            <br>
+                            <b>
+                                {{ $_account->applicant->senior_high_school_name }}
+                            </b>
+                        </td>
+                        <td>
+                            <small>SCHOOL ADDRESS</small><br>
+                            <span>
+                                <b> {{ $_account->applicant->senior_high_school_address }}</b>
+                            </span>
+                        </td>
+                        <td>
+                            <small>Graduated Year</small><br>
+                            <span>
+                                <b>
+                                    {{ strtoupper(date('F  Y', strtotime($_account->applicant->senior_high_school_year))) }}</b>
+                            </span>
+                        </td>
+                    </tr>
                 </tbody>
             @else
                 <tbody>
-                    
+                    <td>{{ $_account->applicant }}</td>
                 </tbody>
             @endif
         </table>

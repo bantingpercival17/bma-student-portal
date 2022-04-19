@@ -88,16 +88,16 @@ $_title = 'Applicant Information';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Extension</label>
                                     <input class="form-control input-extension" name="extention_name"
-                                        value="{{ old('extension') }}">
+                                        value="{{ old('extention_name') }}">
                                     <div class="form-check">
                                         <input class="form-check-input validate-checkbox" data-input="input-extension"
-                                            {{ old('extension_name') == 'n/a' ? 'checked' : '' }} type="checkbox"
+                                            {{ old('extention_name') == 'n/a' ? 'checked' : '' }} type="checkbox"
                                             value="n/a" name="extention_name" id="flexCheckDefault2">
                                         <label class="form-check-label" for="flexCheckDefault2">
                                             none
                                         </label>
                                     </div>
-                                    @error('extension_name')
+                                    @error('extention_name')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
@@ -108,7 +108,11 @@ $_title = 'Applicant Information';
                             <div class="col-xl-2 col-md-6 mb-xl-0">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Gender</label>
-                                    <input class="form-control" type="text" value="{{ old('sex') }}" name="sex">
+                                    <select name="sex" id="" class="form-select">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+
                                     @error('sex')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -195,8 +199,12 @@ $_title = 'Applicant Information';
                             <div class="col-xl col-md-6 mb-xl-0">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Civil Status</label>
-                                    <input class="form-control" type="text" name="civil_status"
-                                        value="{{ old('civil_status') }}">
+                                    <select name="civil_status" id="" class="form-select">
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="Widowed">Widowed</option>
+                                    </select>
+
                                     @error('civil_status')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -334,7 +342,7 @@ $_title = 'Applicant Information';
                                             <label for="example-text-input" class="form-control-label fw-bolder">
                                                 <small>CONTACT NUMBER <span class="text-danger">*</span></small>
                                             </label>
-                                            <input type="text" class="form-control"
+                                            <input type="number" class="form-control"
                                                 name="{{ $parent }}_contact_number"
                                                 value="{{ old($parent . '_contact_number') }}">
                                             <span>
@@ -355,7 +363,7 @@ $_title = 'Applicant Information';
                                                 <option value="">Select Educational Attainment</option>
                                                 @foreach ($_educational_attainment as $_select_0)
                                                     <option value="{{ $_select_0 }}"
-                                                        {{ old($parent . '_educational_attainment') }}>
+                                                        {{ old($parent . '_educational_attainment') == $_select_0 ? 'selected' : '' }}>
                                                         {{ $_select_0 }}
                                                     </option>
                                                 @endforeach
@@ -376,7 +384,7 @@ $_title = 'Applicant Information';
                                                 <option value="">Select Employment Status</option>
                                                 @foreach ($_employment_status as $_select_1)
                                                     <option value="{{ $_select_1 }}"
-                                                        {{ old($parent . '_employment_status') }}>
+                                                        {{ old($parent . '_employment_status') == $_select_1 ? 'selected' : '' }}>
                                                         {{ $_select_1 }}</option>
                                                 @endforeach
                                             </select>
@@ -394,7 +402,7 @@ $_title = 'Applicant Information';
                                             <option value="">Select Working Arrangement</option>
                                             @foreach ($_arrangement as $_select_2)
                                                 <option value="{{ $_select_2 }}"
-                                                    {{ old($parent . '_working_arrangement') }}>
+                                                    {{ old($parent . '_working_arrangement') == $_select_2 ? 'selected' : '' }}>
                                                     {{ $_select_2 }}</option>
                                             @endforeach
                                         </select>
@@ -753,9 +761,12 @@ $_title = 'Applicant Information';
                         </div> --}}
                         <div class="mt-3">
                             @if ($errors->any())
-                                <label for="" class="badge bg-danger text-small mt-2">{{ count($errors->all()) }}
-                                    Invalid Fields</label>
-                                {{-- {!! implode('', $errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!} --}}
+                                @if (count($errors->all()) > 15)
+                                    <label for="" class="badge bg-danger text-small mt-2">{{ count($errors->all()) }}
+                                        Invalid Fields</label>
+                                @else
+                                    {!! implode('', $errors->all('<label for="" class="badge bg-danger text-small ms-2">:message</label>')) !!}
+                                @endif
                             @endif
                         </div>
                         <button type="submit" class="btn btn-primary mt-2 w-100">Submit Student Information</button>
