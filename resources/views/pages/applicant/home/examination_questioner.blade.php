@@ -77,7 +77,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                                             {{-- Image Question --}}
                                                             @if ($question->image_path != 'none' && $question->image_path != null)
                                                                 <img style="width:50%; height:50%;"
-                                                                    src="{{ asset('assets/image/questions/' . $question->image_path) }}"
+                                                                    src="{{ asset('assets/image/questions/' . str_replace('http:bma.edu.ph/assests/image/questions/', '', $question->image_path)) }}"
                                                                     alt="">
                                                             @endif
                                                             <div class="question-choices ">
@@ -130,7 +130,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
 
                             </fieldset>
                         @endforeach
-                     {{--    @foreach ($errors->all() as $item)
+                        {{-- @foreach ($errors->all() as $item)
                             <span class="me-2 badge bg-danger">{{ $item }}</span>
                         @endforeach --}}
                     </form>
