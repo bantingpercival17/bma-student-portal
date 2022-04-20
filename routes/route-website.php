@@ -31,6 +31,7 @@ Route::prefix('bma')->group(function () {
         // Store Payment 
         Route::post('/payment', [ApplicantController::class, 'payment_store'])->name('applicant.payment-transaction');
         // Examination
+        Route::post('/examination/verified', [ApplicantController::class, 'examination_verification'])->name('applicant.entrance-examination-verified');
         Route::get('/examination/view', [ApplicantController::class, 'examination_view'])->name('applicant.entrance-examination');
         Route::post('/examination/store', [ApplicantController::class, 'examination_store'])->name('applicant.examination-store');
 

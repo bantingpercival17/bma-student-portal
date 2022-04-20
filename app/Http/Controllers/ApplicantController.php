@@ -213,19 +213,33 @@ class ApplicantController extends Controller
         ApplicantPayment::create($_payment_data);
         return back()->with('success', 'Successfully Submitted.');
     }
+    public function examination_verification(Request $_request)
+    {
+        $_request->validate([
+            'exam_code' => 'required',
+        ]);
+        $_examination = Auth::user()->examination;
+        if ($_examination) {
+
+
+            if ($_examination->examination_code == $_request->exam_code) {
+                if ($_examination->is_finish != 0) {
+                    $_examination->is_finish = 0; // I mean Ongoing the Examination, the null mean they have an examination/test questioner we to verified
+                    $_examination->save();
+                    return redirect(route('applicant.entrance-examination'))->with('success', 'Entrance Examination Code Verified');
+                } else {
+                    return back()->with('error', 'This Already take the Entrance Examination!');
+                }
+            } else {
+                return back()->with('error', 'Invalid Examination Code, Try again!');
+            }
+        }
+    }
     public function examination_view(Request $_request)
     {
-        if (Auth::user()->examination) {
-            $_examinee =  Auth::user()->examination;
-        } else {
-            $_data = array(
-                'applicant_id' => Auth::id(),
-                'is_finish' => 0
-            );
-            $_examinee = ApplicantEntranceExamination::create($_data);
-        }
+
         $_department = Auth::user()->course->id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
-        $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->where('is_removed',false)->first();
+        $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->where('is_removed', false)->first();
         return view('pages.applicant.home.examination_questioner', compact('_examination'));
     }
     public function examination_store(Request $_request)
