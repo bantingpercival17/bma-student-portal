@@ -56,9 +56,36 @@ $_title = ' STEP 4: Entrance Examination';
                         after the Examination</p>
                     <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at the
                         system.</p>
-                    <p class="m-0">4. You are allotted (1) hours to finish the examination.</p>
-                    <a href="{{ route('applicant.entrance-examination') }}" class="btn btn-primary btn-sm">Take Entrance
-                        Examination</a>
+                    <p class="m-0">4. You are allotted (2) hours to finish the examination.</p>
+                    <p class="m-0">Once you enter the Examination Code it will be start your Entrance Examination
+                    </p>
+                    <br>
+                    <form action="{{ route('applicant.entrance-examination-verified') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <small class="fw-bolder">EXAMINATION CODE</small> <br>
+                            <label for="" class="form-label text-primary fw-bolder">
+                                {{ Auth::user()->examination->examination_code }}
+                            </label>
+                            <div class="row">
+                                <div class="col-md">
+                                    <input type="text" class="form-control" name="exam_code"
+                                        placeholder="Enter Examination Code">
+                                    @error('exam_code')
+                                        <span class="mt-2 badge bg-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md">
+                                    <button type="submit" class="btn btn-primary ">Take Examination</button>
+                                </div>
+
+                            </div>
+                            @if (Session::has('error'))
+                                <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
+                            @endif
+                        </div>
+
+                    </form>
                 </div>
                 </p>
             @endif
