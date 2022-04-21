@@ -244,31 +244,31 @@ class ApplicantController extends Controller
     {
         $_department = Auth::user()->course->id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
         $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->first();
-        $fields = [];
+        /*  $fields = [];
         foreach ($_examination->categories as $key => $category) {
             foreach ($category->questions as $key_category => $question) {
                 $fields += [base64_encode($question->id) => 'required'];
             }
-        }
-        $_request->validate($fields);
+        } */
+        //$_request->validate($fields);
         $_data = [];
         //return Auth::user()->examination->id;
-        foreach ($_request->input() as $key => $inputs) {
-            if ($key != "_token") {
-                $_data = array(
-                    'question_id' => base64_decode($key),
-                    'choices_id' => $inputs,
-                    'examination_id' => Auth::user()->examination->id,
-                );
-                $_answer = ApplicantExaminationAnswer::where([
-                    'question_id' => base64_decode($key),
-                    'examination_id' => Auth::user()->examination->id,
-                ])->first();
-                if (!$_answer) {
-                    ApplicantExaminationAnswer::create($_data);
-                }
+        //return $_request->question;
+        foreach ($_request->question as $key => $value) {
+            $_data = array(
+                'question_id' => $value,
+                'choices_id' => $_request->input(base64_encode($value)),
+                'examination_id' => Auth::user()->examination->id,
+            );
+            $_answer = ApplicantExaminationAnswer::where([
+                'question_id' => $value,
+                'examination_id' => Auth::user()->examination->id,
+            ])->first();
+            if (!$_answer) {
+                ApplicantExaminationAnswer::create($_data);
             }
         }
+     
         $_examinee = ApplicantEntranceExamination::where('applicant_id', Auth::id())->where('is_removed', 0)->first();
         $_examinee->is_finish = true;
         $_examinee->save();

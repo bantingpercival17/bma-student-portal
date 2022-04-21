@@ -21,6 +21,6 @@ class ExaminationQuestion extends Model
     }
     public function choices()
     {
-        return $this->hasMany(ExaminationQuestionChoice::class, 'question_id')->orderBy('choice_name', 'asc');
+        return $this->hasMany(ExaminationQuestionChoice::class, 'question_id')->orderBy('choice_name', 'asc')->where('is_removed', 0);
     }
 }

@@ -30,20 +30,38 @@ $_title = ' STEP 4: Entrance Examination';
     <div class="d-inline-block w-100">
         @if (Auth::user()->examination)
             @if (Auth::user()->examination->is_finish == 1)
-                {{ Auth::user()->examination->result() }}
                 @if (Auth::user()->examination->result())
                     <p class="mb-0">
-                        Congratulation you Passed the Entrance Examination, Kindly wait the announcement to your email
+                        Congratulation, you Passed the Entrance Examination, Kindly wait for the announcement in your email
                         account
-                        for the Annoument.
                     </p>
                 @else
                     <p class="mb-0">
-                        Thank you
-                        If you really want to go Baliwag Maritime Academy, Kindly create a letter of intent send to
-                        <b>dean@bma.edu.ph </b> and <b>registar@bma.edu.ph</b>
+                        Thank you for trying here at Baliwag Maritime Academy sorry to tell you that you did not meet the
+                        Passing Score for the Entrance Examination.
                     </p>
                 @endif
+              {{--   <div class="row">
+                    @foreach (Auth::user()->examination_question()->distinct_categories()
+        as $key => $item)
+                        <div class="col-md-4">
+                            <div class="card  iq-purchase">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <small class="text-primary fw-bolder"> {{ $item->subject_name }}</small>
+
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <span class="text-info display-5">10</span>
+                                            <small class="text-muted">/20</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div> --}}
             @else
                 <p class="mb-0">
                 <div class="mt-3">

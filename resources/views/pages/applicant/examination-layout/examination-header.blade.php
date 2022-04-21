@@ -22,9 +22,8 @@
                 <ul class="navbar-nav ms-auto top-menu navbar-nav align-items-center navbar-list mb-3 mb-lg-0">
 
                     <li>
-                        <span class="nav-link ">TIME</span>
+                        <span class="nav-link " id="count-down">TIME</span>
                     </li>
-                    <!-- PERCI PAKI ENABLE LANG SANA TO KUNG NKA LOGIN UNG USERS-->
 
                 </ul>
             </div>
