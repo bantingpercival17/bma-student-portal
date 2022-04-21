@@ -18,7 +18,7 @@
 
 </head>
 
-<body class=" ">
+<body id="template-body" class=" ">
     <!-- loader Start -->
     <div id="loading">
         <div class="loader ">

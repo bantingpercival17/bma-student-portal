@@ -13,8 +13,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                         @csrf
                         <ul id="top-tab-list" class="p-0 row list-inline">
                             @foreach ($_examination->distinct_categories() as $key => $item)
-                                <li id="personal"
-                                    class="col-lg-3 col-md-6 mb-2 text-center {{ $key == 0 ? 'active' : '' }}">
+                                <li id="personal" class="col-lg col-md mb-2 text-center {{ $key == 0 ? 'active' : '' }}">
                                     <a href="javascript:void();">
                                         <div class="iq-icon me-3">
                                             <svg height="20" width="20" fill="none" viewBox="0 0 24 24"
@@ -34,7 +33,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                             </svg>
                                         </div>
                                         <br>
-                                        <span class="mt-4">{{ $item->subject_name }}</span>
+                                        <small class="mt-4">{{ $item->subject_name }}</small> 
                                     </a>
                                 </li>
                             @endforeach
@@ -76,14 +75,17 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                                             </p>
                                                             {{-- Image Question --}}
                                                             @if ($question->image_path != 'none' && $question->image_path != null)
-                                                                <img style="width:50%; height:50%;"
+                                                                <img {{-- style="width:50%; height:50%;" --}} class="img-fluid"
                                                                     src="{{ asset('assets/image/questions/' . str_replace('http:bma.edu.ph/assests/image/questions/', '', $question->image_path)) }}"
                                                                     alt="">
                                                             @endif
                                                             <div class="question-choices ">
                                                                 <div class="form-group">
+                                                                    <input type="hidden" name="question[]"
+                                                                        value="{{ $question->id }}">
                                                                     @foreach ($question->choices as $choices)
                                                                         <div class="form-check d-block">
+
                                                                             <input class="form-check-input" type="radio"
                                                                                 name="{{ base64_encode($question->id) }}"
                                                                                 id="choices_{{ $choices->id }}"
@@ -138,6 +140,13 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
             </div>
         </div>
     </div>
+@section('js')
+    <script>
+        var timer = "{{ Auth::user()->examination->updated_at }}";
+    </script>
+    <script src="{{ asset('js/script.js') }}">
 
+    </script>
+@endsection
 
 @endsection
