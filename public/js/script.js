@@ -35,7 +35,7 @@ function count_down_timer(baseTime) {
     console.log(baseTime)
     var baseTimeSecond = baseTime.getTime()
     var addSecond = 60 * 60 * 2000; // Duration
-    var addSecond = 60 * 60 * 500; // Duration
+    //var addSecond = 60 * 60 * 500; // Duration
     
     var newBaseTime = new Date(baseTimeSecond + addSecond);
     console.log(newBaseTime)

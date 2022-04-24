@@ -147,9 +147,11 @@ class ApplicantController extends Controller
             'file_links' => $_request->file_link,
             'is_removed' => 0
         );
-        $_documents = ApplicantDocuments::find($_request->applicant_doc);
-        $_documents->is_removed = 1;
-        $_documents->save();
+        if ($_request->applicant_doc) {
+            $_documents = ApplicantDocuments::find($_request->applicant_doc);
+            $_documents->is_removed = 1;
+            $_documents->save();
+        }
         ApplicantDocuments::create($_data);
         return redirect(route('applicant.home'))->with('success', 'Successfully Upload the Document Requirement');
     }
@@ -268,7 +270,7 @@ class ApplicantController extends Controller
                 ApplicantExaminationAnswer::create($_data);
             }
         }
-     
+
         $_examinee = ApplicantEntranceExamination::where('applicant_id', Auth::id())->where('is_removed', 0)->first();
         $_examinee->is_finish = true;
         $_examinee->save();
