@@ -41,9 +41,9 @@ $_title = ' STEP 4: Entrance Examination';
                         Passing Score for the Entrance Examination.
                     </p>
                 @endif
-              {{--   <div class="row">
+                {{-- <div class="row">
                     @foreach (Auth::user()->examination_question()->distinct_categories()
-        as $key => $item)
+    as $key => $item)
                         <div class="col-md-4">
                             <div class="card  iq-purchase">
                                 <div class="card-body">
@@ -121,15 +121,46 @@ $_title = ' STEP 4: Entrance Examination';
 @endsection
 
 @section('step-4-active-content')
+    <p class="mb-0">
     <div class="mt-3">
         <p class="text-primary fw-bolder h5">Welcome Applicants</p>
         <p> <span class="fw-bolder">INSTRUCTION</span></p>
         <p class="m-0">1. Ensure that you have a strong internet connection.</p>
-        <p class="m-0">2. Once you are logged in, read carefully and understand the guidelines prior to and
+        <p class="m-0">2. Once you are logged in, read carefully and understand the guidelines prior
+            to
+            and
             after the Examination</p>
-        <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at the system.</p>
-        <p class="m-0">4. You are allotted (1) hours to finish the examination.</p>
-        <a href="{{ route('applicant.entrance-examination') }}" class="btn btn-primary btn-sm">Take Entrance
-            Examination</a>
+        <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at the
+            system.</p>
+        <p class="m-0">4. You are allotted (2) hours to finish the examination.</p>
+        <p class="m-0">Once you enter the Examination Code it will be start your Entrance Examination
+        </p>
+        <br>
+        <form action="{{ route('applicant.entrance-examination-verified') }}" method="post">
+            @csrf
+            <div class="form-group">
+                <small class="fw-bolder">EXAMINATION CODE</small> <br>
+                <label for="" class="form-label text-primary fw-bolder">
+                    {{ Auth::user()->examination->examination_code }}
+                </label>
+                <div class="row">
+                    <div class="col-md">
+                        <input type="text" class="form-control" name="exam_code" placeholder="Enter Examination Code">
+                        @error('exam_code')
+                            <span class="mt-2 badge bg-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-md">
+                        <button type="submit" class="btn btn-primary ">Take Examination</button>
+                    </div>
+
+                </div>
+                @if (Session::has('error'))
+                    <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
+                @endif
+            </div>
+
+        </form>
     </div>
+    </p>
 @endsection
