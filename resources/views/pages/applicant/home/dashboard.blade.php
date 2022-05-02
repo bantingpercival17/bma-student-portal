@@ -97,7 +97,7 @@ $_title = 'Overview';
                                         Application
                                         Form</a>
                                 @else
-                                    Kindly Fill-up the Form for your Additional Infromation,<a
+                                    Kindly Fill-up the Form for your Additional Information,<a
                                         href="{{ route('applicant.student-view') }}">click here.</a>
                                 @endif
                             </p>
@@ -119,7 +119,7 @@ $_title = 'Overview';
                                         STEP 2: Document Requirements</h5>
                                     <div class="d-inline-block w-100">
                                         <p class="mb-0">
-                                            All the Documents are Verified, you can proceed to the Entrance Examination
+                                            All the Documents are Verified, and you can proceed to the Entrance Examination
                                             Payment.
                                         </p>
                                     </div>
@@ -383,100 +383,7 @@ $_title = 'Overview';
                                             @endforeach
 
 
-                                            {{-- @foreach ($_applicant_documents as $item)
-                                                <div class="col-md-4 mt-2 ">
-                                                    <h5 class="text-muted fw-bolder">
-                                                        {{ $item->document->document_name }}
-                                                    </h5>
-                                                    @if ($item->is_approved === null)
-                                                        <span class="text-info">This Document is under
-                                                            verification</span>
-                                                        <a class="btn-form-document col" data-bs-toggle="modal"
-                                                            data-bs-target=".document-view-modal"
-                                                            data-document-url="{{ json_decode($item->file_links)[0] }}">
-                                                            view document
-                                                        </a>
-                                                    @else
-                                                        @if ($item->is_approved === 1)
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <span class="text-primary">APPROVED
-                                                                        DOCUMENT</span>
-                                                                </div>
-                                                                <div class="col-md">
-                                                                    <div class="form-group">
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            BY:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            DATE:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @else
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <span class="text-danger fw-bolder">DISAPPROVED
-                                                                        DOCUMENT</span>
-                                                                </div>
-                                                                <div class="col-md">
-                                                                    <div class="form-group">
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            BY:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            DATE:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <form action="{{ route('applicant.reupload-documents') }}"
-                                                                method="post" enctype="multipart/form-data"
-                                                                class="needs-validation" novalidate>
-                                                                <input type="hidden" class="token" name="_token"
-                                                                    value="{{ csrf_token() }}" />
-                                                                <input type="hidden" name="applicant_doc"
-                                                                    value="{{ $item->id }}">
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <small class="form-label"><b>ATTACH
-                                                                                    FILES<sup
-                                                                                        class="text-danger">*</sup></b></small>
-                                                                            <input class="form-control file-input"
-                                                                                id="{{ $item->id }}"
-                                                                                data-url="{{ route('applicant.file-upload') }}"
-                                                                                data-name="{{ $item->id }}" type="file"
-                                                                                required accept="img">
-                                                                            <input type="hidden" name="document"
-                                                                                value="{{ $item->document_id }}">
-                                                                            <input type="hidden"
-                                                                                class="{{ $item->id }}-file"
-                                                                                name="file_link" value="">
-
-                                                                            <div
-                                                                                class="image_frame{{ $item->id }} row mt-2">
-                                                                            </div>
-                                                                            <div class="invalid-feedback">
-                                                                                Please attach a files for
-                                                                                {{ $item->document_name }}.
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary btn-sm w-100 ms-2">Submit</button>
-                                                                </div>
-                                                            </form>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            @endforeach --}}
-
+                                    
                                         </div>
                                     </div>
                                 @endif

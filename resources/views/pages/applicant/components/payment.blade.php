@@ -25,7 +25,7 @@
     </h5>
     <div class="d-inline-block w-100">
         <p class="mb-0">
-            Your Payment was Verified. You may can now take the Entrance Examination
+            Your Payment was Verified. You may now take the Entrance Examination
         </p>
     </div>
 @endsection
