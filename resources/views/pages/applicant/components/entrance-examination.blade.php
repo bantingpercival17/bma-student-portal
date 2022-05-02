@@ -77,6 +77,8 @@ $_title = ' STEP 4: Entrance Examination';
                     <p class="m-0">4. You are allotted (2) hours to finish the examination.</p>
                     <p class="m-0">Once you enter the Examination Code it will be start your Entrance Examination
                     </p>
+                    <p>5.We recommend using Laptop/Desktop running atleast Windows 7 or higher to take the examination.
+                        We also recommend to use Google Chrome as browser in taking the examination.</p>
                     <br>
                     <form action="{{ route('applicant.entrance-examination-verified') }}" method="post">
                         @csrf
