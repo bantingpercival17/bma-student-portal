@@ -87,14 +87,14 @@ $_title = 'Overview';
 
                             <p class="mb-0">
                                 @if ($_applicant)
-                                    Successfully Complete your Application Form, now you can proceed to the Document
+                                    Successfully Completed your Application Form, now you can proceed to the Document
                                     Requirements for Uploading the Files.
                                     <a href="{{ route('applicant.update-information') }}"
                                         class="btn btn-info btn-sm text-white">
-                                        Update Applicantion Form
+                                        Update Application Form
                                     </a>
                                     <a href="{{ route('applicant-form') }}" class="btn btn-primary btn-sm">View
-                                        Applicantion
+                                        Application
                                         Form</a>
                                 @else
                                     Kindly Fill-up the Form for your Additional Infromation,<a
