@@ -108,6 +108,11 @@ $_title = ' STEP 4: Entrance Examination';
                     </form>
                 </div>
                 </p>
+            @else
+                <p>Kindly Contact the IT Support to Generate your Examination Code. <br>
+                    Contact Person: Percival Banting <br>
+                    Contact Number: 09754259234
+                </p>
             @endif
         @endif
 
@@ -140,31 +145,39 @@ $_title = ' STEP 4: Entrance Examination';
         <p>5.We recommend using Laptop/Desktop running atleast Windows 7 or higher to take the examination.
             We also recommend to use Google Chrome as browser in taking the examination.</p>
         <br>
-        <form action="{{ route('applicant.entrance-examination-verified') }}" method="post">
-            @csrf
-            <div class="form-group">
-                <small class="fw-bolder">EXAMINATION CODE</small> <br>
-                <label for="" class="form-label text-primary fw-bolder">
-                    {{ Auth::user()->examination->examination_code }}
-                </label>
-                <div class="row">
-                    <div class="col-md">
-                        <input type="text" class="form-control" name="exam_code" placeholder="Enter Examination Code">
-                        @error('exam_code')
-                            <span class="mt-2 badge bg-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="col-md">
-                        <button type="submit" class="btn btn-primary ">Take Examination</button>
-                    </div>
+        @if (Auth::user()->examination)
+            <form action="{{ route('applicant.entrance-examination-verified') }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <small class="fw-bolder">EXAMINATION CODE</small> <br>
+                    <label for="" class="form-label text-primary fw-bolder">
+                        {{ Auth::user()->examination->examination_code }}
+                    </label>
+                    <div class="row">
+                        <div class="col-md">
+                            <input type="text" class="form-control" name="exam_code" placeholder="Enter Examination Code">
+                            @error('exam_code')
+                                <span class="mt-2 badge bg-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md">
+                            <button type="submit" class="btn btn-primary ">Take Examination</button>
+                        </div>
 
+                    </div>
+                    @if (Session::has('error'))
+                        <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
+                    @endif
                 </div>
-                @if (Session::has('error'))
-                    <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
-                @endif
-            </div>
 
-        </form>
+            </form>
+        @else
+            <p>Kindly Contact the IT Support to Generate your Examination Code. <br>
+                Contact Person: Percival Banting <br>
+                Contact Number: 09754259234
+            </p>
+        @endif
+
     </div>
     </p>
 @endsection
