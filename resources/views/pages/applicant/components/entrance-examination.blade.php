@@ -108,11 +108,7 @@ $_title = ' STEP 4: Entrance Examination';
                     </form>
                 </div>
                 </p>
-            @else
-                <p>Kindly Contact the IT Support to Generate your Examination Code. <br>
-                    Contact Person: Percival Banting <br>
-                    Contact Number: 09754259234
-                </p>
+           
             @endif
         @endif
 

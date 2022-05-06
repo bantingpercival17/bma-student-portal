@@ -225,6 +225,7 @@ class ApplicantController extends Controller
             if ($_examination->examination_code == $_request->exam_code) {
                 if ($_examination->is_finish == null) {
                     $_examination->is_finish = 0; // I mean Ongoing the Examination, the null mean they have an examination/test questioner we to verified
+                    $_examination->created_at = now();
                     $_examination->save();
                     return redirect(route('applicant.entrance-examination'))->with('success', 'Entrance Examination Code Verified');
                 } else {
