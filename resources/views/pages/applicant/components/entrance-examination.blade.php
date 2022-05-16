@@ -31,37 +31,19 @@ $_title = ' STEP 4: Entrance Examination';
         @if (Auth::user()->examination)
             @if (Auth::user()->examination->is_finish == 1)
                 @if (Auth::user()->examination->result())
-                    <p class="mb-0">
-                        Congratulation, you Passed the Entrance Examination, Kindly wait for the announcement in your email
-                        account
-                    </p>
+                    <div class="mb-0">
+                        <p class="mb-0">
+                            Congratulation, you Passed the Entrance Examination, Kindly wait for the announcement in your email account
+                        </p>
+                        <p>Briefing is on </p>
+                        <h4 class="text-primary fw-bolder">May 23, 2022 </h4>
+                    </div>
                 @else
                     <p class="mb-0">
                         Thank you for trying here at Baliwag Maritime Academy sorry to tell you that you did not meet the
                         Passing Score for the Entrance Examination.
                     </p>
                 @endif
-                {{-- <div class="row">
-                    @foreach (Auth::user()->examination_question()->distinct_categories()
-    as $key => $item)
-                        <div class="col-md-4">
-                            <div class="card  iq-purchase">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <small class="text-primary fw-bolder"> {{ $item->subject_name }}</small>
-
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div>
-                                            <span class="text-info display-5">10</span>
-                                            <small class="text-muted">/20</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div> --}}
             @else
                 <p class="mb-0">
                 <div class="mt-3">
@@ -108,7 +90,6 @@ $_title = ' STEP 4: Entrance Examination';
                     </form>
                 </div>
                 </p>
-           
             @endif
         @endif
 
