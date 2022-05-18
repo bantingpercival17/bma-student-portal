@@ -15,7 +15,7 @@ Route::prefix('bma')->group(function () {
     Route::post('/ticket', [WebsiteController::class, 'ticket_login'])->name('ticket-login');
     Route::get('/ticket/view', [WebsiteController::class, 'ticket_view'])->name('ticket-view');
     Route::post('/ticket/chat-message', [WebsiteController::class, 'ticket_message_chat'])->name('ticket.chat-store');
-
+    Route::post('/ticket/file-upload', [WebsiteController::class, 'upload_document_file'])->name('ticket.file-upload');
     Route::get('/login', [WebsiteController::class, 'login_view'])->name('applicant-view')->middleware('guest:applicant');
     Route::post('/login', [WebsiteController::class, 'login'])->name('applicant-login')->middleware('guest:applicant');
     Route::prefix('applicant')->middleware(['auth:applicant'])->group(function () {

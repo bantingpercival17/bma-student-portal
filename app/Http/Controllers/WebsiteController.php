@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TicketMail;
 use App\Models\AcademicYear;
 use App\Models\ApplicantAccount;
 use App\Models\Ticket;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class WebsiteController extends Controller
 {
@@ -94,9 +96,10 @@ class WebsiteController extends Controller
         ]);
         // TNYM-0001
         //TN042022-RLNDRTHRMGLNZ
-        $_name = str_ireplace(array('a', 'e', 'o', 'i', 'u'), '', $_request->full_name);
-        $_add_number = $this->alphabet_to_number($_name);
-        $_ticket_number = 'TN' . date('mY') . $_add_number;
+        $_number = TicketConcern::all();
+        //$_name = str_ireplace(array('a', 'e', 'o', 'i', 'u'), '', $_request->full_name);
+        //$_add_number = $this->alphabet_to_number($_name);
+        $_ticket_number =  date('ymd-hs') . $_number->count();
         $_ticket = Ticket::create([
             'name' => $_request->full_name,
             'email' => $_request->email,
@@ -109,7 +112,9 @@ class WebsiteController extends Controller
             'issue_id' => $_request->concern,
             'ticket_message' => $_request->concern_message
         ]);
-        return back()->with('success', 'Thank you, your concern will be sent. TICKET NUMBER: ' . $_ticket_number);
+        $_ticket_mail = new TicketMail($_ticket);
+        Mail::to($_request->email)->send($_ticket_mail);
+        return redirect(route('ticket-view') . '?_t=' . base64_encode($_ticket_number))->with('success', 'Thank you, your concern will be sent. TICKET NUMBER: ' . $_ticket_number);
     }
 
     function alphabet_to_number($string)
@@ -154,8 +159,8 @@ class WebsiteController extends Controller
     public function ticket_view(Request $_request)
     {
         $ticket = Ticket::where(['ticket_number' => base64_decode($_request->_t), 'is_removed' => 0])->first();
-        TicketChat::where('ticket_id', $ticket->concern->id)->where('sender_column', 'ticket_id')->update(['is_read' => true]);
-        $messages = TicketChat::where('ticket_id', $ticket->concern->id)->get();
+        TicketChat::where('ticket_id', $ticket->concern->id)->where('sender_column', 'ticket_id')->where('is_removed', false)->update(['is_read' => true]);
+        $messages = TicketChat::where('ticket_id', $ticket->concern->id)->where('is_removed', false)->get();
         return view('pages.website.contact-us.ticket_view', compact('ticket',  'messages'));
     }
     public function ticket_message_chat(Request $_request)
@@ -182,5 +187,20 @@ class WebsiteController extends Controller
         }
 
         return compact('data');
+    }
+    public function upload_document_file(Request $_request)
+    {
+        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $link .= "://";
+        $link .= $_SERVER['HTTP_HOST'];
+        $_user = base64_decode($_request->_ticket_number);
+        $_url_link =  $link . '/storage/ticket/concern-image/' . $_user . '/';
+        $_file_path = '/public/ticket/concern-image/' . $_user . '/';
+        $file = $_request->file('file');
+        $_date = date('dmYhms');
+        $_file_name =  $_user .  $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
+        $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+        $_file_links = $_url_link . $_file_name; // Get the Link of the Files
+        return  $_file_links;
     }
 }
