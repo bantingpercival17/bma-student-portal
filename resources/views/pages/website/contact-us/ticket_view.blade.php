@@ -122,7 +122,9 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                                                     </div>
                                                     <div class="toast fade show bg-secondary text-white border-0">
                                                         <div class="toast-body">
-                                                            {{ $item->message }}
+                                                            @php
+                                                                echo $item->message;
+                                                            @endphp
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-wrap float-end">
@@ -145,9 +147,11 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                                                     <small class="mb-1 fw-bolder text-primary">
                                                         {{ $item->staff->first_name . ' ' . $item->staff->last_name }}
                                                     </small>
-                                                    <div class="toast fade show bg-secondary text-white border-0 mb-1">
+                                                    <div class="toast fade show bg-primary text-white border-0 mb-1">
                                                         <div class="toast-body">
-                                                            {{ $item->message }}
+                                                            @php
+                                                                echo $item->message;
+                                                            @endphp
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-wrap align-items-center">
@@ -169,28 +173,40 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                                     issue</p>
                             @endif
 
-                            <form action="" class="comment-text d-flex align-items-center mt-3" id="chat-inputs">
+                            <form action="" class="comment-text d-flex align-items-center mt-3 chat-inputs">
 
 
-                                <input type="text" id="message-input" class="form-control rounded-pill"
+                                <input type="text" id="message-input" class="form-control rounded-pill "
                                     placeholder="Compose message!" {{ count($messages) > 0 ? '' : 'disabled' }}>
                                 {!! csrf_field() !!}
                                 <input type="hidden" class="ticket" value="{{ $ticket->concern->id }}">
                                 <input type="hidden" class="staff"
-                                    value="{{ $ticket->concern->chat->staff_id }}">
-                                <div class="comment-attagement d-flex">
+                                    value="{{ $ticket->concern->chat ? $ticket->concern->chat->staff_id : '' }}">
 
-                                    <a href="#" class="me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-original-title="Resolved Concern!">
+                                <div class="comment-attagement d-flex">
+                                    <a class="btn btn-outline-secondary rounded-pill btn-sm me-2" data-bs-toggle="modal"
+                                        data-bs-target=".view-modal" data-bs-toggle="tooltip" title=""
+                                        data-bs-original-title="Attach Image">
                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z"
+                                            <path
+                                                d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                 stroke-linejoin="round"></path>
-                                            <path d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272" stroke="currentColor"
+                                            <path d="M12.0215 2.19044V14.2314" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189" stroke="currentColor"
                                                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                         </svg>
                                     </a>
+                                    <button type="submit" class="btn btn-outline-primary rounded-pill btn-sm"
+                                        data-bs-toggle="tooltip" title="" data-bs-original-title="Resolved   Concern!">
+                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -199,14 +215,125 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
             </div>
         </div>
     </div>
+    <div id="form-modal-view" class="modal fade view-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Attach Image</h5>
+                    <a class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="form-modal">
+                        <input type="hidden" class="token" name="_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" class="_ticket_number" value={{ request()->input('_t') }}>
+                        <input type="hidden" class="modal-ticket" value="{{ $ticket->concern->id }}">
+                        <input type="hidden" class="modal-staff"
+                            value="{{ $ticket->concern->chat ? $ticket->concern->chat->staff_id : '' }}">
+                        <div class="form-group">
+
+                            <small class="form-label"><b>ATTACH FILES<sup class="text-danger">*</sup></b></small>
+                            <input class="form-control file-input" id="ticket"
+                                data-url="{{ route('ticket.file-upload') }}" data-name="ticket" type="file" multiple
+                                accept="image/jpeg, image/png">
+                            <input type="hidden" class="upload-file" name="file_url[]" value="">
+
+                            <div class="image-frame-ticket row mt-2 mb-3">
+                            </div>
+                            <input type="text" class="form-control rounded-pill ticket-file message-input"
+                                placeholder="Compose message!" {{ count($messages) > 0 ? '' : 'disabled' }} required>
+
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary w-100" data-bs-dismiss="modal" aria-label="Close">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
 @section('js')
+    {{-- <script src="{{ asset('resources/js/plugins/file-uploads.js') }}"></script> --}}
+    <script>
+        file_upload()
+        let input_file
+
+        function file_upload() {
+            $('.file-input').change(function() {
+                input_file = [];
+                var document = $(this).data('name');
+                var files = $('#' + document)[0].files
+                var url = $(this).data('url');
+                $('.image-frame' + document).empty()
+                for (let index = 0; index < files.length; index++) {
+                    $('.image-frame-' + document).append(fileDisplay(files[index], index, document))
+                    fileUpload(files[index], document, index, input_file, url)
+                }
+                console.log('.' + document + '-file')
+
+            })
+        }
+
+        function fileUpload(file, document, index, input_file, url) {
+            let request = new XMLHttpRequest();
+            let data = new FormData();
+            data.append('file', file)
+            data.append('_token', $('.token').val())
+            data.append('_documents', document)
+            data.append('_file_number', index)
+            data.append('_ticket_number', $('._ticket_number').val())
+            let uploadProgress = $('.progress-bar-' + document + '-' + index)
+            request.upload.onloadstart = function(e) {
+                //console.log('Start Upload')
+                uploadProgress.css({
+                    width: '0%'
+                })
+            }
+            request.upload.onprogress = function(e) {
+                percentage = (e.total / e.loaded) * 100
+                uploadProgress.css({
+                    width: percentage + '%'
+                })
+                //console.log('uploading')
+            }
+           
+            request.open("POST", url, true);
+            request.send(data)
+            request.onload = function() {
+                if (request.readyState === request.DONE) {
+                    if (request.status === 200) {
+                        input_file.push(
+                            '<a target="_blank" class="btn btn-primary btn-sm col-md mt-1 mb-1 ms-1" href="' +
+                            request.responseText +
+                            '">View image</a>')
+                        //file_name = JSON.stringify(input_file);
+                        $('.' + document + '-file').val(input_file)
+                    }
+                }
+            };
+            request.upload.onloadend = function(e) {
+                //console.log('End uploading')
+                uploadProgress.max = e.total
+            }
+        }
+
+        function fileDisplay(files, index, document) {
+            var layout = "<div class='col-md'>" +
+                files.name.substring(0, 10).concat('...') +
+                '<div class="progress bg-soft-success shadow-none w-100" style="height: 6px">' +
+                '<div class="progress-bar progress-bar-' + document + '-' + index +
+                ' bg-success" data-toggle="progress-bar" ></div>' +
+                '</div>' +
+                "</div>";
+            return layout;
+        }
+    </script>
     <script>
         $(".chat-messages").animate({
             scrollTop: 20000000
         }, "slow");
 
-        $('#chat-inputs').on('submit', function(evt) {
+        $('.chat-inputs').on('submit', function(evt) {
             evt.preventDefault();
             var message = $('#message-input').val()
             if (message.trim().length == 0) {
@@ -222,6 +349,24 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                 $('#message-input').val("")
             }
         })
+        $('#form-modal').on('submit', function(evt) {
+            evt.preventDefault();
+             var message = $('.message-input').val()
+             if (message.trim().length == 0) {
+                 $('.message-input').focus()
+             } else {
+                 var data = {
+                     'ticket': $('.modal-ticket').val(),
+                     'staff': $('.modal-staff').val(),
+                     '_token': $('input[name="_token"]').val(),
+                     'message': message
+                 };
+                 send_data(data)
+                 $('#ticket').val("")
+                 $('.message-input').val("")
+                 $('.image-frame' + $(this).data('name')).empty()
+             }
+        })
 
         function send_data(data) {
             var html = append_chat(data)
@@ -235,6 +380,12 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                 if (respond.data.respond == 404) {
                     //$('.chat-messages').append(html)
                     console.log(respond.data.message)
+                    Swal.fire({
+                        title: 'Error',
+                        text: respond.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    })
                 }
             })
         }
