@@ -169,8 +169,8 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                         </div>
                         <div class="card-footer text-center">
                             @if (!count($messages) > 0)
-                                <p class="badge bg-warning">Please the Respond of the dedicated department for your
-                                    issue</p>
+                                <p class="badge bg-info">Please wait for the Respond of the dedicated department for your
+                                    issue.</p>
                             @endif
 
                             <form action="" class="comment-text d-flex align-items-center mt-3 chat-inputs">
