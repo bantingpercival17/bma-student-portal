@@ -177,7 +177,7 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
 
 
                                 <input type="text" id="message-input" class="form-control rounded-pill "
-                                    placeholder="Compose message!" {{ count($messages) > 0 ? '' : 'disabled' }}>
+                                    placeholder="Compose message!">
                                 {!! csrf_field() !!}
                                 <input type="hidden" class="ticket" value="{{ $ticket->concern->id }}">
                                 <input type="hidden" class="staff"
@@ -241,10 +241,11 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                             <div class="image-frame-ticket row mt-2 mb-3">
                             </div>
                             <input type="text" class="form-control rounded-pill ticket-file message-input"
-                                placeholder="Compose message!" {{ count($messages) > 0 ? '' : 'disabled' }} required>
+                                placeholder="Append Link" required>
 
                         </div>
-                        <button type="submit" class="btn btn-sm btn-primary w-100" data-bs-dismiss="modal" aria-label="Close">Send</button>
+                        <button type="submit" class="btn btn-sm btn-primary w-100" data-bs-dismiss="modal"
+                            aria-label="Close">Send</button>
                     </form>
                 </div>
             </div>
@@ -296,7 +297,7 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                 })
                 //console.log('uploading')
             }
-           
+
             request.open("POST", url, true);
             request.send(data)
             request.onload = function() {
@@ -351,21 +352,21 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
         })
         $('#form-modal').on('submit', function(evt) {
             evt.preventDefault();
-             var message = $('.message-input').val()
-             if (message.trim().length == 0) {
-                 $('.message-input').focus()
-             } else {
-                 var data = {
-                     'ticket': $('.modal-ticket').val(),
-                     'staff': $('.modal-staff').val(),
-                     '_token': $('input[name="_token"]').val(),
-                     'message': message
-                 };
-                 send_data(data)
-                 $('#ticket').val("")
-                 $('.message-input').val("")
-                 $('.image-frame' + $(this).data('name')).empty()
-             }
+            var message = $('.message-input').val()
+            if (message.trim().length == 0) {
+                $('.message-input').focus()
+            } else {
+                var data = {
+                    'ticket': $('.modal-ticket').val(),
+                    'staff': $('.modal-staff').val(),
+                    '_token': $('input[name="_token"]').val(),
+                    'message': message
+                };
+                send_data(data)
+                $('#ticket').val("")
+                $('.message-input').val("")
+                $('.image-frame' + $(this).data('name')).empty()
+            }
         })
 
         function send_data(data) {
