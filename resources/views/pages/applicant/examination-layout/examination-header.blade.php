@@ -12,17 +12,13 @@
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">
-                    <span class="navbar-toggler-bar bar1 mt-2"></span>
-                    <span class="navbar-toggler-bar bar2"></span>
-                    <span class="navbar-toggler-bar bar3"></span>
-                </span>
+                <span class="nav-link display-6" id="count-down">TIME</span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto top-menu navbar-nav align-items-center navbar-list mb-3 mb-lg-0">
 
                     <li>
-                        <span class="nav-link " id="count-down">TIME</span>
+                        <span class="nav-link display-6" id="count-down">TIME</span>
                     </li>
 
                 </ul>
