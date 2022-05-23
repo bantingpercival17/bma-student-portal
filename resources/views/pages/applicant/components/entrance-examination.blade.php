@@ -35,8 +35,7 @@ $_title = ' STEP 4: Entrance Examination';
                         <p class="mb-0">
                             Congratulation, you Passed the Entrance Examination, Kindly wait for the announcement in your email account
                         </p>
-                        <p>Briefing is on </p>
-                        <h4 class="text-primary fw-bolder">May 23, 2022 </h4>
+                        <p>Virtaul Briefing is on <span class="text-primary fw-bolder">MAY 25,2022</span></p>
                     </div>
                 @else
                     <p class="mb-0">
