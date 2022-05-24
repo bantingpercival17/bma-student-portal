@@ -93,7 +93,9 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                                                                 {{ old(base64_encode($question->id)) == $choices->id ? 'checked' : '' }}>
                                                                             <label class="form-check-label"
                                                                                 for="choices_{{ $choices->id }}">
-                                                                                {{ $choices->choice_name }}
+                                                                                @php
+                                                                                    echo $choices->choice_name
+                                                                                @endphp
                                                                             </label>
                                                                         </div>
                                                                     @endforeach
@@ -142,7 +144,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
     </div>
 @section('js')
     <script>
-        var timer = "{{ Auth::user()->examination->updated_at }}";
+        var timer = "{{ Auth::user()->examination->created_at }}";
     </script>
     <script src="{{ asset('js/script.js') }}">
 

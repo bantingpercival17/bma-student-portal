@@ -52,6 +52,9 @@ function fileUpload(file, document, index, input_file, url) {
         input_file.push(request.responseText)
         file_name = JSON.stringify(input_file);
         $('.' + document + '-file').val(file_name)
+        $('.btn-file-submit-' + document).removeAttr('disabled')
+      } else {
+        alert('File Upload Error')
       }
     }
   };

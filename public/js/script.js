@@ -32,13 +32,13 @@ function requestFullScreen(element) {
 
 function count_down_timer(baseTime) {
     var baseTime = new Date(baseTime)
-    console.log(baseTime)
+    console.log("Base Time: " + baseTime)
     var baseTimeSecond = baseTime.getTime()
     var addSecond = 60 * 60 * 2000; // Duration
     //var addSecond = 60 * 60 * 500; // Duration
-    
+
     var newBaseTime = new Date(baseTimeSecond + addSecond);
-    console.log(newBaseTime)
+    console.log("End Time: " + newBaseTime)
 
     // Time calculations for days, hours, minutes and seconds
     var interVal = setInterval(function () {
@@ -46,16 +46,19 @@ function count_down_timer(baseTime) {
         var distance = newBaseTime.getTime() - now;
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        console.log(hours)
+    
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("count-down").innerHTML = hours + "h " +
-            minutes + "m " + seconds + "s ";
+        console.log(hours + "h " + minutes + "m " + seconds + "s ")
+        $('.count-down').text(hours + "h " + minutes + "m " + seconds + "s ")
+        /* document.getElementsByClassName("count-down").innerHTML = hours + "h " +
+            minutes + "m " + seconds + "s "; */
 
         // If the count down is finished, write some text
         if (distance < 0) {
             clearInterval(interVal);
-            document.getElementById("count-down").innerHTML = "EXPIRED";
+            $('.count-down').text('EXPIRED')
+            //document.getElementsByClassName("count-down").innerHTML = "EXPIRED";
             SubmitFunction()
         }
     }, 1000);

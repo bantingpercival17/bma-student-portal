@@ -135,103 +135,6 @@ $_title = 'Overview';
                                         STEP 2: Document Requirements</h5>
                                     <div class="d-inline-block w-100">
                                         <div class="row">
-
-
-                                            {{-- Try COde --}}
-
-                                            {{-- @foreach ($_applicant_documents as $item)
-                                                <div class="col-md-4 mt-2 ">
-                                                    <h5 class="text-muted fw-bolder">
-                                                        {{ $item->document->document_name }}
-                                                    </h5>
-                                                    @if ($item->is_approved === null)
-                                                        <span class="text-info">This Document is under
-                                                            verification</span>
-                                                        <a class="btn-form-document col" data-bs-toggle="modal"
-                                                            data-bs-target=".document-view-modal"
-                                                            data-document-url="{{ json_decode($item->file_links)[0] }}">
-                                                            view document
-                                                        </a>
-                                                    @else
-                                                        @if ($item->is_approved === 1)
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <span class="text-primary">APPROVED
-                                                                        DOCUMENT</span>
-                                                                </div>
-                                                                <div class="col-md">
-                                                                    <div class="form-group">
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            BY:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            DATE:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @else
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <span class="text-danger fw-bolder">DISAPPROVED
-                                                                        DOCUMENT</span>
-                                                                </div>
-                                                                <div class="col-md">
-                                                                    <div class="form-group">
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            BY:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->staff->user->name }}</span><br>
-                                                                        <small for="" class="form-label">VERIFIED
-                                                                            DATE:</small>
-                                                                        <span
-                                                                            class="text-muted fw-bolder">{{ $item->created_at->format('F d, Y') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <form action="{{ route('applicant.reupload-documents') }}"
-                                                                method="post" enctype="multipart/form-data"
-                                                                class="needs-validation" novalidate>
-                                                                <input type="hidden" class="token" name="_token"
-                                                                    value="{{ csrf_token() }}" />
-                                                                <input type="hidden" name="applicant_doc"
-                                                                    value="{{ $item->id }}">
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <small class="form-label"><b>ATTACH
-                                                                                    FILES<sup
-                                                                                        class="text-danger">*</sup></b></small>
-                                                                            <input class="form-control file-input"
-                                                                                id="{{ $item->id }}"
-                                                                                data-url="{{ route('applicant.file-upload') }}"
-                                                                                data-name="{{ $item->id }}" type="file"
-                                                                                required accept="img">
-                                                                            <input type="hidden" name="document"
-                                                                                value="{{ $item->document_id }}">
-                                                                            <input type="hidden"
-                                                                                class="{{ $item->id }}-file"
-                                                                                name="file_link" value="">
-
-                                                                            <div
-                                                                                class="image_frame{{ $item->id }} row mt-2">
-                                                                            </div>
-                                                                            <div class="invalid-feedback">
-                                                                                Please attach a files for
-                                                                                {{ $item->document_name }}.
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary btn-sm w-100 ms-2">Submit</button>
-                                                                </div>
-                                                            </form>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            @endforeach --}}
                                             @foreach ($_documents as $key => $document)
                                                 @foreach ($_applicant_documents as $item)
                                                     @if ($document->id == $item->document_id)
@@ -376,14 +279,15 @@ $_title = 'Overview';
                                                                 </div>
                                                             </div>
                                                             <button type="submit"
-                                                                class="btn btn-primary btn-sm w-100 ms-2">Submit</button>
+                                                                class="btn btn-primary btn-sm w-100 ms-2 btn-file-submit-{{ $document->id }}"
+                                                                disabled>Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             @endforeach
 
 
-                                    
+
                                         </div>
                                     </div>
                                 @endif
@@ -433,9 +337,7 @@ $_title = 'Overview';
 
                     </li>
                     <li>
-                        @include(
-                            'pages.applicant.components.entrance-examination'
-                        )
+                        @include('pages.applicant.components.entrance-examination')
                         @if ($_applicant && $_document_status && $_payment)
                             @if (Auth::user()->examination)
                                 @yield('step-4-dot-done')
@@ -448,10 +350,32 @@ $_title = 'Overview';
                         @endif
                     </li>
                     <li>
-                        <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
+                        @include('pages.applicant.components.virtual-briefing')
+                        @if ($_applicant && $_document_status && $_payment)
+                            @if (Auth::user()->examination)
+                                {{-- @yield('step-5-dot-done') --}}
+                                @if (Auth::user()->examination->is_finish === 1)
+                                    @if (Auth::user()->examination->result())
+                                        @yield('step-5-dot-active')
+                                        @yield('step-5-active-content')
+                                        
+                                    @else
+                                        @yield('step-5-dot-done')
+                                    @endif
+                                @else
+                                @endif
+                            @else
+                                {{-- @yield('step-5-dot-active')
+                                @yield('step-5-active-content') --}}
+
+                            @endif
+                        @else
+                            @yield('step-5-dot')
+                        @endif
+                        {{-- <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
                         <h5 class="float-left mb-1 text-muted fw-bolder">
                             <i> STEP 5 Passing Applicant Briefing</i>
-                        </h5>
+                        </h5> --}}
                     </li>
                     <li>
                         <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
