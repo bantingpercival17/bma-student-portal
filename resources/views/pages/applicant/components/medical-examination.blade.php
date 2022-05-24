@@ -1,13 +1,13 @@
 @php
-$_title = 'STEP 5: Passing Applicant Briefing';
+$_title = 'STEP 6: Medical Examination';
 @endphp
-@section('step-5-dot')
+@section('step-6-dot')
     <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
     <h5 class="float-left mb-1 text-muted fw-bolder">
         <i>{{ $_title }}</i>
     </h5>
 @endsection
-@section('step-5-dot-active')
+@section('step-6-dot-active')
     <div class="timeline-dots1 border-primary text-primary">
         <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -19,21 +19,9 @@ $_title = 'STEP 5: Passing Applicant Briefing';
         {{ $_title }}
     </h5>
 @endsection
-@section('step-5-active-content')
+@section('step-6-active-content')
     <div class="mb-0">
-        <div class="row">
-            <div class="col-md-4">
-                Congratulation on Passing the Entrance Examination wait for the Virtual Briefing on
-                <span class="text-primary h5 fw-bolder">May 25, 2022</span>
-            </div>
-            <div class="col-md">
-                <div class="ratio ratio-16x9">
-                    <iframe class="embed-responsive-item"
-                        src="https://drive.google.com/file/d/1VgnQw86xMXXcjzXPirKoIiEA-blLPU2H/preview"
-                        allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
+       
 
     </div>
 @endsection

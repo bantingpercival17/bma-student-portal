@@ -358,7 +358,6 @@ $_title = 'Overview';
                                     @if (Auth::user()->examination->result())
                                         @yield('step-5-dot-active')
                                         @yield('step-5-active-content')
-                                        
                                     @else
                                         @yield('step-5-dot-done')
                                     @endif
@@ -372,16 +371,10 @@ $_title = 'Overview';
                         @else
                             @yield('step-5-dot')
                         @endif
-                        {{-- <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
-                        <h5 class="float-left mb-1 text-muted fw-bolder">
-                            <i> STEP 5 Passing Applicant Briefing</i>
-                        </h5> --}}
                     </li>
                     <li>
-                        <div class="timeline-dots timeline-dot1 border-secondary  text-success"></div>
-                        <h5 class="float-left mb-1 text-muted fw-bolder">
-                            <i> STEP 6 Medical</i>
-                        </h5>
+                        @include('pages.applicant.components.medical-examination')
+                        @yield('step-6-dot')
                     </li>
                 </ul>
             </div>
