@@ -1,0 +1,275 @@
+@extends('layouts.applicant-template')
+@php
+$_title = 'Virtual Orientation';
+@endphp
+@section('page-title', $_title)
+@section('beardcrumb-content')
+    <li class="breadcrumb-item ">
+        <a href="">
+            <svg width="14" height="14" class="me-2" viewBox="0 0 22 22" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M8.15722 19.7714V16.7047C8.1572 15.9246 8.79312 15.2908 9.58101 15.2856H12.4671C13.2587 15.2856 13.9005 15.9209 13.9005 16.7047V16.7047V19.7809C13.9003 20.4432 14.4343 20.9845 15.103 21H17.0271C18.9451 21 20.5 19.4607 20.5 17.5618V17.5618V8.83784C20.4898 8.09083 20.1355 7.38935 19.538 6.93303L12.9577 1.6853C11.8049 0.771566 10.1662 0.771566 9.01342 1.6853L2.46203 6.94256C1.86226 7.39702 1.50739 8.09967 1.5 8.84736V17.5618C1.5 19.4607 3.05488 21 4.97291 21H6.89696C7.58235 21 8.13797 20.4499 8.13797 19.7714V19.7714"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>Overview
+        </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+        {{ $_title }}
+    </li>
+@endsection
+@section('page-content')
+    <div class="col-12 mt-4">
+        {{-- <div class="card">
+            <div class="card-header pb-0 p-3">
+                <div class="header-title">
+                    <div class="row">
+                        <div class="col-md">
+                            <h5 class="mb-1"><b>VIRTUAL ORIENTATION</b></h5>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home"
+                                role="tab" aria-controls="v-pills-home" aria-selected="true">INTRODUCTION</a>
+                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile"
+                                role="tab" aria-controls="v-pills-profile" aria-selected="false">REGISTRAR</a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                                href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+                                aria-selected="false">MEDICAL</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
+                                href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
+                                aria-selected="false">ACCOUNTING</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="tab-content mt-0" id="v-pills-tabContent">
+                            <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel"
+                                aria-labelledby="v-pills-home-tab">
+                                <div class="ratio ratio-16x9">
+                                    <iframe class="embed-responsive-item"
+                                        src="https://drive.google.com/file/d/1yQNBvlx6j19BRYm_AOBmymUEok_Y987O/preview"></iframe>
+
+                                </div>
+                                <div class="card mt-3">
+                                    <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                aria-labelledby="v-pills-profile-tab">
+                                <div class="ratio ratio-16x9">
+                                    @if (Auth::user()->course_id == 3)
+                                        <iframe class="embed-responsive-item"
+                                            src="https://drive.google.com/file/d/1ehierCiGlCxQn62RY2E3efqtdUZ3Mw7g/preview"></iframe>
+                                    @else
+                                        <iframe class="embed-responsive-item"
+                                            src="https://drive.google.com/file/d/15Z8F14tMYsJsnS2f-qUwHVF8zpExD5s8/preview"></iframe>
+                                    @endif
+
+                                </div>
+                                <div class="card mt-3">
+                                    <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                aria-labelledby="v-pills-messages-tab">
+                                <div class="ratio ratio-16x9">
+                                    @if (Auth::user()->course_id == 3)
+                                        <iframe class="embed-responsive-item"
+                                            src="https://drive.google.com/file/d/1RnaeqjBrHOZtJLoNJW2PMMJkghRIg28R/preview"></iframe>
+                                    @else
+                                        <iframe class="embed-responsive-item"
+                                            src="https://drive.google.com/file/d/135cQRe8zPZfzmucXux3HVFf3ejJWwCl1/preview"></iframe>
+                                    @endif
+
+                                </div>
+                                <div class="card mt-3">
+                                    <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                                aria-labelledby="v-pills-settings-tab">
+                                <div class="ratio ratio-16x9">
+                                    @if (Auth::user()->course_id == 3)
+                                        <iframe class="embed-responsive-item"
+                                            src="https://drive.google.com/file/d/1K06DvOVgBIQA_0wRbhevvph0nJsSVc8j/preview"></iframe>
+                                    @else
+                                        <iframe class="embed-responsive-item"
+                                            src="https://drive.google.com/file/d/1K06DvOVgBIQA_0wRbhevvph0nJsSVc8j/preview"></iframe>
+                                    @endif
+
+                                </div>
+                                <div class="card mt-3">
+                                    <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title"><b>VIRTUAL ORIENTATION</b></h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="form-wizard1" class="text-center mt-3">
+                    <ul id="top-tab-list" class="p-0 row list-inline">
+                        <li class="col-lg col-md col-sm text-start mb-2 active" id="account">
+                            <a href="javascript:void();">
+
+                                <span>INTRODUCTION</span>
+                            </a>
+                        </li>
+                        <li id="personal" class="col-lg col-md col-sm mb-2 text-start">
+                            <a href="javascript:void();">
+
+                                <span>REGISTRAR</span>
+                            </a>
+                        </li>
+                        <li id="payment" class="col-lg col-md col-sm mb-2 text-start">
+                            <a href="javascript:void();">
+
+                                <span>MEDICAL</span>
+                            </a>
+                        </li>
+                        <li id="payment" class="col-lg col-md col-sm mb-2 text-start">
+                            <a href="javascript:void();">
+
+                                <span>ACCOUNTING</span>
+                            </a>
+                        </li>
+                        <li id="confirm" class="col-lg col-md col-sm mb-2 text-start">
+                            <a href="javascript:void();">
+                                <span>FINISH</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- fieldsets -->
+                    <fieldset>
+                        <div class="form-card text-start">
+                            <div class="ratio ratio-16x9">
+                                <iframe class="embed-responsive-item"
+                                    src="http://bma.edu.ph/resources/video/BRIEFING%20ORIENTATION.mp4"></iframe>
+
+                            </div>
+                            <div class="card mt-3">
+                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                            </div>
+                        </div>
+                        <button type="button" name="next" class="btn btn-primary next action-button float-end"
+                            value="Next">Next</button>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card text-start">
+
+                            <div class="ratio ratio-16x9">
+                                @if (Auth::user()->course_id == 3)
+                                    <iframe class="embed-responsive-item"
+                                        src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_REGISTRAR.mp4"></iframe>
+                                @else
+                                    <iframe class="embed-responsive-item"
+                                        src="http://bma.edu.ph/resources/video/COLLEGE-BRIEFING/COLLEGE_REGISTRAR.mp4"></iframe>
+                                @endif
+
+                            </div>
+                            <div class="card mt-3">
+                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                            </div>
+                        </div>
+                        <button type="button" name="next" class="btn btn-primary next action-button float-end"
+                            value="Next">Next</button>
+                        <button type="button" name="previous"
+                            class="btn btn-dark previous action-button-previous float-end me-1"
+                            value="Previous">Previous</button>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card text-start">
+                            <div class="ratio ratio-16x9">
+                                @if (Auth::user()->course_id == 3)
+                                    <iframe class="embed-responsive-item"
+                                        src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_MEDICAL.mp4"></iframe>
+                                @else
+                                    <iframe class="embed-responsive-item"
+                                        src="http://bma.edu.ph/resources/video/COLLEGE-BRIEFING/COLLEGE_MEDICAL.mp4"></iframe>
+                                @endif
+
+                            </div>
+                            <div class="card mt-3">
+                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                            </div>
+                        </div>
+                        <button type="button" name="next" class="btn btn-primary next action-button float-end"
+                            value="Next">Next</button>
+                        <button type="button" name="previous"
+                            class="btn btn-dark previous action-button-previous float-end me-1"
+                            value="Previous">Previous</button>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card text-start">
+                            <div class="ratio ratio-16x9">
+                                @if (Auth::user()->course_id == 3)
+                                    <iframe class="embed-responsive-item"
+                                        src="https://drive.google.com/file/d/1K06DvOVgBIQA_0wRbhevvph0nJsSVc8j/preview"></iframe>
+                                @else
+                                    <iframe class="embed-responsive-item"
+                                        src="https://drive.google.com/file/d/1K06DvOVgBIQA_0wRbhevvph0nJsSVc8j/preview"></iframe>
+                                @endif
+
+                            </div>
+                            <div class="card mt-3">
+                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
+                            </div>
+                        </div>
+                        <button type="submit" name="next" class="btn btn-primary next action-button float-end"
+                            value="submit">Submit</button>
+                        <button type="button" name="previous"
+                            class="btn btn-dark previous action-button-previous float-end me-1"
+                            value="Previous">Previous</button>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card">
+                            <h2 class="text-success text-center"><strong>THANK YOU!</strong></h2>
+                            <br>
+
+                            <br><br>
+                            <div class="row justify-content-center">
+                                <div class="col-7 text-center">
+                                    <h5 class="purple-text text-center">You Have Successfully Complete the Online
+                                        Orientation.</h5>
+                                    <a href="{{ route('applicant-view') }}"
+                                        class="btn btn-outline-primary rounded-pill mt-3">Go
+                                        to Medical Entrance
+                                        Examination</a>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('js')
+    <script>
+        $('#form-wizard1').submit(function(evt) {
+            $.get('virtual-orientation-complete?_applicant={{ Auth::user()->id }}', function(respond) {
+                console.log(respond)
+            })
+            evt.preventDefault();
+        })
+    </script>
+@endsection

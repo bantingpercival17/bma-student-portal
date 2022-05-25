@@ -20,8 +20,14 @@ $_title = 'STEP 6: Medical Examination';
     </h5>
 @endsection
 @section('step-6-active-content')
-    <div class="mb-0">
-       
+    @if (Auth::user()->course_id == 3)
+    @else
+        <div class="mb-0 mt-3">
+            <label for="" class="h5 fw-bolder">SCHEDULED APPOINTMENT</label>
 
-    </div>
+            <p class="">For scheduling of appointment Kindly contact Tactical Officer Mr. Robert S Evangelist
+                with contact number <b>0968-459-1304</b>
+            </p>
+        </div>
+    @endif
 @endsection

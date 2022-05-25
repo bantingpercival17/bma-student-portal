@@ -37,5 +37,8 @@ Route::prefix('bma')->group(function () {
 
         Route::post('/logout', [ApplicantController::class, 'logout'])->name('applicant.logout');
         Route::post('/documents/file-upload', [ApplicantController::class, 'upload_document_file'])->name('applicant.file-upload');
+
+        Route::get('/virtual-orientation', [ApplicantController::class, "virtual_orientation"])->name('applicant.virtual-orientation');
+        Route::get('/virtual-orientation-complete', [ApplicantController::class, 'virtual_orientation_complete']);
     });
 });

@@ -85,22 +85,31 @@ $_title = 'Overview';
                             STEP 1: Applicant Information</h5>
                         <div class="d-inline-block w-100">
 
-                            <p class="mb-0">
+                            <div class="mb-0">
                                 @if ($_applicant)
-                                    Successfully Completed your Application Form, now you can proceed to the Document
-                                    Requirements for Uploading the Files.
-                                    <a href="{{ route('applicant.update-information') }}"
-                                        class="btn btn-info btn-sm text-white">
-                                        Update Application Form
-                                    </a>
-                                    <a href="{{ route('applicant-form') }}" class="btn btn-primary btn-sm">View
-                                        Application
-                                        Form</a>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            Successfully Completed your Application Form, now you can proceed to the
+                                            Document
+                                            Requirements for Uploading the Files.
+                                        </div>
+                                        <div class="col-md">
+
+                                            <a href="{{ route('applicant.update-information') }}"
+                                                class="btn btn-info btn-sm text-white">
+                                                Update Application Form
+                                            </a>
+                                            <a href="{{ route('applicant-form') }}"
+                                                class="btn btn-primary btn-sm mt-2">View
+                                                Application
+                                                Form</a>
+                                        </div>
+                                    </div>
                                 @else
                                     Kindly Fill-up the Form for your Additional Information,<a
                                         href="{{ route('applicant.student-view') }}">click here.</a>
                                 @endif
-                            </p>
+                            </div>
                         </div>
                     </li>
                     {{-- Document Requirements --}}
@@ -353,20 +362,23 @@ $_title = 'Overview';
                         @include('pages.applicant.components.virtual-briefing')
                         @if ($_applicant && $_document_status && $_payment)
                             @if (Auth::user()->examination)
-                                {{-- @yield('step-5-dot-done') --}}
                                 @if (Auth::user()->examination->is_finish === 1)
                                     @if (Auth::user()->examination->result())
-                                        @yield('step-5-dot-active')
-                                        @yield('step-5-active-content')
+                                        @if (Auth::user()->virtual_briefing)
+                                            @yield('step-5-dot-done')
+                                            @yield('step-5-done-content')
+                                        @else
+                                            @yield('step-5-dot-active')
+                                            @yield('step-5-active-content')
+                                        @endif
                                     @else
                                         @yield('step-5-dot-done')
                                     @endif
                                 @else
+                                    @yield('step-5-dot')
                                 @endif
                             @else
-                                {{-- @yield('step-5-dot-active')
-                                @yield('step-5-active-content') --}}
-
+                                @yield('step-5-dot')
                             @endif
                         @else
                             @yield('step-5-dot')
@@ -374,7 +386,28 @@ $_title = 'Overview';
                     </li>
                     <li>
                         @include('pages.applicant.components.medical-examination')
-                        @yield('step-6-dot')
+                        @if ($_applicant && $_document_status && $_payment)
+                            @if (Auth::user()->examination)
+                                @if (Auth::user()->examination->is_finish === 1)
+                                    @if (Auth::user()->examination->result())
+                                        @if (Auth::user()->virtual_briefing)
+                                            @yield('step-6-dot-active')
+                                            @yield('step-6-active-content')
+                                        @else
+                                            @yield('step-6-dot')
+                                        @endif
+                                    @else
+                                        @yield('step-6-dot')
+                                    @endif
+                                @else
+                                    @yield('step-6-dot')
+                                @endif
+                            @else
+                                @yield('step-6-dot')
+                            @endif
+                        @else
+                            @yield('step-6-dot')
+                        @endif
                     </li>
                 </ul>
             </div>

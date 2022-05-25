@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApplicantBriefing;
 use App\Models\ApplicantDetials;
 use App\Models\ApplicantDocuments;
 use App\Models\ApplicantEntranceExamination;
@@ -276,5 +277,33 @@ class ApplicantController extends Controller
         $_examinee->is_finish = true;
         $_examinee->save();
         return redirect(route('applicant.home'))->with('success', 'Examination Finish');
+    }
+
+    public function virtual_orientation(Request $_request)
+    {
+        return view('pages.applicant.home.virtual-briefing');
+    }
+    public function virtual_orientation_complete(Request $_request)
+    {
+        try {
+            $_data = array(
+                'applicant_id' => $_request->_applicant,
+                'is_completed' => 1
+            );
+            $_data_exist = ApplicantBriefing::where($_data)->first();
+            if ($_data_exist) {
+                $_data_exist->is_removed = 1;
+                $_data_exist->save();
+                ApplicantBriefing::create($_data);
+            } else {
+                ApplicantBriefing::create($_data);
+            }
+
+            $data = array('respond' => 200, 'message' => 'Done');
+            return compact('data');
+        } catch (\Throwable $th) {
+            $data = array('respond' => 404, 'message' => $th);
+            return compact('data');
+        }
     }
 }

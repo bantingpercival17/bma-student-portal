@@ -68,4 +68,8 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         $_department = $this->course_id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
         return Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->where('is_removed', false)->first();
     }
+    public function virtual_briefing()
+    {
+        return $this->hasOne(ApplicantBriefing::class, 'applicant_id')->where('is_removed', false);
+    }
 }
