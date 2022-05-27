@@ -132,17 +132,6 @@ class WebsiteController extends Controller
             }
         }
         return $returnValue;
-        /*  $string = strtoupper($string);
-        $length = strlen($string);
-        $number = 0;
-        $level = 1;
-        while ($length >= $level) {
-            $char = $string[$length - $level];
-            $c = ord($char) - 64;
-            $number += $c * (26 ** ($level - 1));
-            $level++;
-        }
-        return $number; */
     }
     public function ticket_login(Request $_request)
     {
@@ -158,16 +147,22 @@ class WebsiteController extends Controller
     }
     public function ticket_view(Request $_request)
     {
-        $ticket = Ticket::where(['ticket_number' => base64_decode($_request->_t), 'is_removed' => 0])->first();
-        TicketChat::where('ticket_id', $ticket->concern->id)->where('sender_column', 'ticket_id')->where('is_removed', false)->update(['is_read' => true]);
-        $messages = TicketChat::where('ticket_id', $ticket->concern->id)->where('is_removed', false)->get();
-        return view('pages.website.contact-us.ticket_view', compact('ticket',  'messages'));
+        try {
+            $ticket = Ticket::where(['ticket_number' => base64_decode($_request->_t), 'is_removed' => 0])->first();
+            $ticket_concern = TicketConcern::where('ticket_id',$ticket->id)->orderBy('created_at','asc')->get();
+        
+            TicketChat::where('concern_id',  $ticket->concern_issue->id)->where('sender_column', 'ticket_id')->where('is_removed', false)->update(['is_read' => true]);
+           return view('pages.website.contact-us.ticket_view', compact('ticket',  'ticket_concern'));
+        } catch (Expection $th) {
+            return back()->with('error',$th->getMessage());
+        }
+      
     }
     public function ticket_message_chat(Request $_request)
     {
         //(Auth::id() > $_request->user) ? Auth::id() . $_request->user : $_request->user . Auth::id();
         $_data = array(
-            'ticket_id' => $_request->ticket,
+            'concern_id' => $_request->ticket,
             'staff_id' => $_request->staff,
             'sender_column' => 'ticket_id',
             'message' => $_request->message,
