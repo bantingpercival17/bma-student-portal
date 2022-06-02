@@ -17,6 +17,10 @@ class Ticket extends Model
     }
     public function concern_issue()
     {
-        return $this->hasOne(TicketConcern::class, 'ticket_id')->where('is_resolved', false);
+        return $this->hasOne(TicketConcern::class, 'ticket_id')->where('is_resolved', false)->where('is_removed',false);
+    }
+    public function ticket_concern()
+    {
+       return $this->hasOne(TicketConcern::class, 'ticket_id')->where('is_removed', false);
     }
 }

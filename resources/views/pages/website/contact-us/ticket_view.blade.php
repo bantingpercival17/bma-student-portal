@@ -86,30 +86,142 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                         </div>
 
                         <div class="chat-messages p-4">
-                            <div class="chat-message-right">
-                                <div class="d-flex">
-                                    <div class="ms-3">
-                                        <div class="d-flex flex-wrap ">
-                                            <small class="mb-1 fw-bolder text-primary">
-                                                YOU
-                                            </small>
-                                        </div>
-                                        <div class="toast fade show bg-secondary text-white border-0">
-                                            <div class="toast-body">
-                                                {{ $ticket->concern->ticket_message }}
+                            @foreach ($ticket_concern as $key => $concern)
+                                @if ($key == 0)
+                                    <div class="chat-message-right">
+                                        <div class="d-flex">
+                                            <div class="ms-3">
+                                                <div class="d-flex flex-wrap ">
+                                                    <small class="mb-1 fw-bolder text-primary">
+                                                        YOU
+                                                    </small>
+                                                </div>
+                                                <div class="toast fade show bg-secondary text-white border-0">
+                                                    <div class="toast-body">
+                                                        {{ $ticket->concern->ticket_message }}
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-wrap float-end">
+
+                                                    <small class="mb-1 text-end">
+                                                        {{ $ticket->concern->created_at->diffForHumans() }}
+                                                    </small>
+
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-wrap float-end">
-
-                                            <small class="mb-1 text-end">
-                                                {{ $ticket->concern->created_at->diffForHumans() }}
-                                            </small>
-
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            @if (count($messages) > 0)
+                                    {{-- <div class="chat-message-left">
+                                        <div class="d-flex">
+                                            <img src="https://ui-avatars.com/api/?name={{ $concern->ticket->name }}"
+                                                alt="header" class="img-fluid avatar avatar-40 rounded">
+                                            <div class="ms-3">
+                                                <small class="mb-1 fw-bolder text-primary">
+                                                    {{ strtoupper($concern->ticket->name) }}
+                                                </small>
+                                                <div class="toast fade show bg-secondary text-white border-0 mb-1">
+                                                    <div class="toast-body">
+                                                        {{ $concern->ticket_message }}
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-wrap align-items-center">
+                                                    <small class="mb-1">
+                                                        {{ $concern->ticket->created_at->diffForHumans() }}
+                                                    </small>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                @else
+                                    <span
+                                        class="mt-2 badge border border-info text-info mt-5 mb-5 rounded-pill">{{ $concern->ticket_message }}</span>
+                                @endif
+                                @if (count($concern->chat_message) > 0)
+                                    @foreach ($concern->chat_message as $item)
+                                        @if ($item->sender_column == 'ticket_id')
+                                            <div class="chat-message-right">
+                                                <div class="d-flex">
+                                                    <div class="ms-3">
+                                                        <div class="d-flex flex-wrap ">
+                                                            <small class="mb-1 fw-bolder text-primary">
+                                                                YOU
+                                                            </small>
+                                                        </div>
+                                                        <div class="toast fade show bg-secondary text-white border-0">
+                                                            <div class="toast-body">
+                                                                @php
+                                                                    echo $item->message;
+                                                                @endphp
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex flex-wrap float-end">
+
+                                                            <small class="mb-1 text-end">
+                                                                {{ $item->created_at->diffForHumans() }}
+                                                            </small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($item->sender_column == 'staff_id')
+                                            <div class="chat-message-left">
+                                                <div class="d-flex">
+                                                    <img src="https://ui-avatars.com/api/?name={{ $item->staff->first_name }}"
+                                                        alt="header" class="img-fluid avatar avatar-40 rounded">
+                                                    <div class="ms-3">
+                                                        <small class="mb-1 fw-bolder text-primary">
+                                                            {{ $item->staff->first_name . ' ' . $item->staff->last_name }}
+                                                        </small>
+                                                        <div class="toast fade show bg-primary text-white border-0 mb-1">
+                                                            <div class="toast-body">
+                                                                @php
+                                                                    echo $item->message;
+                                                                @endphp
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex flex-wrap align-items-center">
+                                                            <small class="mb-1">
+                                                                {{ $item->created_at->diffForHumans() }}
+                                                            </small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        {{-- @if ($item->sender_column == 'staff_id')
+                                            <div class="chat-message-left">
+                                                <div class="d-flex">
+                                                    <div class="ms-3">
+                                                        <div class="row">
+
+                                                            <small class="col-md mb-1 text-start">
+                                                                {{ $item->created_at->diffForHumans() }}
+                                                            </small>
+                                                            <small class="col-md mb-1 fw-bolder text-primary text-end">
+                                                                {{ strtoupper($item->staff->first_name) }}
+                                                            </small>
+                                                        </div>
+                                                        <div class="toast fade show bg-secondary text-white border-0">
+                                                            <div class="toast-body">
+                                                                @php
+                                                                    echo $item->message;
+                                                                @endphp
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif --}}
+                                    @endforeach
+                                @endif
+                            @endforeach
+
+                            {{-- @if (count($messages) > 0)
                                 @foreach ($messages as $item)
                                     @if ($item->sender_column == 'ticket_id')
                                         <div class="chat-message-right">
@@ -165,23 +277,22 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                                         </div>
                                     @endif
                                 @endforeach
-                            @endif
+                            @endif --}}
                         </div>
                         <div class="card-footer text-center">
-                            @if (!count($messages) > 0)
+                            {{-- @if (!count($messages) > 0)
                                 <p class="badge bg-info">Please wait for the Respond of the dedicated department for your
                                     issue.</p>
-                            @endif
+                            @endif --}}
 
                             <form action="" class="comment-text d-flex align-items-center mt-3 chat-inputs">
-
 
                                 <input type="text" id="message-input" class="form-control rounded-pill "
                                     placeholder="Compose message!">
                                 {!! csrf_field() !!}
-                                <input type="hidden" class="ticket" value="{{ $ticket->concern->id }}">
+                                <input type="hidden" class="ticket" value="{{ $ticket->concern_issue->id }}">
                                 <input type="hidden" class="staff"
-                                    value="{{ $ticket->concern->chat ? $ticket->concern->chat->staff_id : '' }}">
+                                    value="{{ count($ticket->concern_issue->conversion) > 0 ? $ticket->concern_issue->chat->staff_id : '' }}">
 
                                 <div class="comment-attagement d-flex">
                                     <a class="btn btn-outline-secondary rounded-pill btn-sm me-2" data-bs-toggle="modal"
@@ -227,9 +338,9 @@ $_title = 'Ticket View- Baliwag Maritime Academy';
                     <form role="form" id="form-modal">
                         <input type="hidden" class="token" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" class="_ticket_number" value={{ request()->input('_t') }}>
-                        <input type="hidden" class="modal-ticket" value="{{ $ticket->concern->id }}">
+                        <input type="hidden" class="modal-ticket" value="{{ $ticket->concern_issue->id }}">
                         <input type="hidden" class="modal-staff"
-                            value="{{ $ticket->concern->chat ? $ticket->concern->chat->staff_id : '' }}">
+                            value="{{ count($ticket->concern_issue->conversion) > 0 ? $ticket->concern_issue->chat->staff_id : '' }}">
                         <div class="form-group">
 
                             <small class="form-label"><b>ATTACH FILES<sup class="text-danger">*</sup></b></small>

@@ -14,4 +14,12 @@ class TicketIssue extends Model
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
+    public function ticket_concern()
+    {
+        return $this->hasMany(TicketConcern::class, 'issue_id');
+    }
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class, 'ticket_id');
+    }
 }

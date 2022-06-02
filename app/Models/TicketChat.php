@@ -9,7 +9,7 @@ class TicketChat extends Model
 {
     use HasFactory;
     protected $connection = 'mysql2';
-    protected $fillable = ['ticket_id', 'staff_id', 'sender_column', 'message', 'group_id'];
+    protected $fillable = ['concern_id', 'staff_id', 'sender_column', 'message', 'group_id'];
 
     public function ticket()
     {
@@ -18,5 +18,9 @@ class TicketChat extends Model
     public function staff()
     {
         return $this->belongsTo(Staff::class, 'staff_id');
+    }
+    public function concern()
+    {
+        return $this->belongsTo(TicketConcern::class, 'concern_id');
     }
 }
