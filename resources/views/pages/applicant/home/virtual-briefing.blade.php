@@ -152,7 +152,7 @@ $_title = 'Virtual Orientation';
                         </li>
                         <li id="confirm" class="col-lg col-md col-sm mb-2 text-start">
                             <a href="javascript:void();">
-                                <span>FINISH</span>
+                                <span>SUMMARY</span>
                             </a>
                         </li>
                     </ul>
@@ -164,9 +164,6 @@ $_title = 'Virtual Orientation';
                                     src="http://bma.edu.ph/resources/video/BRIEFING%20ORIENTATION.mp4"></iframe>
 
                             </div>
-                            <div class="card mt-3">
-                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
-                            </div>
                         </div>
                         <button type="button" name="next" class="btn btn-primary next action-button float-end"
                             value="Next">Next</button>
@@ -174,19 +171,56 @@ $_title = 'Virtual Orientation';
                     <fieldset>
                         <div class="form-card text-start">
 
-                            <div class="ratio ratio-16x9">
+                            <div class=" row">
                                 @if (Auth::user()->course_id == 3)
-                                    <iframe class="embed-responsive-item"
-                                        src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_REGISTRAR.mp4"></iframe>
+                                    <div class="ratio ratio-16x9">
+                                        <iframe class="embed-responsive-item"
+                                            src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_REGISTRAR.mp4"></iframe>
+                                    </div>
                                 @else
-                                    <iframe class="embed-responsive-item"
-                                        src="http://bma.edu.ph/resources/video/COLLEGE-BRIEFING/COLLEGE_REGISTRAR.mp4"></iframe>
+                                    <div class="col-md-6">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe class="embed-responsive-item"
+                                                src="http://bma.edu.ph/resources/video/COLLEGE-BRIEFING/COLLEGE_REGISTRAR.mp4"></iframe>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <h4 class="fw-bolder text-primary mt-3">ENROLLMENT SCHEDULE</h4>
+                                        <label for="">
+                                            Enrolment is now open for Incoming 4th Class Cadets (1st Year College)
+                                            from Monday-Friday at 9:00 AM to 4:00 PM
+                                        </label> <br>
+                                        <label for="" class="fw-bolder">
+                                            Reminders:
+                                        </label>
+                                        <ul>
+                                            <li>
+                                                Only applicants who have completed and passed the Medical Examinations are
+                                                qualified to enroll.
+                                            </li>
+                                            <li>
+                                                The Academy will automatically close the enrolment system as soon as we meet
+                                                our
+                                                target number of enrollees without prior notice. On this note, we highly
+                                                advise the
+                                                applicants to fill-in the enrolment slots as soon as you complied with all
+                                                the medical and enrolment requirements.
+                                            </li>
+                                        </ul>
+                                        <h4 class="fw-bolder text-primary mt-3">ENROLLMENT REQUIREMENTS</h4>
+                                        <ul>
+                                            <li>4th Class or 1st Year College</li>
+                                            <li>Original copy of Grade 12 Report Card or SF 9</li>
+                                            <li>Original Certificate of Good Moral Conduct</li>
+                                            <li>Original & Photocopy of PSA Birth Certificate</li>
+                                            <li>Original Copy of Barangay Clearance</li>
+                                            <li>2 pcs. 2x2 picture</li>
+                                        </ul>
+                                    </div>
                                 @endif
 
                             </div>
-                            <div class="card mt-3">
-                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
-                            </div>
+
                         </div>
                         <button type="button" name="next" class="btn btn-primary next action-button float-end"
                             value="Next">Next</button>
@@ -196,18 +230,85 @@ $_title = 'Virtual Orientation';
                     </fieldset>
                     <fieldset>
                         <div class="form-card text-start">
-                            <div class="ratio ratio-16x9">
+                            <div class="row">
                                 @if (Auth::user()->course_id == 3)
-                                    <iframe class="embed-responsive-item"
-                                        src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_MEDICAL.mp4"></iframe>
+                                    <div class="col-md-6">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe class="embed-responsive-item"
+                                                src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_MEDICAL.mp4"></iframe>
+                                        </div>
+                                        <div class="col-md"></div>
+                                    </div>
                                 @else
-                                    <iframe class="embed-responsive-item"
-                                        src="http://bma.edu.ph/resources/video/COLLEGE-BRIEFING/COLLEGE_MEDICAL.mp4"></iframe>
+                                    <div class="col-md-6">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe class="embed-responsive-item"
+                                                src="http://bma.edu.ph/resources/video/COLLEGE-BRIEFING/COLLEGE_MEDICAL.mp4"></iframe>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <h4 class="fw-bolder text-primary mt-3">CENTERPORT MEDICAL SERVICES INC</h4>
+                                        <ul>
+                                            <li>The accredited clinic of BMA .</li>
+                                            <li>Is located at 4th Floor, Victoria Building, 429 UN Avenue, Ermita, Manila
+                                            </li>
+                                        </ul>
+                                        <h6 class="fw-bolder text-primary mt-3">MEDICAL FEE</h6>
+                                        <ul>
+                                            <li>P 1, 800.00 for general check-up</li>
+                                            <li>If findings occur, additional charges will be paid</li>
+                                        </ul>
+                                        <label for="" class="fw-bolder">
+                                            Things to bring BEFORE and DURING the medical examination
+                                        </label>
+                                        <ol>
+                                            <li>Medical Referral Form duly signed by the School Nurse and his/her
+                                                representative from Baliwag Maritime Academy.</li>
+                                            <li>5 pieces of 1X1 Formal ID Picture with white background only.</li>
+                                            <li>Original/Xerox copy of Valid ID for Drug Test Requirement (School ID,
+                                                Voter’s ID, Driver’s License, Passport, & etc.) </li>
+                                            <li>Stool Specimen freshly collected in the morning of scheduled Medical
+                                                Examination./li>
+                                            <li>Bring your own Ballpen. </li>
+                                            <li>Wear face masks/face shield.</li>
+                                            <li>
+                                                Bring light snacks/bottled water
+                                            </li>
+                                        </ol>
+                                        <label for="" class="fw-bolder">
+                                            IMPORTANT THINGS TO REMEMBER BEFORE AND DURING THE MEDICAL EXAMINATION
+                                        </label>
+                                        <ol>
+                                            <li>No Appointment, No Entry Policy - Scheduled Appointment of the applicants
+                                                will be posted (limited to 20 applicants only per day) every Monday and
+                                                Wednesday. Only report when you have confirmed appointment.
+
+                                            </li>
+                                            <li>All applicants are required to wear proper attire during the Medical
+                                                Examination. It could be limited to Smart Casual, with proper haircut, no
+                                                earrings, no ripped jeans and no slippers. Not in short pants.
+
+                                            </li>
+                                            <li>The Patient must be 8 HOURS FASTING before the day of MEDICAL EXAMINATION
+                                                (from 12MN until morning of medical examination).
+
+                                            </li>
+                                            <li>The clinic is open at 8AM-5PM; late comers will not be entertained. Call
+                                                time 10:00 AM only.
+
+                                            </li>
+                                            <li>First come-First Serve Policy.
+
+                                            </li>
+                                            <li>If the student fails to attend on the scheduled Medical Examination, he
+                                                should immediately notify the BMA Tactical Officer Mr. Robert S. Evangelista
+                                                with CP No. 0968 459 1304 to inform reasons for not attending. Re-scheduling
+                                                is for VALID REASON ONLY.
+                                            </li>
+                                        </ol>
+                                    </div>
                                 @endif
 
-                            </div>
-                            <div class="card mt-3">
-                                <h4 class="text-primary fw-bolder">SUMMARY</h4>
                             </div>
                         </div>
                         <button type="button" name="next" class="btn btn-primary next action-button float-end"
@@ -240,9 +341,18 @@ $_title = 'Virtual Orientation';
                     </fieldset>
                     <fieldset>
                         <div class="form-card">
+
                             <h2 class="text-success text-center"><strong>THANK YOU!</strong></h2>
                             <br>
-
+                            <div class="card-body">
+                                <img src="http://bma.edu.ph/resources/video/closing_remarks/1.png" alt=""
+                                class="img-fluid">
+                            </div>
+                          
+                            <img src="http://bma.edu.ph/resources/video/closing_remarks/2.png" alt=""
+                                class="img-fluid">
+                            <img src="http://bma.edu.ph/resources/video/closing_remarks/3.png" alt=""
+                                class="img-fluid">
                             <br><br>
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
@@ -257,6 +367,27 @@ $_title = 'Virtual Orientation';
                         </div>
                     </fieldset>
                 </form>
+                {{-- @if (Auth::user()->course_id != 3)
+                    <h4 class="fw-bolder text-primary">ENROLLMENT SCHEDULE</h4>
+                    <label for="">
+                        Enrolment is now open for Incoming 4th Class Cadets (1st Year College)
+                        from Monday-Friday at 9:00 AM to 4:00 PM
+                    </label> <br>
+                    <label for="" class="fw-bolder">
+                        Reminders:
+                    </label>
+                    <ul>
+                        <li>
+                            Only applicants who have completed and passed the Medical Examinations are qualified to enroll.
+                        </li>
+                        <li>
+                            The Academy will automatically close the enrolment system as soon as we meet our target number
+                            of enrollees without prior notice. On this note, we highly advise the applicants to fill-in the
+                            enrolment slots as soon as you complied with all the medical and enrolment requirements.
+                        </li>
+                    </ul>
+                @else
+                @endif --}}
             </div>
         </div>
     </div>
