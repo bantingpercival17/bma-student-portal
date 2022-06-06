@@ -65,8 +65,8 @@ $_title = 'STEP 5: Passing Applicant Briefing';
             <div class="col-md">
                 {{-- Congratulation on Passing the Entrance Examination wait for the Virtual Briefing on
                 <span class="text-primary h5 fw-bolder">May 25, 2022</span> --}}
-                You can now procced to the Medical Examination
-                <a href="{{ route('applicant.virtual-orientation') }}" class="btn btn-outline-primary rounded-pill">Review
+                You can now procced to the Medical Examination <br>
+                <a href="{{ route('applicant.virtual-orientation') }}" class="btn btn-sm btn-outline-primary rounded-pill">Review
                     the Orientation</a>
             </div>
         </div>

@@ -52,6 +52,8 @@ $_title = 'STEP 6: Medical Examination';
             </p>
             <span class="fw-bolder">C. ECG (Electronic diagram)</span> <br>
             <span class="fw-bolder">D. Psychology Test</span> <br>
+            <p>Kindly download the Medical Form <a href="{{route('applicant.download-medical-form')}}" class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
+
             <div class="alert alert-info mt-3 mb-3">
                 <b>TAKE NOTE</b> <br>
                 The medical examination day may <b>be altered or change</b> subject to:
@@ -75,6 +77,7 @@ $_title = 'STEP 6: Medical Examination';
                 your side.
                 <br>
                 Looking forward to your presence.
+                <br>
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.
                     {{-- days contact Tactical Officer Mr. Robert S Evangelist

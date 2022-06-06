@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\WebsiteController;
+use Illuminate\Support\Facades\Response as FacadesResponse;
 use Illuminate\Support\Facades\Route;
 
 
@@ -43,5 +44,9 @@ Route::prefix('bma')->group(function () {
 
         // Scheduled 
         Route::get('/medical-schedule', [ApplicantController::class, 'medical_schedule'])->name('applicant.medical-schedule');
+        Route::get('/medical-form-download', function () {
+            $filepath = public_path('resources/video/Form-Med-04.pdf');
+            return FacadesResponse::download($filepath);
+        })->name('applicant.download-medical-form');
     });
 });
