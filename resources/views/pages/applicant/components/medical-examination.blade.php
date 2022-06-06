@@ -52,7 +52,8 @@ $_title = 'STEP 6: Medical Examination';
             </p>
             <span class="fw-bolder">C. ECG (Electronic diagram)</span> <br>
             <span class="fw-bolder">D. Psychology Test</span> <br>
-            <p>Kindly download the Medical Form <a href="{{route('applicant.download-medical-form')}}" class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
+            <p>Kindly download the Medical Form <a href="{{ route('applicant.download-medical-form') }}"
+                    class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
 
             <div class="alert alert-info mt-3 mb-3">
                 <b>TAKE NOTE</b> <br>
@@ -68,6 +69,14 @@ $_title = 'STEP 6: Medical Examination';
                 <br>
                 Your appointment with Centerport Medical Services Inc. is scheduled on
                 <b>{{ Auth::user()->medical_appointment->appointment_date }}</b> . <br>
+                <p></p>
+                {{-- <iframe class="w-100"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
+                    height="500" allowfullscreen=""></iframe> --}}
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe> <br>
                 Should you have queries or require any clarifications, please do not hesitate to contact our Medical Officer
                 on the numbers below.
                 <br> Tactical Officer Mr. Robert S Evangelista
