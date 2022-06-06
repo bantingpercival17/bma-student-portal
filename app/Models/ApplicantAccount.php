@@ -76,4 +76,10 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(ApplicantMedicalAppointment::class, 'applicant_id')->where('is_removed', false);
     }
+    public function medical_appointment_slot($_date)
+    {
+        $_applicant = ApplicantMedicalAppointment::where('appointment_date', $_date)->where('is_removed', false)->count();
+        return $_applicant;
+        return $this->hasHany(ApplicantMedicalAppointment::class, 'applicant_id')->where('is_removed', false);
+    }
 }

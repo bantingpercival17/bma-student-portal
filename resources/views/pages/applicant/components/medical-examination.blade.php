@@ -63,8 +63,9 @@ $_title = 'STEP 6: Medical Examination';
             </div>
             <label for="" class="h5 fw-bolder">SCHEDULED APPOINTMENT</label>
             @if (Auth::user()->medical_appointment)
-            <br>
-                Your appointment with Centerport Medical Services Inc. is scheduled on <b>{{ Auth::user()->medical_appointment->appointment_date/* >format('F d, Y') */}}</b> . <br>
+                <br>
+                Your appointment with Centerport Medical Services Inc. is scheduled on
+                <b>{{ Auth::user()->medical_appointment->appointment_date }}</b> . <br>
                 Should you have queries or require any clarifications, please do not hesitate to contact our Medical Officer
                 on the numbers below.
                 <br> Tactical Officer Mr. Robert S Evangelista
@@ -81,14 +82,35 @@ $_title = 'STEP 6: Medical Examination';
                 </p>
                 <div class="row">
                     <div class="col-md">
-                        <a href="{{ route('applicant.medical-schedule') }}?_date=13" class="btn btn-sm btn-primary">Monday
-                            June 13,
-                            2022</a>
+                        <h4><span
+                                class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot('2022-06-13') }}</span><small
+                                class="text-secondary">/20</small>
+                        </h4>
+
+                        @if (Auth::user()->medical_appointment_slot('2022-06-13') >= 20)
+                            <span class="badge bg-secondary text-white">This schedule is full</span>
+                        @else
+                            <a href="{{ route('applicant.medical-schedule') }}?_date=13"
+                                class="btn btn-sm btn-primary">Monday
+                                June 13,
+                                2022</a>
+                        @endif
+
                     </div>
                     <div class="col-md">
-                        <a href="{{ route('applicant.medical-schedule') }}?_date=13" class="btn btn-sm btn-primary">Monady
-                            June 15,
-                            2022</a>
+                        <h4><span
+                                class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot('2022-06-15') }}</span><small
+                                class="text-secondary">/20</small>
+                        </h4>
+                        @if (Auth::user()->medical_appointment_slot('2022-06-15') >= 20)
+                            <span class="badge bg-secondary text-white">This schedule is full</span>
+                        @else
+                            <a href="{{ route('applicant.medical-schedule') }}?_date=13"
+                                class="btn btn-sm btn-primary">Monady
+                                June 15,
+                                2022</a>
+                        @endif
+
                     </div>
                 </div>
             @endif
