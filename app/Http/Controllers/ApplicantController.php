@@ -7,10 +7,12 @@ use App\Models\ApplicantDetials;
 use App\Models\ApplicantDocuments;
 use App\Models\ApplicantEntranceExamination;
 use App\Models\ApplicantExaminationAnswer;
+use App\Models\ApplicantMedicalAppointment;
 use App\Models\ApplicantPayment;
 use App\Models\Documents;
 use App\Models\Examination;
 use App\Report\Students\StudentReport;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -290,7 +292,7 @@ class ApplicantController extends Controller
                 'applicant_id' => $_request->_applicant,
                 'is_completed' => 1
             );
-            $_data_exist = ApplicantBriefing::where($_data)->first();
+            $_data_exist = ApplicantBriefing::where($_data)->where('is_removed', false)->first();
             if ($_data_exist) {
                 $_data_exist->is_removed = 1;
                 $_data_exist->save();
@@ -304,6 +306,20 @@ class ApplicantController extends Controller
         } catch (\Throwable $th) {
             $data = array('respond' => 404, 'message' => $th);
             return compact('data');
+        }
+    }
+    public function medical_schedule(Request $_request)
+    {
+        try {
+            $_value = array(
+                'applicant_id' => Auth::user()->id,
+                'appointment_date' => "2022-06-" . $_request->_date,
+                'approved_by' => 7
+            );
+            ApplicantMedicalAppointment::create($_value);
+            return back()->with('success', 'Appointment Schedule Success.');
+        } catch (Exception $err) {
+            return back()->with('error', $err->getMessage());
         }
     }
 }

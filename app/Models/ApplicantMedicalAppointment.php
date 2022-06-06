@@ -9,4 +9,9 @@ class ApplicantMedicalAppointment extends Model
 {
     use HasFactory;
     protected $connection = 'mysql2';
+    protected $fillable = [
+        'applicant_id',
+        'appointment_date',
+        'approved_by'
+    ];
 }

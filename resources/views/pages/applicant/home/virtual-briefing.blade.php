@@ -144,12 +144,12 @@ $_title = 'Virtual Orientation';
                                 <span>MEDICAL</span>
                             </a>
                         </li>
-                        <li id="payment" class="col-lg col-md col-sm mb-2 text-start">
+                        {{-- <li id="payment" class="col-lg col-md col-sm mb-2 text-start">
                             <a href="javascript:void();">
 
                                 <span>ACCOUNTING</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li id="confirm" class="col-lg col-md col-sm mb-2 text-start">
                             <a href="javascript:void();">
                                 <span>SUMMARY</span>
@@ -158,7 +158,7 @@ $_title = 'Virtual Orientation';
                     </ul>
                     <!-- fieldsets -->
                     <fieldset>
-                        <div class="form-card text-start">
+                        <div class="form-card text-start mb-3">
                             <div class="ratio ratio-16x9">
                                 <iframe class="embed-responsive-item"
                                     src="http://bma.edu.ph/resources/video/BRIEFING%20ORIENTATION.mp4"></iframe>
@@ -169,7 +169,7 @@ $_title = 'Virtual Orientation';
                             value="Next">Next</button>
                     </fieldset>
                     <fieldset>
-                        <div class="form-card text-start">
+                        <div class="form-card text-start mb-3">
 
                             <div class=" row">
                                 @if (Auth::user()->course_id == 3)
@@ -216,6 +216,39 @@ $_title = 'Virtual Orientation';
                                             <li>Original Copy of Barangay Clearance</li>
                                             <li>2 pcs. 2x2 picture</li>
                                         </ul>
+                                        <h4 class="fw-bolder text-primary mt-3">MODES OF ENROLLMENT</h4>
+                                        <label for="" class="fw-bolder">
+                                            Online Registration/Enrolment
+                                        </label>
+                                        <ol>
+                                            <li>For the new students/midshipmen, only those who passed the entrance
+                                                examination and medical shall be eligible to enroll.</li>
+
+                                            <li>
+                                                Students/midshipmen shall submit an e-copy of the enrolment requirements.
+                                                Original copies may be directly submitted at the Office of the Registrar of
+                                                Baliwag Maritime Academy or through LBC or any logistic facilities whichever
+                                                is safe and convenient to you prior to scheduled enrolment.
+                                                TO : BALIWAG MARITIME ACADEMY
+                                                Office of the Registrar
+                                                Km. 54 Cagayan Valley Road,
+                                                San Rafael, Bulacan, 3008
+
+                                                Kindly email us if you have sent the requirements for confirmation at
+                                                registrar@bma.edu.ph or call at
+                                                (044) 766-1263
+
+                                            </li>
+                                            <li>
+                                                To proceed to enrolment, simply log-in on this website,
+                                                bma.edu.ph/applicants with your application number and the system will
+                                                automatically direct you to the flow of registration
+                                            </li>
+                                            <li>
+                                                After your online registration/enrolment you will receive a confirmation of
+                                                enrolment via email
+                                            </li>
+                                        </ol>
                                     </div>
                                 @endif
 
@@ -229,7 +262,7 @@ $_title = 'Virtual Orientation';
                             value="Previous">Previous</button>
                     </fieldset>
                     <fieldset>
-                        <div class="form-card text-start">
+                        <div class="form-card text-start mb-3">
                             <div class="row">
                                 @if (Auth::user()->course_id == 3)
                                     <div class="col-md-6">
@@ -306,18 +339,24 @@ $_title = 'Virtual Orientation';
                                                 is for VALID REASON ONLY.
                                             </li>
                                         </ol>
+
                                     </div>
                                 @endif
 
                             </div>
                         </div>
-                        <button type="button" name="next" class="btn btn-primary next action-button float-end"
-                            value="Next">Next</button>
+                        <button type="submit" name="next" class="btn btn-primary next action-button float-end"
+                            value="submit">Submit</button>
                         <button type="button" name="previous"
                             class="btn btn-dark previous action-button-previous float-end me-1"
                             value="Previous">Previous</button>
+                        {{-- <button type="button" name="next" class="btn btn-primary next action-button float-end"
+                            value="Next">Next</button>
+                        <button type="button" name="previous"
+                            class="btn btn-dark previous action-button-previous float-end me-1"
+                            value="Previous">Previous</button> --}}
                     </fieldset>
-                    <fieldset>
+                    {{-- <fieldset>
                         <div class="form-card text-start">
                             <div class="ratio ratio-16x9">
                                 @if (Auth::user()->course_id == 3)
@@ -338,7 +377,7 @@ $_title = 'Virtual Orientation';
                         <button type="button" name="previous"
                             class="btn btn-dark previous action-button-previous float-end me-1"
                             value="Previous">Previous</button>
-                    </fieldset>
+                    </fieldset> --}}
                     <fieldset>
                         <div class="form-card">
 
@@ -346,9 +385,9 @@ $_title = 'Virtual Orientation';
                             <br>
                             <div class="card-body">
                                 <img src="http://bma.edu.ph/resources/video/closing_remarks/1.png" alt=""
-                                class="img-fluid">
+                                    class="img-fluid">
                             </div>
-                          
+
                             <img src="http://bma.edu.ph/resources/video/closing_remarks/2.png" alt=""
                                 class="img-fluid">
                             <img src="http://bma.edu.ph/resources/video/closing_remarks/3.png" alt=""

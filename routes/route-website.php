@@ -40,5 +40,8 @@ Route::prefix('bma')->group(function () {
 
         Route::get('/virtual-orientation', [ApplicantController::class, "virtual_orientation"])->name('applicant.virtual-orientation');
         Route::get('/virtual-orientation-complete', [ApplicantController::class, 'virtual_orientation_complete']);
+
+        // Scheduled 
+        Route::get('/medical-schedule', [ApplicantController::class, 'medical_schedule'])->name('applicant.medical-schedule');
     });
 });
