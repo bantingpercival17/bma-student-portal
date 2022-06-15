@@ -23,38 +23,87 @@ $_title = 'STEP 6: Medical Examination';
     @if (Auth::user()->course_id == 3)
     @else
         <div class="mb-0 mt-3">
+            @if (Auth::user()->medical_appointment)
+                
+            @else
+            <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
+            @php
+                $_first = '27';
+                $_first_date = "2022-06-27";
+                $_second = '29'
+                $_second_date = "2022-06-29";
+            @endphp
+            <div class="row">
+                <div class="col-md">
+                    <h4><span
+                            class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_first_date) }}</span><small
+                            class="text-secondary">/20</small>
+                    </h4>
+
+                    @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
+                        <span class="badge bg-secondary text-white">>Monday
+                            June {{$_first}},
+                            2022 This schedule is full</span>
+                    @else
+                        <a href="{{ route('applicant.medical-schedule') }}?_date={{$_first}}"
+                            class="btn btn-sm btn-primary">Monday
+                            June {{$_first}},
+                            2022</a>
+                    @endif
+
+                </div>
+                <div class="col-md">
+                    <h4><span
+                            class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_second_date) }}</span><small
+                            class="text-secondary">/20</small>
+                    </h4>
+                    @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
+                        <span class="badge bg-secondary text-white">>Wednesday
+                            June {{$_second}},
+                            2022 This schedule is full</span>
+                    @else
+                        <a href="{{ route('applicant.medical-schedule') }}?_date={{$_second}}"
+                            class="btn btn-sm btn-primary">Wednesday
+                            June {{$_second}},
+                            2022</a>
+                    @endif
+
+                </div>
+            </div>
+        @endif
+            @endif
             <label for="" class="h5 fw-bolder">CHECK LIST OF MEDICAL EXAMINATION FOR INCOMING 4th CLASS</label>
             <br>
-            <span class="fw-bolder"> A. Basic Medical Examination</span>
-            <p>
+            <div>
+                <span class="fw-bolder"> A. Basic Medical Examination</span>
+                <p>
 
-                1. Complete Physical Examination (PE) <br>
-                2. Chest X-Ray using 11x14 plates <br>
-                3. Complete Blood Count (CBC) <br>
-                4. Blood Typing <br>
-                5. Stool Examination <br>
-                6. Urinalysis <br>
-                7. Dental Examination <br>
-                8. Neuro Psychological Examination <br>
-                9. Ishihara Test <br>
-                10. Audiometry test <br>
+                    1. Complete Physical Examination (PE) <br>
+                    2. Chest X-Ray using 11x14 plates <br>
+                    3. Complete Blood Count (CBC) <br>
+                    4. Blood Typing <br>
+                    5. Stool Examination <br>
+                    6. Urinalysis <br>
+                    7. Dental Examination <br>
+                    8. Neuro Psychological Examination <br>
+                    9. Ishihara Test <br>
+                    10. Audiometry test <br>
 
-            </p>
-            <span class="fw-bolder">B. Additional Laboratory examination</span>
-            <p>
+                </p>
+                <span class="fw-bolder">B. Additional Laboratory examination</span>
+                <p>
 
-                1. HBsAg (Hepa B Test) <br>
-                2. Drug Test <br>
-                - Amphetamine <br>
-                - Cannabinoids <br>
-                3. FBS (Fasting Blood Sugar) <br>
+                    1. HBsAg (Hepa B Test) <br>
+                    2. Drug Test <br>
+                    - Amphetamine <br>
+                    - Cannabinoids <br>
+                    3. FBS (Fasting Blood Sugar) <br>
 
-            </p>
-            <span class="fw-bolder">C. ECG (Electronic diagram)</span> <br>
-            <span class="fw-bolder">D. Psychology Test</span> <br>
-            <p>Kindly download the Medical Form <a href="{{ route('applicant.download-medical-form') }}"
-                    class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
-
+                </p>
+                <span class="fw-bolder">C. ECG (Electronic diagram)</span> <br>
+                <span class="fw-bolder">D. Psychology Test</span> <br>
+            </div>
+           
             <div class="alert alert-info mt-3 mb-3">
                 <b>TAKE NOTE</b> <br>
                 The medical examination day may <b>be altered or change</b> subject to:
@@ -69,10 +118,7 @@ $_title = 'STEP 6: Medical Examination';
                 <br>
                 Your appointment with Centerport Medical Services Inc. is scheduled on
                 <b>{{ Auth::user()->medical_appointment->appointment_date }}</b> . <br>
-                <p></p>
-                {{-- <iframe class="w-100"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
-                    height="500" allowfullscreen=""></iframe> --}}
+                
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
@@ -87,11 +133,11 @@ $_title = 'STEP 6: Medical Examination';
                 <br>
                 Looking forward to your presence.
                 <br>
+                <p>Kindly download the Medical Form <a href="{{ route('applicant.download-medical-form') }}"
+                    class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
+
             @else
-                <p class="">For scheduling of appointment, Kindly choose the two available schedule.
-                    {{-- days contact Tactical Officer Mr. Robert S Evangelist
-                with contact number <b>0968-459-1304</b> --}}
-                </p>
+                <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
                 <div class="row">
                     <div class="col-md">
                         <h4><span

@@ -43,13 +43,15 @@ class StudentDetails extends Model
     }
     public function current_enrollment()
     {
-        return request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
+        $_academic = AcademicYear::where('is_active',true)->first();
+        return request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->where('academic_id',$_academic->id)->orderBy('id', 'desc');
 
         //return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
     }
     public function enrollment_application()
     {
-        return $this->hasOne(EnrollmentApplication::class, 'student_id');
+        $_academic = AcademicYear::where('is_active',true)->first();
+        return $this->hasOne(EnrollmentApplication::class, 'student_id')->where('academic_id',$_academic->id);
     }
     public function enrollment_assessment()
     {
