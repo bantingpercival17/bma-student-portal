@@ -396,18 +396,23 @@ $_title = 'Overview';
                                                     @yield('step-6-dot-done')
                                                     @if (Auth::user()->medical_result->is_fit === 1)
                                                         <h5 class="fw-bolder text-primary">MEDICAL EXAMINATION PASSED</h5>
-                                                        <p>Congratulation, Your Medical Examination was Passed, you can now proceed to Enrollment </p>
-                                                        <a href="{{route('applicant.enrollment')}}" class="btn btn-outline-primary rounded-pill">Enroll Now</a>
+                                                        <p>Congratulation, Your Medical Examination was Passed, you can now
+                                                            proceed to Enrollment </p>
+                                                        <a href="{{ route('applicant.enrollment') }}"
+                                                            class="btn btn-outline-primary rounded-pill">Enroll Now</a>
                                                     @else
                                                         @if (Auth::user()->medical_result->is_fit === 2)
-                                                            <h5 class="fw-bolder text-danger">MEDICAL EXAMINATION FAILED</h5>
+                                                            <h5 class="fw-bolder text-danger">MEDICAL EXAMINATION FAILED
+                                                            </h5>
                                                         @endif
                                                         @if (Auth::user()->medical_result->is_pending === 0)
                                                             <h5 class="fw-bolder text-info">MEDICAL EXAMINATION PEDING</h5>
                                                             <p>{{ Auth::user()->medical_result->remarks }}</p>
                                                         @endif
                                                     @endif
-
+                                                @else
+                                                    @yield('step-6-dot-active')
+                                                    @yield('step-6-active-content')
                                                 @endif
                                             @else
                                                 @yield('step-6-dot-active')
