@@ -28,7 +28,10 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
-
+    public function academic()
+    {
+        return $this->belongsTo(AcademicYear::class, 'academic_id');
+    }
     public function course()
     {
         return $this->belongsTo(CourseOffer::class, 'course_id');
@@ -81,5 +84,24 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         $_applicant = ApplicantMedicalAppointment::where('appointment_date', $_date)->where('is_removed', false)->count();
         return $_applicant;
         return $this->hasHany(ApplicantMedicalAppointment::class, 'applicant_id')->where('is_removed', false);
+    }
+    public function medical_result()
+    {
+        return $this->hasOne(ApplicantMedicalResult::class, 'applicant_id')->where('is_removed', false);
+    }
+    public function image()
+    {
+        $_level = $this->course_id == 3 ? 11 : 4;
+        $_document = Documents::where('department_id', 2)->where('year_level', $_level)->where('document_name', '2x2 Picture')->where('is_removed', false)->first();
+        return $this->hasOne(ApplicantDocuments::class, 'applicant_id')->where('document_id', $_document->id)->where('is_removed', false);
+    }
+    public function enrollment_registrartion()
+    {
+        return StudentDetails::where('first_name', $this->applicant->first_name)
+            ->where('last_name', $this->applicant->last_name)
+            ->where('middle_name', $this->applicant->middle_name)
+            ->where('birthday', $this->applicant->birthday)
+            ->where('is_removed', false)
+            ->first();
     }
 }

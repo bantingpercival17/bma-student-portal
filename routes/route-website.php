@@ -48,5 +48,11 @@ Route::prefix('bma')->group(function () {
             $filepath = public_path('resources/video/Form-Med-04.pdf');
             return FacadesResponse::download($filepath);
         })->name('applicant.download-medical-form');
+
+        //Enrollment Procedure
+        Route::get('/enrollment', [ApplicantController::class, 'enrollment_overview'])->name('applicant.enrollment');
+        Route::get('/enrollment/registration-form', [ApplicantController::class, 'enrollment_form_view'])->name('applicant.registration-form');
+        ROute::post('/enrollment/registration-form', [ApplicantController::class, 'enrollment_form_store'])->name('applicant.registration-form-store');
+        Route::get('/enrollment/bma-form-rg-02',[ApplicantController::class,'enrollmet_registrartion_form'])->name('applicant.form-rg-02');
     });
 });

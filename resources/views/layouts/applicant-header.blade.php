@@ -26,27 +26,18 @@
                             'route' => 'applicant.home',
                             'icon' => 'icon-home',
                         ],
-                        /*    [
-                                                'name' => 'Academic',
-                                                'route' => 'academic',
-                                                'icon' => 'icon-school',
-                                            ], */
-                        /*  [
-                                                                    'name' => 'Enrollment',
-                                                                    'route' => 'enrollment',
-                                                                    'icon' => 'icon-grades',
-                                                                ],
-                                                                [
-                                                                    'name' => 'Payment',
-                                                                    'route' => 'payments',
-                                                                    'icon' => 'icon-payment',
-                                                                ],
-                                                                [
-                                                                    'name' => 'Student Handbook',
-                                                                    'route' => 'student-manual',
-                                                                    'icon' => 'icon-job',
-                                                                ], */
                     ];
+                    
+                    if (Auth::user()->medical_result) {
+                        if (Auth::user()->medical_result->is_fit === 1) {
+                            $_routes[] = [
+                                'name' => 'Enrollment',
+                                'route' => 'applicant.enrollment',
+                                'icon' => 'icon-home',
+                            ];
+                        }
+                    }
+                    
                 @endphp
                 <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
                     @foreach ($_routes as $_route)
@@ -55,11 +46,11 @@
                                 href="{{ route($_route['route']) }}">
                                 <i class="icon">
                                     @include('layouts.icon-main')
-                                    @yield( $_route['icon'])
+                                    @yield($_route['icon'])
                                 </i>
                                 <i class="sidenav-mini-icon">
 
-                                    @yield( $_route['icon'])
+                                    @yield($_route['icon'])
                                 </i>
                                 <span class="item-name">{{ $_route['name'] }}</span>
                             </a>

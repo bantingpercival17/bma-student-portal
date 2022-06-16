@@ -28,4 +28,11 @@ class StudentReport
         $file_name = 'FORM RG-03 - ' . strtoupper($_account->applicant->last_name . ', ' . $_account->applicant->first_name . ' ' . $_account->applicant->middle_name);
         return $pdf->setPaper($this->legal, 'portrait')->stream($file_name . '.pdf');
     }
+    public function registrartion_form($_student)
+    {
+        $_student = $_student;
+        $file_name = 'FORM RG-03 - ' . strtoupper($_student->last_name . ', ' . $_student->first_name . ' ' . $_student->middle_name);
+        $pdf = PDF::loadView("widgets.reports.student.registrartion_form",compact('_student'));
+        return $pdf->setPaper($this->legal, 'portrait')->stream($file_name . '.pdf');
+    }
 }

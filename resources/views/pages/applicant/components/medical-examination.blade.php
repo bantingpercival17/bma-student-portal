@@ -55,7 +55,6 @@ $_title = 'STEP 6: Medical Examination';
                     <span class="fw-bolder">C. ECG (Electronic diagram)</span> <br>
                     <span class="fw-bolder">D. Psychology Test</span> <br>
                 </div>
-
                 <div class="alert alert-info mt-3 mb-3">
                     <b>TAKE NOTE</b> <br>
                     The medical examination day may <b>be altered or change</b> subject to:
@@ -66,30 +65,29 @@ $_title = 'STEP 6: Medical Examination';
                     notice
                 </div>
                 <label for="" class="h5 fw-bolder">SCHEDULED APPOINTMENT</label>
-                @if (Auth::user()->medical_appointment)
-                    <br>
+                <p>
                     Your appointment with Centerport Medical Services Inc. is scheduled on
                     <b>{{ Auth::user()->medical_appointment->appointment_date }}</b> . <br>
-
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe> <br>
-                    Should you have queries or require any clarifications, please do not hesitate to contact our Medical
-                    Officer
-                    on the numbers below.
-                    <br> Tactical Officer Mr. Robert S Evangelista
-                    with contact number <b>0968-459-1304</b>
-                    <br>
-                    If for any reason you wish to cancel your appointment, We appreciate a prompt and early notification
-                    from
-                    your side.
-                    <br>
-                    Looking forward to your presence.
-                    <br>
-                    <p>Kindly download the Medical Form <a href="{{ route('applicant.download-medical-form') }}"
-                            class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
-                @endif
+                </p>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe> <br>
+                Should you have queries or require any clarifications, please do not hesitate to contact our Medical
+                Officer
+                on the numbers below.
+                <br> Tactical Officer Mr. Robert S Evangelista
+                with contact number <b>0968-459-1304</b>
+                <br>
+                If for any reason you wish to cancel your appointment, We appreciate a prompt and early notification
+                from
+                your side.
+                <br>
+                Looking forward to your presence.
+                <br>
+                <p class="mt-3">Kindly download the Medical Form <a
+                        href="{{ route('applicant.download-medical-form') }}"
+                        class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
                 @php
@@ -140,4 +138,16 @@ $_title = 'STEP 6: Medical Examination';
     @endif
 
 
+@endsection
+@section('step-6-dot-done')
+   <div class="timeline-dots1 border-secondary text-muted">
+        <svg width="20" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.091C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.091V7.92C2 4.38 4.28 2 7.67 2ZM11.43 14.99L16.18 10.24C16.52 9.9 16.52 9.35 16.18 9C15.84 8.66 15.28 8.66 14.94 9L10.81 13.13L9.06 11.38C8.72 11.04 8.16 11.04 7.82 11.38C7.48 11.72 7.48 12.27 7.82 12.62L10.2 14.99C10.37 15.16 10.59 15.24 10.81 15.24C11.04 15.24 11.26 15.16 11.43 14.99Z"
+                fill="currentColor"></path>
+        </svg>
+    </div>
+    <h5 class="float-left mb-1 text-muted fw-bolder">
+       {{ $_title }}
+    </h5>
 @endsection
