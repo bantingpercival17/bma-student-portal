@@ -1,7 +1,7 @@
 /node_modules/*
-*.env
-*/vendor/*
+.env
+/vendor/*
 /public/storage
 /public/resources/video
-*.lock
+.lock
 composer.lock
