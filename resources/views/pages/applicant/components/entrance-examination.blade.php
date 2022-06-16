@@ -59,6 +59,7 @@ $_title = ' STEP 4: Entrance Examination';
                     </p>
                     <p>5.We recommend using Laptop/Desktop running atleast Windows 7 or higher to take the examination.
                         We also recommend to use Google Chrome as browser in taking the examination.</p>
+                        <p>6. If you have encounter an Technical Issue in Examination, Kindly contact the ICT Department or Email. Contact Number: 09754259234 and Email: it@bma.edu.ph</p>
                     <br>
                     <form action="{{ route('applicant.entrance-examination-verified') }}" method="post">
                         @csrf
