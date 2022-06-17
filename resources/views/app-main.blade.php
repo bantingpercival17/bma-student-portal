@@ -127,7 +127,15 @@
             })
             /* toastr.success("{{ session('message') }}") */
         @endif
-
+        @if (Session::has('error'))
+            Swal.fire({
+            title: 'Error!',
+            text:"{{ session('error') }}",
+            icon: 'error',
+            confirmButtonText: 'Okay'
+            })
+            /* toastr.success("{{ session('message') }}") */
+        @endif
         $('.validate-checkbox').click(function() {
             var data = $(this).data('input'),
                 check = $(this).prop('checked')

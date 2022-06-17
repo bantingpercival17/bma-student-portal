@@ -59,7 +59,7 @@ $_title = 'Profile';
 
             </div>
             <div class="card-body">
-                <form action="{{ route('update-student-profile') }}" method="post">
+                <form action="{{-- {{ route('student.registration-form-store') }} --}}" method="post">
                     @csrf
 
                     @if (count($errors) > 0)
@@ -117,7 +117,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Extension</label>
                                     <input class="form-control input-extension" name="_extension_name"
-                                        value="{{ (old('_extension') ?:Auth::user()->student->extention_name)? ucwords(Auth::user()->student->extention_name): '' }}">
+                                        value="{{ (old('_extension') ?: Auth::user()->student->extention_name) ? ucwords(Auth::user()->student->extention_name) : '' }}">
                                     <div class="form-check">
                                         <input class="form-check-input validate-checkbox" data-input="input-extension"
                                             {{ old('_extension_name') == 'n/a' ? 'checked' : '' }} type="checkbox"
@@ -261,7 +261,7 @@ $_title = 'Profile';
                                     <label for="example-text-input" class="form-control-label">Contact Number</label>
 
                                     <input class="form-control" type="text" name="_contact_number"
-                                        value="{{ old('_contact_number') ?: Auth::user()->student->contact_number ?: '' }}">
+                                        value="{{ old('_contact_number') ?: Auth::user()->student->account->contact_number ?: '' }}">
                                     @error('_contact_number')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -271,7 +271,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Email</label>
                                     <input class="form-control" type="text" name="_personal_email"
-                                        value="{{ old('_personal_email') ?: Auth::user()->personal_email ?: '' }}">
+                                        value="{{ old('_personal_email') ?: Auth::user()->student->account->personal_email ?: '' }}">
                                     @error('_personal_email')
                                         <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
@@ -279,118 +279,66 @@ $_title = 'Profile';
                             </div>
                         </div>
                         <h6 class="mb-1"><b>EDUCATIONAL BACKGROUND</b></h6>
-                      {{--   @php
+                        @php
                             $_school_level = ['Elementary School', 'Junior High School'];
-                            $_school_level = Auth::user()->student->current_enrollment->course_id == 3 ? $_school_level : ['Elementary School', 'Junior High School', 'Senior High School'];
+                            $_school_level = Auth::user()->course_id == 3 ? $_school_level : ['Elementary School', 'Junior High School', 'Senior High School'];
                         @endphp
-                        @if (count(Auth::user()->student->educational_details) > 0)
-                            @foreach (Auth::user()->student->educational_details as $_data)
-                                @if (Auth::user()->student->current_enrollment->course_id != 3 || $_data->school_level != 'Senior High School')
-                                    <label for="example-text-input"
-                                        class="form-control-label"><b>{{ $_data->school_level }}</b></label>
-                                    <div class="row">
-                                        <div class="col-xl col-md-6 ">
-                                            <div class="form-group">
-                                                <label for="example-text-input" class="form-control-label">School
-                                                    Name</label>
-                                                <input class="form-control"
-                                                    name="{{ str_replace(' ', '_', strtolower($_data->school_level)) }}_name"
-                                                    value="{{ old(str_replace(' ', '_', strtolower($_data->school_level)) . '_name') ?: $_data->school_name }}">
+                        @foreach ($_school_level as $item)
+                            @if (Auth::user()->course_id != 3 || $item != 'Senior High School')
+                                <label for="example-text-input"
+                                    class="form-control-label"><b>{{ $item }}</b></label>
+                                <div class="row">
+                                    <div class="col-xl col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">School
+                                                Name</label>
+                                            <input class="form-control"
+                                                name="{{ str_replace(' ', '_', strtolower($item)) }}_name"
+                                                value="{{ old(str_replace(' ', '_', strtolower($item)) . '_name') ?: Auth::user()->student[str_replace(' ', '_', strtolower($item)) . '_name'] }}">
 
-                                                @error(str_replace(' ', '_', strtolower($_data->school_level)) . '_name')
-                                                    <label for=""
-                                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-xl col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-control-label">School Address</label>
-                                                <input class="form-control"
-                                                    name="{{ str_replace(' ', '_', strtolower($_data->school_level)) }}_address"
-                                                    value="{{ old(str_replace(' ', '_', strtolower($_data->school_level)) . '_address') ?: $_data->school_address }}">
-
-                                                @error(str_replace(' ', '_', strtolower($_data->school_level)) . '_address')
-                                                    <label for=""
-                                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-xl col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-control-label">Year Graduated</label>
-                                                <input class="form-control" type="month"
-                                                    name="{{ str_replace(' ', '_', strtolower($_data->school_level)) }}_year"
-                                                    value="{{ old(str_replace(' ', '_', strtolower($_data->school_level)) . '_year') ?: $_data->graduated_year }}">
-
-                                                @error(str_replace(' ', '_', strtolower($_data->school_level)) . '_year')
-                                                    <label for=""
-                                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
-                                                @enderror
-                                            </div>
+                                            @error(str_replace(' ', '_', strtolower($item)) . '_name')
+                                                <label for=""
+                                                    class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            @enderror
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
+                                    <div class="col-xl col-md-6 ">
+                                        <div class="form-group">
+                                            <label class="form-control-label">School Address</label>
+                                            <input class="form-control"
+                                                name="{{ str_replace(' ', '_', strtolower($item)) }}_address"
+                                                value="{{ old(str_replace(' ', '_', strtolower($item)) . '_address') ?: Auth::user()->student[str_replace(' ', '_', strtolower($item)) . '_address'] }}">
 
-                        @else
-                            @foreach ($_school_level as $item)
-                                @if (Auth::user()->student->current_enrollment->course_id != 3 || $item != 'Senior High School')
-                                    <label for="example-text-input"
-                                        class="form-control-label"><b>{{ $item }}</b></label>
-                                    <div class="row">
-                                        <div class="col-xl col-md-6 ">
-                                            <div class="form-group">
-                                                <label for="example-text-input" class="form-control-label">School
-                                                    Name</label>
-                                                <input class="form-control"
-                                                    name="{{ str_replace(' ', '_', strtolower($item)) }}_name"
-                                                    value="{{ old(str_replace(' ', '_', strtolower($item)) . '_name') }}">
-
-                                                @error(str_replace(' ', '_', strtolower($item)) . '_name')
-                                                    <label for=""
-                                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-xl col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-control-label">School Address</label>
-                                                <input class="form-control"
-                                                    name="{{ str_replace(' ', '_', strtolower($item)) }}_address"
-                                                    value="{{ old(str_replace(' ', '_', strtolower($item)) . '_address') }}">
-
-                                                @error(str_replace(' ', '_', strtolower($item)) . '_address')
-                                                    <label for=""
-                                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-xl col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-control-label">Year Graduated</label>
-                                                <input class="form-control" type="month"
-                                                    name="{{ str_replace(' ', '_', strtolower($item)) }}_year"
-                                                    value="{{ old(str_replace(' ', '_', strtolower($item)) . '_year') }}">
-
-                                                @error(str_replace(' ', '_', strtolower($item)) . '_year')
-                                                    <label for=""
-                                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
-                                                @enderror
-                                            </div>
+                                            @error(str_replace(' ', '_', strtolower($item)) . '_address')
+                                                <label for=""
+                                                    class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            @enderror
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
-                        @endif --}}
+                                    <div class="col-xl col-md-6 ">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Year Graduated</label>
+                                            <input class="form-control" type="month"
+                                                name="{{ str_replace(' ', '_', strtolower($item)) }}_year"
+                                                value="{{ old(str_replace(' ', '_', strtolower($item)) . '_year') ?: Auth::user()->student[str_replace(' ', '_', strtolower($item)) . '_year'] }}">
+
+                                            @error(str_replace(' ', '_', strtolower($item)) . '_year')
+                                                <label for=""
+                                                    class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                         <hr>
                         <h6 class="mb-1"><b>PARENTS DETIALS</b></h6>
                         @php
                             $_parent_details = Auth::user()->student->parent_details;
                             $_educational_attainment = ['Elementary Graduate', 'High School Graduate', 'College', 'Vocational', "Master's / Doctorate Degree", 'Did not attend school', 'N/A'];
-                            $_employment_status = ['Full Time', 'Part Time', 'Self-employed (i.e. Family Business)', 'Unemployed due to community quarantine', 'Field Work', 'None', 'N/A'];
-                            $_arrangement = ['WFH', 'Office', 'Field Work', 'None', 'N/A'];
-                            $_income = ['Below 10,000', '10,000-20,000', '20,000-40,000', '40,000-60,000', '60,000 Above', 'N/A'];
+    $_employment_status = ['Full Time', 'Part Time', 'Self-employed (i.e. Family Business)', 'Unemployed due to community quarantine', 'Field Work', 'None', 'N/A'];
+    $_arrangement = ['WFH', 'Office', 'Field Work', 'None', 'N/A'];
+    $_income = ['Below 10,000', '10,000-20,000', '20,000-40,000', '40,000-60,000', '60,000 Above', 'N/A'];
                         @endphp
                         <label for="example-text-input" class="form-control-label"><b>Father Information</b></label>
                         <div class="father-information">
@@ -459,7 +407,7 @@ $_title = 'Profile';
                                             <option value="">Select Educational Attainment</option>
                                             @foreach ($_educational_attainment as $_select_0)
                                                 <option value="{{ $_select_0 }}"
-                                                    {{ old('_father_educational_attainment')? (old('_father_educational_attainment') == $_select_0? 'selected': ''): ($_parent_details? ($_parent_details->father_educational_attainment == $_select_0? 'selected': ''): '') }}>
+                                                    {{ old('_father_educational_attainment') ? (old('_father_educational_attainment') == $_select_0 ? 'selected' : '') : ($_parent_details ? ($_parent_details->father_educational_attainment == $_select_0 ? 'selected' : '') : '') }}>
                                                     {{ $_select_0 }}
                                                 </option>
                                             @endforeach
@@ -479,7 +427,7 @@ $_title = 'Profile';
                                             <option value="">Select Employment Status</option>
                                             @foreach ($_employment_status as $_select_1)
                                                 <option value="{{ $_select_1 }}"
-                                                    {{ old('_father_employment_status')? (old('_father_employment_status') == $_select_1? 'selected': ''): ($_parent_details? ($_parent_details->father_employment_status == $_select_1? 'selected': ''): '') }}>
+                                                    {{ old('_father_employment_status') ? (old('_father_employment_status') == $_select_1 ? 'selected' : '') : ($_parent_details ? ($_parent_details->father_employment_status == $_select_1 ? 'selected' : '') : '') }}>
                                                     {{ $_select_1 }}</option>
                                             @endforeach
                                         </select>
@@ -496,7 +444,7 @@ $_title = 'Profile';
                                         <option value="">Select Working Arrangement</option>
                                         @foreach ($_arrangement as $_select_2)
                                             <option value="{{ $_select_2 }}"
-                                                {{ old('_father_working_arrangement')? (old('_father_working_arrangement') == $_select_2? 'selected': ''): ($_parent_details? ($_parent_details->father_working_arrangement == $_select_2? 'selected': ''): '') }}>
+                                                {{ old('_father_working_arrangement') ? (old('_father_working_arrangement') == $_select_2 ? 'selected' : '') : ($_parent_details ? ($_parent_details->father_working_arrangement == $_select_2 ? 'selected' : '') : '') }}>
                                                 {{ $_select_2 }}</option>
                                         @endforeach
                                     </select>
@@ -573,7 +521,7 @@ $_title = 'Profile';
                                             <option value="">Select Educational Attainment</option>
                                             @foreach ($_educational_attainment as $_select_0)
                                                 <option value="{{ $_select_0 }}"
-                                                    {{ old('_mother_educational_attainment')? (old('_mother_educational_attainment') == $_select_0? 'selected': ''): ($_parent_details? ($_parent_details->mother_educational_attainment == $_select_0? 'selected': ''): '') }}>
+                                                    {{ old('_mother_educational_attainment') ? (old('_mother_educational_attainment') == $_select_0 ? 'selected' : '') : ($_parent_details ? ($_parent_details->mother_educational_attainment == $_select_0 ? 'selected' : '') : '') }}>
                                                     {{ $_select_0 }}
                                                 </option>
                                             @endforeach
@@ -593,7 +541,7 @@ $_title = 'Profile';
                                             <option value="">Select Employment Status</option>
                                             @foreach ($_employment_status as $_select_1)
                                                 <option value="{{ $_select_1 }}"
-                                                    {{ old('_mother_employment_status')? (old('_mother_employment_status') == $_select_1? 'selected': ''): ($_parent_details? ($_parent_details->mother_employment_status == $_select_1? 'selected': ''): '') }}>
+                                                    {{ old('_mother_employment_status') ? (old('_mother_employment_status') == $_select_1 ? 'selected' : '') : ($_parent_details ? ($_parent_details->mother_employment_status == $_select_1 ? 'selected' : '') : '') }}>
                                                     {{ $_select_1 }}
                                                 </option>
                                             @endforeach
@@ -611,7 +559,7 @@ $_title = 'Profile';
                                         <option value="">Select Working Arrangement</option>
                                         @foreach ($_arrangement as $_select_2)
                                             <option value="{{ $_select_2 }}"
-                                                {{ old('_mother_working_arrangement')? (old('_mother_working_arrangement') == $_select_2? 'selected': ''): ($_parent_details? ($_parent_details->mother_working_arrangement == $_select_2? 'selected': ''): '') }}>
+                                                {{ old('_mother_working_arrangement') ? (old('_mother_working_arrangement') == $_select_2 ? 'selected' : '') : ($_parent_details ? ($_parent_details->mother_working_arrangement == $_select_2 ? 'selected' : '') : '') }}>
                                                 {{ $_select_2 }}
                                             </option>
                                         @endforeach
@@ -689,7 +637,7 @@ $_title = 'Profile';
                                             <option value="">Select Educational Attainment</option>
                                             @foreach ($_educational_attainment as $_select_0)
                                                 <option value="{{ $_select_0 }}"
-                                                    {{ old('_guardian_educational_attainment')? (old('_guardian_educational_attainment') == $_select_0? 'selected': ''): ($_parent_details? ($_parent_details->guardian_educational_attainment == $_select_0? 'selected': ''): '') }}>
+                                                    {{ old('_guardian_educational_attainment') ? (old('_guardian_educational_attainment') == $_select_0 ? 'selected' : '') : ($_parent_details ? ($_parent_details->guardian_educational_attainment == $_select_0 ? 'selected' : '') : '') }}>
                                                     {{ $_select_0 }}
                                                 </option>
                                             @endforeach
@@ -709,7 +657,7 @@ $_title = 'Profile';
                                             <option value="">Select Employment Status</option>
                                             @foreach ($_employment_status as $_select_1)
                                                 <option value="{{ $_select_1 }}"
-                                                    {{ old('_guardian_employment_status')? (old('_guardian_employment_status') == $_select_1? 'selected': ''): ($_parent_details? ($_parent_details->guardian_employment_status == $_select_1? 'selected': ''): '') }}>
+                                                    {{ old('_guardian_employment_status') ? (old('_guardian_employment_status') == $_select_1 ? 'selected' : '') : ($_parent_details ? ($_parent_details->guardian_employment_status == $_select_1 ? 'selected' : '') : '') }}>
                                                     {{ $_select_1 }}
                                                 </option>
                                             @endforeach
@@ -727,7 +675,7 @@ $_title = 'Profile';
                                         <option value="">Select Working Arrangement</option>
                                         @foreach ($_arrangement as $_select_2)
                                             <option value="{{ $_select_2 }}"
-                                                {{ old('_guardian_working_arrangement')? (old('_guardian_working_arrangement') == $_select_2? 'selected': ''): ($_parent_details? ($_parent_details->guardian_working_arrangement == $_select_2? 'selected': ''): '') }}>
+                                                {{ old('_guardian_working_arrangement') ? (old('_guardian_working_arrangement') == $_select_2 ? 'selected' : '') : ($_parent_details ? ($_parent_details->guardian_working_arrangement == $_select_2 ? 'selected' : '') : '') }}>
                                                 {{ $_select_2 }}
                                             </option>
                                         @endforeach
@@ -749,7 +697,7 @@ $_title = 'Profile';
                                         <option value="">Select Income</option>
                                         @foreach ($_income as $_select_3)
                                             <option value="{{ $_select_3 }}"
-                                                {{ old('_household_income')? (old('_household_income') == $_select_3? 'selected': ''): ($_parent_details? ($_parent_details->household_income == $_select_3? 'selected': ''): '') }}>
+                                                {{ old('_household_income') ? (old('_household_income') == $_select_3 ? 'selected' : '') : ($_parent_details ? ($_parent_details->household_income == $_select_3 ? 'selected' : '') : '') }}>
                                                 {{ $_select_3 }}
                                             </option>
                                         @endforeach
@@ -768,11 +716,11 @@ $_title = 'Profile';
                                     </label>
                                     <select name="_dswd_listahan" class="form-select">
                                         <option value="Yes"
-                                            {{ old('_dswd_listahan') == 'Yes'? 'selected': ($_parent_details? ($_parent_details->dswd_listahan == 'Yes'? 'selected': ''): '') }}>
+                                            {{ old('_dswd_listahan') == 'Yes' ? 'selected' : ($_parent_details ? ($_parent_details->dswd_listahan == 'Yes' ? 'selected' : '') : '') }}>
                                             Yes
                                         </option>
                                         <option value="No"
-                                            {{ old('_dswd_listahan') == 'No'? 'selected': ($_parent_details? ($_parent_details->dswd_listahan == 'No'? 'selected': ''): '') }}>
+                                            {{ old('_dswd_listahan') == 'No' ? 'selected' : ($_parent_details ? ($_parent_details->dswd_listahan == 'No' ? 'selected' : '') : '') }}>
                                             No
                                         </option>
                                     </select>
@@ -790,18 +738,18 @@ $_title = 'Profile';
                                 <select name="_homeownership" class="form-control">
 
                                     <option value="Owned"
-                                        {{ old('_homeownership') == 'Owned'? 'selected': ($_parent_details? ($_parent_details->homeownership == 'Owned'? 'selected': ''): '') }}>
+                                        {{ old('_homeownership') == 'Owned' ? 'selected' : ($_parent_details ? ($_parent_details->homeownership == 'Owned' ? 'selected' : '') : '') }}>
                                         Owned
                                     </option>
 
                                     <option value="Mortgaged"
-                                        {{ old('_homeownership') == 'Mortgaged'? 'selected': ($_parent_details? ($_parent_details->homeownership == 'Mortgaged'? 'selected': ''): '') }}>
+                                        {{ old('_homeownership') == 'Mortgaged' ? 'selected' : ($_parent_details ? ($_parent_details->homeownership == 'Mortgaged' ? 'selected' : '') : '') }}>
                                         Mortgaged
 
                                     </option>
 
                                     <option value="Rented"
-                                        {{ old('_homeownership') == 'Rented'? 'selected': ($_parent_details? ($_parent_details->homeownership == 'Rented'? 'selected': ''): '') }}>
+                                        {{ old('_homeownership') == 'Rented' ? 'selected' : ($_parent_details ? ($_parent_details->homeownership == 'Rented' ? 'selected' : '') : '') }}>
                                         Rented</option>
 
                                 </select>
@@ -820,23 +768,23 @@ $_title = 'Profile';
                                 <select name="_car_ownership" class="form-control">
 
                                     <option value="0"
-                                        {{ old('_car_ownership') == '0'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '0'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '0' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '0' ? 'selected' : '') : '') }}>
                                         0</option>
 
                                     <option value="1"
-                                        {{ old('_car_ownership') == '1'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '1'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '1' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '1' ? 'selected' : '') : '') }}>
                                         1</option>
 
                                     <option value="2"
-                                        {{ old('_car_ownership') == '2'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '2'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '2' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '2' ? 'selected' : '') : '') }}>
                                         2</option>
 
                                     <option value="3"
-                                        {{ old('_car_ownership') == '3'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '3'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '3' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '3' ? 'selected' : '') : '') }}>
                                         3</option>
 
                                     <option value="up to 4"
-                                        {{ old('_car_ownership') == 'up to 4'? 'selected': ($_parent_details? ($_parent_details->car_ownership == 'up to 4'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == 'up to 4' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == 'up to 4' ? 'selected' : '') : '') }}>
                                         up to 4
                                     </option>
 
@@ -856,6 +804,7 @@ $_title = 'Profile';
                             $_provider = ['own mobile data', 'own broadband (DSL, Wireless Fiber, Satellite)', 'computer shop', 'other places outside the home with internet connection (library, barangay, neighbor, relatives)', 'none'];
                             $_learning_modality = ['online learning', 'Blended', 'Face-to-Face'];
                             $_inputs = ['lack of available gadgets / equipment', 'insufficient load/data allowance', 'existing health condition/s', 'difficulty in independent learning', 'conflict with other activities (i.e. house chores)', 'none or lack of available space for studying', 'distractions (i.e. social media, noise from community/ neighbor)', 'none'];
+                        $_parent_detail= [];
                         @endphp
                         <div class="row">
                             <div class="col-md-12">
@@ -867,14 +816,14 @@ $_title = 'Profile';
                                         </small>
                                     </label>
                                     @php
-                                        $_devices_1 = $_parent_details ? unserialize($_parent_details->available_devices) : [];
+                                        $_devices_1 = $_parent_detail ? unserialize($_parent_detail->available_devices) : [];
                                     @endphp
                                     <div class="row  ms-2">
                                         @foreach ($_device as $_key => $_item)
                                             <div class="form-check  col-md-4">
                                                 <input class="form-check-input" type="checkbox" name="_devices[]"
                                                     id="check_box_device{{ $_key }}" value="{{ $_item }}"
-                                                    {{ (old('_devices')? (in_array($_item, old('_devices'))? 'checked': ''): in_array($_item, $_devices_1))? 'checked': '' }}>
+                                                    {{ (old('_devices') ? (in_array($_item, old('_devices')) ? 'checked' : '') : in_array($_item, $_devices_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_device{{ $_key }}">
                                                     {{ $_item }}
@@ -912,7 +861,7 @@ $_title = 'Profile';
                                         </small>
                                     </label>
                                     @php
-                                        $_provider_1 = $_parent_details ? unserialize($_parent_details->available_provider) : [];
+                                        $_provider_1 = $_parent_detail ? unserialize($_parent_detail->available_provider) : [];
                                     @endphp
                                     <div class="ms-2">
                                         @foreach ($_provider as $_key => $_item)
@@ -920,7 +869,7 @@ $_title = 'Profile';
                                                 <input class="form-check-input" type="checkbox" name="_provider[]"
                                                     id="check_box_provider{{ $_key }}"
                                                     value="{{ $_item }}"
-                                                    {{ (old('_provider')? (in_array($_item, old('_provider'))? 'checked': ''): in_array($_item, $_provider_1))? 'checked': '' }}>
+                                                    {{ (old('_provider') ? (in_array($_item, old('_provider')) ? 'checked' : '') : in_array($_item, $_provider_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_provider{{ $_key }}">
                                                     {{ $_item }}
@@ -941,7 +890,7 @@ $_title = 'Profile';
                                         </small>
                                     </label>
                                     @php
-                                        $_learning_modality_1 = $_parent_details ? unserialize($_parent_details->learning_modality) : [];
+                                        $_learning_modality_1 = $_parent_detail ? unserialize($_parent_detail->learning_modality) : [];
                                     @endphp
                                     <div class="ms-2">
                                         @foreach ($_learning_modality as $_key => $_item)
@@ -949,7 +898,7 @@ $_title = 'Profile';
                                                 <input class="form-check-input" type="checkbox" name="_learning_modality[]"
                                                     id="check_box_learning_modality{{ $_key }}"
                                                     value="{{ $_item }}"
-                                                    {{ (old('_learning_modality')? (in_array($_item, old('_learning_modality'))? 'checked': ''): in_array($_item, $_learning_modality_1))? 'checked': '' }}>
+                                                    {{ (old('_learning_modality') ? (in_array($_item, old('_learning_modality')) ? 'checked' : '') : in_array($_item, $_learning_modality_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_learning_modality{{ $_key }}">
                                                     {{ $_item }}
@@ -971,14 +920,14 @@ $_title = 'Profile';
                                         </small>
                                     </label>
                                     @php
-                                        $_inputs_1 = $_parent_details ? unserialize($_parent_details->distance_learning_effect) : [];
+                                        $_inputs_1 = $_parent_detail ? unserialize($_parent_detail->distance_learning_effect) : [];
                                     @endphp
                                     <div class="ms-2">
                                         @foreach ($_inputs as $_key => $_item)
                                             <div class="form-check col-md-12">
                                                 <input class="form-check-input" type="checkbox" name="_inputs[]"
                                                     id="check_box_inputs{{ $_key }}" value="{{ $_item }}"
-                                                    {{ (old('_inputs')? (in_array($_item, old('_inputs'))? 'checked': ''): in_array($_item, $_inputs_1))? 'checked': '' }}>
+                                                    {{ (old('_inputs') ? (in_array($_item, old('_inputs')) ? 'checked' : '') : in_array($_item, $_inputs_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_inputs{{ $_key }}">
                                                     {{ $_item }}

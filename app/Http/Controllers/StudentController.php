@@ -64,38 +64,39 @@ class StudentController extends Controller
     }
     function store(Request $request)
     {
-
         try {
             // my data storage location is project_root/storage/app/data.json file.
             $contactInfo = Storage::disk('local')->exists('data.json') ? json_decode(Storage::disk('local')->get('data.json')) : [];
-
             $inputData = $request->only(['name', 'email', 'message', 'subject']);
-
             $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
-
             array_push($contactInfo, $inputData);
-
             Storage::disk('local')->put('data.json', json_encode($contactInfo));
-
             return $inputData;
         } catch (Exception $e) {
-
             return ['error' => true, 'message' => $e->getMessage()];
         }
     }
 
     public function academic_view(Request $_request)
     {
-        $_section = Auth::user()->student->section(Auth::user()->student->current_enrollment->academic->id)->first();
-        $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
+        try {
+            if (Auth::user()->student->current_enrollment) {
+                $_section = Auth::user()->student->section(Auth::user()->student->enrollment_assessment->academic->id)->first();
+                $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
 
-        $_student = Auth::user()->student->enrollment_assessment;
-        $_academic = AcademicYear::where('is_active', 1)->first();
-        if ($_student->academic_id == $_academic->id) {
-            return view('pages.student.academic.view', compact('_subject_class'));
-        } else {
-            return view('pages.student.academic.view', compact('_subject_class'));
-            return redirect('/student/enrollment');
+                $_student = Auth::user()->student->enrollment_assessment;
+                $_academic = AcademicYear::where('is_active', 1)->first();
+                if ($_student->academic_id == $_academic->id) {
+                    return view('pages.student.academic.view', compact('_subject_class'));
+                } else {
+                    return view('pages.student.academic.view', compact('_subject_class'));
+                    return redirect('/student/enrollment');
+                }
+            } else {
+                return back()->with('error', 'Academic Year Error');
+            }
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
         }
     }
     public function academic_grades(Request $_request)
@@ -113,78 +114,295 @@ class StudentController extends Controller
         $_roles = Role::get();
         return view('pages.student.academic.clearance', compact('_subject_class', '_roles'));
     }
-
-
     /* Enrollment */
-    public function enrollment_application()
+    public function enrollment_view()
     {
-        $_up_comming_academic = AcademicYear::where('is_active', 1)->first();
-
-        $_enrollment_application = EnrollmentApplication::where(['student_id' => Auth::user()->student_id, 'academic_id' => $_up_comming_academic->id])->first();
-        if (!$_enrollment_application) {
-            $_details = [
-                'student_id' => Auth::user()->student_id,
-                'academic_id' => $_up_comming_academic->id,
-                'enrollment_place' => 'online',
-                'is_removed' => false,
-            ];
-
-            EnrollmentApplication::create($_details);
-            return redirect(route('enrollment'))->with('success', 'Successfully Send your Enrollment Application!');
+        //return view('pages.student.enrollment.view');
+        $_enrollment_assessment = Auth::user()->student->enrollment_assessment;
+        if ($_enrollment_assessment->year_level == 12 && Auth::user()->current_semester()->semester == 'First Semester') {
+            return view('pages.student.enrollment.seniorhigh_overview');
         } else {
-            return redirect(route('enrollment'))->with('error', 'Your Already Submit Enrollment Application!');
+            return view('pages.student.enrollment.overview');
+        }
+    }
+    public function enrollment_application(Request $_request)
+    {
+        try {
+            $_up_comming_academic = AcademicYear::where('is_active', 1)->first();
+            $_enrollment_application = EnrollmentApplication::where(['student_id' => Auth::user()->student_id, 'academic_id' => $_up_comming_academic->id])->where('is_removed', false)->first();
+            if (!$_enrollment_application) {
+                $_details = [
+                    'student_id' => Auth::user()->student_id,
+                    'academic_id' => $_up_comming_academic->id,
+                    'course_id' => $_request->_course ?: Auth::user()->student->enrollment_assessment->course_id,
+                    'enrollment_place' => 'online',
+                    'is_removed' => false,
+                ];
+
+                EnrollmentApplication::create($_details);
+                return redirect(route('enrollment'))->with('success', 'Successfully Send your Enrollment Application!');
+            } else {
+                return redirect(route('enrollment'))->with('error', 'Your Already Submit Enrollment Application!');
+            }
+        } catch (Exception $error) {
+
+            return back()->with('error', $error->getMessage());
         }
     }
     public function payment_application(Request $_request)
     {
-        $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        //$_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        $_application = Auth::user()->student->enrollment_application;
         $_application->payment_mode = $_request->mode;
         $_application->save();
         return back()->with('success', 'Successfully Submitted.');
     }
     public function payment_store(Request $_request)
     {
-        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-        $link .= "://";
-        $link .= $_SERVER['HTTP_HOST'];
-        $_file_path = '/public/accounting/proof_of_payments/';
-        $_request->validate([
-            '_transaction_date' => 'required',
-            '_amount_paid' => 'required',
-            '_reference_number' => 'required',
-            '_transaction_type' => 'required',
-            '_file' => 'required'
-        ]);
-        $_file = 'proof_payment';
-        $_ext = $_request->_file->getClientOriginalExtension();
-        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
-        $_url_link =  $link . '/storage/accounting/proof_of_payments/';
-        $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
-        $_request->_file->storeAs($_file_path, $_file_name);
-        //return  $_url_link . $_file_name;
-        $_payment_data = array(
-            'assessment_id' => base64_decode($_request->_assessment),
-            'amount_paid' => str_replace(',', '', $_request->_amount_paid),
-            'reference_number' => $_request->_reference_number,
-            'transaction_type' => $_request->_transaction_type,
-            'reciept_attach_path' => $_url_link . $_file_name,
-            'is_removed' => 0
-        );
-        PaymentTrasanctionOnline::create($_payment_data);
-        return back()->with('success', 'Successfully Submitted.');
-        /* $_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
-        $_application->payment_mode = $_request->mode;
-        $_application->save();
-        return back()->with('success', 'Successfully Submitted.'); */
+        try {
+            $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+            $link .= "://";
+            $link .= $_SERVER['HTTP_HOST'];
+            $_file_path = '/public/accounting/proof_of_payments/';
+            $_request->validate([
+                '_transaction_date' => 'required',
+                '_amount_paid' => 'required',
+                '_reference_number' => 'required',
+                '_transaction_type' => 'required',
+                '_file' => 'required'
+            ]);
+            $_file = 'proof_payment';
+            $_ext = $_request->_file->getClientOriginalExtension();
+            $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+            $_url_link =  $link . '/storage/accounting/proof_of_payments/';
+            $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
+            $_request->_file->storeAs($_file_path, $_file_name);
+            //return  $_url_link . $_file_name;
+            $_payment_data = array(
+                'assessment_id' => base64_decode($_request->_assessment),
+                'amount_paid' => str_replace(',', '', $_request->_amount_paid),
+                'reference_number' => $_request->_reference_number,
+                'transaction_type' => $_request->_transaction_type,
+                'reciept_attach_path' => $_url_link . $_file_name,
+                'is_removed' => 0
+            );
+            PaymentTrasanctionOnline::create($_payment_data);
+            return back()->with('success', 'Successfully Submitted.');
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
     }
-    public function enrollment_view()
-    {
-        return view('pages.student.enrollment.view');
-    }
+
 
     public function view_student_profile(Request $_request)
     {
         return view('pages.student.home.student_profile_form');
+    }
+    public function enrollment_registration_form()
+    {
+        return view('pages.student.enrollment.components.registration_form');
+    }
+    public function enrollment_registration_store(Request $_request)
+    {
+        $_input_feilds = [
+            '_first_name' => 'required',
+            '_last_name' => 'required',
+            '_middle_name' => 'required | min:3',
+            '_extension_name' => 'required | min:2',
+            '_birthday' => 'required',
+            '_birth_place' => 'required',
+            '_gender' => 'required',
+            '_civil_status' => 'required',
+            '_religion' => 'required',
+            '_nationality' => 'required',
+            '_street' => 'required',
+            '_barangay' => 'required',
+            '_municipality' => 'required',
+            '_province' => 'required',
+            '_zip_code' => 'required',
+            '_contact_number' => 'required | numeric| min:12',
+            '_personal_email' => 'required',
+            // Education Background
+            'elementary_school_name' => 'required|max:100',
+            'elementary_school_address' => 'required|max:255',
+            'elementary_school_year' => 'required|max:100',
+            'junior_high_school_name' => 'required|max:100',
+            'junior_high_school_address' => 'required|max:255',
+            'junior_high_school_year' => 'required|max:100',
+        ];
+        if (Auth::user()->course_id != 3) {
+            $_input_feilds += [
+                'senior_high_school_name' => 'required|max:100',
+                'senior_high_school_address' => 'required|max:255',
+                'senior_high_school_year' => 'required|max:100',
+            ];
+        }
+        $_input_feilds += [  // FATHER INFORMATION
+            '_father_last_name' => 'required | min:2 | max:50',
+            '_father_first_name' => 'required | min:2 | max:50',
+            '_father_middle_name' => 'required | min:2 | max:50',
+            '_father_educational_attainment' => 'required | min:2 | max:100',
+            '_father_employment_status' => 'required | min:2 | max:50',
+            '_father_working_arrangement' => 'required | min:2 | max:50',
+            '_father_contact_number' => 'required| min:2 | max:12',
+            // MOTHER INFORMATION
+            '_mother_last_name' => 'required | min:2 | max:50',
+            '_mother_first_name' => 'required | min:2 | max:50',
+            '_mother_middle_name' => 'required | min:2 | max:50',
+            '_mother_educational_attainment' => 'required | min:2 | max:100',
+            '_mother_employment_status' => 'required | min:2 | max:50',
+            '_mother_working_arrangement' => 'required | min:2 | max:50',
+            '_mother_contact_number' => 'required | min:2 | max:12',
+            // GUARDIAN  INFORMATION
+            '_guardian_last_name' => 'required | min:2 | max:50',
+            '_guardian_first_name' => 'required | min:2 | max:50',
+            '_guardian_middle_name' => 'required | min:2 | max:50',
+            '_guardian_educational_attainment' => 'required | min:2 | max:50',
+            '_guardian_employment_status' => 'required | min:2 | max:50',
+            '_guardian_working_arrangement' => 'required | min:2 | max:50',
+            '_guardian_contact_number' => 'required| min:2 | max:12',
+            // OTHER DETIALS
+            '_household_income' => 'required',
+            '_dswd_listahan' => 'required',
+            '_homeownership' => 'required',
+            '_car_ownership' => 'required',
+            // Access 
+            '_devices' => 'required',
+            '_connection' => 'required',
+            '_provider' => 'required',
+            '_learning_modality' => 'required',
+            '_inputs' => 'required'
+        ];
+        $_request->validate($_input_feilds);
+        try {
+            $_student_details = array(
+                'last_name' => trim(ucwords(mb_strtolower($_request->_last_name))),
+                'first_name' => trim(ucwords(mb_strtolower($_request->_first_name))),
+                'middle_name' => trim(ucwords(mb_strtolower($_request->_middle_name))),
+                'extention_name' => $_request->_extension_name,
+                'birthday' => $_request->_birthday,
+                'birth_place' => trim(ucwords(mb_strtolower($_request->_birth_place))),
+                'civil_status' => trim(ucwords(mb_strtolower($_request->_civil_status))),
+                'religion' => trim(ucwords(mb_strtolower($_request->_religion))),
+                'nationality' => trim(ucwords(mb_strtolower($_request->_nationality))),
+                'street' => ucwords(mb_strtolower(trim($_request->_street))),
+                'barangay' => ucwords(mb_strtolower(trim($_request->_barangay))),
+                'municipality' => ucwords(mb_strtolower(trim($_request->_municipality))),
+                'province' => ucwords(mb_strtolower(trim($_request->_province))),
+                'zip_code' => trim(ucwords(mb_strtolower($_request->_zip_code))),
+                'contact_number' => $_request->_contact_number,
+                'sex' => $_request->_gender,
+                'is_removed' => false
+            );
+            $_elementary = array(
+                'student_id',
+                'school_level' => 'Elementary School',
+                'school_name' => trim(ucwords(mb_strtolower($_request->elementary_school_name))),
+                'school_address' => trim(ucwords(mb_strtolower($_request->elementary_school_address))),
+                'graduated_year' =>  trim(ucwords(mb_strtolower($_request->elementary_school_year))),
+                "school_category" => 'n/a',
+                "is_removed" => false
+            );
+            $_high_school = array(
+                'student_id',
+                'school_level' => 'Junior High School',
+                'school_name' => trim(ucwords(mb_strtolower($_request->junior_high_school_name))),
+                'school_address' => trim(ucwords(mb_strtolower($_request->junior_high_school_address))),
+                'graduated_year' =>  trim(ucwords(mb_strtolower($_request->junior_high_school_year))),
+                "school_category" => 'n/a',
+                "is_removed" => false
+            );
+            $_senior_high_school = array(
+                'student_id',
+                'school_level' => 'Senior High School',
+                'school_name' => trim(ucwords(mb_strtolower($_request->senior_high_school_name))),
+                'school_address' => trim(ucwords(mb_strtolower($_request->senior_high_school_address))),
+                'graduated_year' =>  trim(ucwords(mb_strtolower($_request->senior_high_school_year))),
+                "school_category" => 'n/a',
+                "is_removed" => false
+            );
+            $_parent_info = array(
+                "father_last_name" => trim(ucwords(mb_strtolower($_request->_father_last_name))),
+                "father_first_name" => trim(ucwords(mb_strtolower($_request->_father_first_name))),
+                "father_middle_name" => trim(ucwords(mb_strtolower($_request->_father_middle_name))),
+                "father_educational_attainment" => $_request->_father_educational_attainment,
+                "father_employment_status" => $_request->_father_employment_status,
+                "father_working_arrangement" => $_request->_father_working_arrangement,
+                "father_contact_number" => $_request->_father_contact_number,
+
+                "mother_last_name" => trim(ucwords(mb_strtolower($_request->_mother_last_name))),
+                "mother_first_name" => trim(ucwords(mb_strtolower($_request->_mother_first_name))),
+                "mother_middle_name" => trim(ucwords(mb_strtolower($_request->_mother_middle_name))),
+                "mother_educational_attainment" => $_request->_mother_educational_attainment,
+                "mother_employment_status" => $_request->_mother_employment_status,
+                "mother_working_arrangement" => $_request->_mother_working_arrangement,
+                "mother_contact_number" => $_request->_mother_contact_number,
+
+                "guardian_last_name" => trim(ucwords(mb_strtolower($_request->_guardian_last_name))),
+                "guardian_first_name" => trim(ucwords(mb_strtolower($_request->_guardian_first_name))),
+                "guardian_middle_name" => trim(ucwords(mb_strtolower($_request->_guardian_middle_name))),
+                "guardian_educational_attainment" => $_request->_guardian_educational_attainment,
+                "guardian_employment_status" => $_request->_guardian_employment_status,
+                "guardian_working_arrangement" => $_request->_guardian_working_arrangement,
+                "guardian_contact_number" => $_request->_guardian_contact_number,
+
+                'household_income' => $_request->_household_income,
+                'dswd_listahan' => $_request->_dswd_listahan,
+                'homeownership' => $_request->_homeownership,
+                'car_ownership' => $_request->_car_ownership,
+
+                'available_devices' => serialize($_request->_devices),
+                'available_connection' => $_request->_connection,
+                'available_provider' => serialize($_request->_provider),
+                'learning_modality' => serialize($_request->_learning_modality),
+                'distance_learning_effect' => serialize($_request->_inputs)
+            );
+            $_education =  [$_elementary, $_high_school, $_senior_high_school];
+            $_student_checker = StudentDetails::where($_student_details)->first();
+            if ($_student_checker) {
+                $_educational = EducationalDetails::where('student_id', $_student_checker->id)->count();
+                // Educational Background
+                if ($_educational > 0) {
+                    EducationalDetails::where('student_id', $_student_checker->id)->update(['is_removed', true]);
+                    foreach ($_education as $key => $value) {
+                        $value['student_id'] = $_student_checker->id;
+                        EducationalDetails::create($value);
+                    }
+                }
+                // Additional Details
+                $_parent_details = ParentDetails::where('student_id', $_student_checker->id)->where('is_removed', false)->first();
+                if ($_parent_details) {
+                    $_parent_details->is_removed = true;
+                    $_parent_details->save();
+                    $_parent_info += ['student_id' => $_student_checker->id];
+                    ParentDetails::create($_parent_info);
+                } else {
+                    $_parent_info += ['student_id' => $_student_checker->id];
+                    ParentDetails::create($_parent_info);
+                }
+            } else {
+                // Create Student Information 
+                $_student_store = StudentDetails::create($_student_details);
+                // Educational Background
+                foreach ($_education as $key => $value) {
+                    $value['student_id'] = $_student_store->id;
+                    EducationalDetails::create($value);
+                }
+                // Additional Details
+                $_parent_info += ['student_id' => $_student_store->id];
+                ParentDetails::create($_parent_info);
+            }
+
+            return redirect(route('applicant.enrollment'))->with('success', 'Successfully Submit the Registrartion Form');
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function registration_form()
+    {
+        $_student_report = new StudentReport();
+        $_student = Auth::user()->student;
+        return $_student_report->student_registrartion_form($_student);
     }
     public function update_student_profile(Request $_request)
     {

@@ -9,17 +9,17 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     //Route::get('/home', [StudentController::class, 'index'])->name('home');
     Route::get('/', [StudentController::class, 'index'])->name('home');
     Route::get('/home', [StudentController::class, 'index'])->name('home');
-   
+
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
     Route::get('/academic/grades', [StudentController::class, 'academic_grades'])->name('academic.grades');
     Route::get('/academic/clearance', [StudentController::class, 'academic_clearance'])->name('academic.clearance');
-    Route::get('/academic/enroll-now', [StudentController::class, 'enrollment_application'])->name('academic.enroll-now');
+
     Route::get('/student-manual', [StudentController::class, 'view_student_manual'])->name('student-manual');
     Route::post('/student-manual', [StudentController::class, 'store_student_manual'])->name('student-handbook');
     Route::get('/grades', [StudentController::class, 'grades_view'])->name('grades');
     Route::get('/payments', [StudentController::class, 'payments_view'])->name('payments');
-    Route::post('/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');
-    Route::post('/payments/payment-transaction', [StudentController::class, 'payment_store'])->name('enrollment.online-transaction-payment');
+
+
     /* Enrollment */
     Route::get('/enrollment', [StudentController::class, 'enrollment_view'])->name('enrollment');
     Route::get('/enrollment/coe', [StudentController::class, 'enrollment_report_view'])->name('enrollment.coe');
@@ -44,4 +44,14 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
 
     Route::get('/attendance', [StudentController::class, 'attendance_form_view'])->name('bma-qrcode');
     Route::post('/attendance', [StudentController::class, 'attendance_store'])->name('bma-qrcode-generate');
+
+
+    // Enrollment Procedure
+    Route::get('/academic/enroll-now', [StudentController::class, 'enrollment_application'])->name('academic.enroll-now');
+    Route::get('/enrollment/registration-form-fillup',[StudentController::class,'enrollment_registration_form'])->name('enrollment.registration-form-fillup');
+    Route::post('/enrollment/registration-form-fillup',[StudentController::class,'enrollment_registration_store'])->name('enrollment.registration-form-store');
+    
+    Route::get('/enrollment/registration-form', [StudentController::class, 'registration_form'])->name('enrollment.registration-form');
+    Route::post('enrollment/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');
+    Route::post('enrollment/payment]]s/payment-transaction', [StudentController::class, 'payment_store'])->name('enrollment.online-transaction-payment');
 });

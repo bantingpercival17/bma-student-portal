@@ -51,7 +51,7 @@ class StudentDetails extends Model
     public function enrollment_application()
     {
         $_academic = AcademicYear::where('is_active',true)->first();
-        return $this->hasOne(EnrollmentApplication::class, 'student_id')->where('academic_id',$_academic->id);
+        return $this->hasOne(EnrollmentApplication::class, 'student_id')->where('academic_id',$_academic->id)->where('is_removed',false);
     }
     public function enrollment_assessment()
     {

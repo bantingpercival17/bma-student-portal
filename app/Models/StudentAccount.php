@@ -21,5 +21,8 @@ class StudentAccount extends Authenticatable
     {
         return $this->belongsTo(StudentDetails::class, 'student_id');
     }
-    
+    public function current_semester()
+    {
+        return AcademicYear::where('is_active',true)->where('is_removed',false)->first();
+    }
 }

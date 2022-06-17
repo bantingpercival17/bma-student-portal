@@ -94,7 +94,6 @@ $_title = 'Enrollment';
 
             @if (Auth::user()->student->enrollment_application)
                 @if (Auth::user()->student->enrollment_assessment && Auth::user()->student->enrollment_application->is_approved)
-
                     @if ($_student->enrollment_assessment->payment_assessments)
                         @if ($_student->enrollment_assessment->payment_assessments->payment_transaction)
                             <div class=" d-flex profile-media align-items-top mb-2">
@@ -484,8 +483,6 @@ $_title = 'Enrollment';
                                 </div>
                             </div>
                         @endif
-
-
                     @else
                         <div class=" d-flex profile-media align-items-top mb-2">
                             <div class="profile-dots-pills border-primary mt-1"></div>
