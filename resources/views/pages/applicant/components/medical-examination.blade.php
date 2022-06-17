@@ -85,9 +85,10 @@ $_title = 'STEP 6: Medical Examination';
                 <br>
                 Looking forward to your presence.
                 <br>
-                <p class="mt-3">Kindly download the Medical Form <a
+                <p class="mt-3"></p>
+                {{-- <p class="mt-3">Kindly download the Medical Form <a
                         href="{{ route('applicant.download-medical-form') }}"
-                        class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p>
+                        class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p> --}}
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
                 @php
