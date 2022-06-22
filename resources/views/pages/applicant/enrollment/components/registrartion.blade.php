@@ -42,6 +42,6 @@ $_title = 'STEP 1: REGISTRATION';
         <p class="mb-3">
           You can now Procude to Enrollment Assessment
         </p>
-        <a href="{{ route('applicant.form-rg-02') }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill">BMA RG-02</a>
+        <a href="{{ route('applicant.form-rg-02') }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill">REGISTRATION FORM PRINTABLE</a>
     </div>
 @endsection

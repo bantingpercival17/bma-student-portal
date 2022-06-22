@@ -1,5 +1,5 @@
 @php
-$_title = 'DONE: ENROLLMENT COMPLETE';
+$_title = 'ENROLLMENT COMPLETE';
 @endphp
 
 @section('step-5-dot')

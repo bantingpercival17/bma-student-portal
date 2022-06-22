@@ -114,12 +114,15 @@ class StudentController extends Controller
         $_roles = Role::get();
         return view('pages.student.academic.clearance', compact('_subject_class', '_roles'));
     }
+
     /* Enrollment */
     public function enrollment_view()
     {
         //return view('pages.student.enrollment.view');
         $_enrollment_assessment = Auth::user()->student->enrollment_assessment;
-        if ($_enrollment_assessment->year_level == 12 && Auth::user()->current_semester()->semester == 'First Semester') {
+        $_account = StudentAccount::find(Auth::user()->id);
+        if ($_enrollment_assessment->year_level == 12 && $_account->current_semester()->semester == 'First Semester') {
+            $_parent_details = ParentDetails::where('student_id',Auth::user()->student_id)->where('is_removed',false)->first();
             return view('pages.student.enrollment.seniorhigh_overview');
         } else {
             return view('pages.student.enrollment.overview');
@@ -192,7 +195,7 @@ class StudentController extends Controller
             return back()->with('error', $error->getMessage());
         }
     }
-
+    /* Enrollment end */
 
     public function view_student_profile(Request $_request)
     {
@@ -701,17 +704,6 @@ class StudentController extends Controller
     }
     public function store_journal(Request $_request)
     {
-
-        /* $_input_feilds = $_request->validate([
-            '_month' => 'required',
-            '_trb_remark' => 'required',
-            '_journal_remark' => 'required',
-            '_trb_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_journal_documents.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_crew_list.*' => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_mdsd.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-            '_while_at_work.*'  => 'required|mimes:png,docs,docx,jpeg,jpg,pdf|max:10000',
-        ]); */
         $_input_feilds = $_request->validate([
             '_month' => 'required',
             '_trb_remark' => 'required',
@@ -874,7 +866,6 @@ class StudentController extends Controller
                 $_request->question1,
                 $_request->question2,
                 $_request->question3,
-
             )),
             date('Y-m-d H:i:s'),
         );

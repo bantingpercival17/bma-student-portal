@@ -91,6 +91,7 @@ $_title = 'Enrollment';
         </div>
         <div class="card-body">
             @include('pages.student.enrollment.components_senior.registration')
+            @include('pages.student.enrollment.components_senior.orentation')
             <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
                 <ul class="list-inline p-0 m-0">
                     @if (Auth::user()->student->enrollment_application)

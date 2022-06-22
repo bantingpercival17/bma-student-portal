@@ -1,4 +1,4 @@
-@extends('widgets.reports.grade.report_layout_1')
+@extends('widgets.reports.report-layout')
 @section('title-report', 'FORM RG-03 - STUDENT REGISTRATION : ' . strtoupper($_student->last_name . ', ' .
     $_student->first_name . ' ' . $_student->middle_name))
 @section('form-code', 'RG - 03')

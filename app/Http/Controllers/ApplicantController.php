@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicYear;
+use App\Models\ApplicantAccount;
 use App\Models\ApplicantBriefing;
 use App\Models\ApplicantDetials;
 use App\Models\ApplicantDocuments;
@@ -11,8 +13,10 @@ use App\Models\ApplicantMedicalAppointment;
 use App\Models\ApplicantPayment;
 use App\Models\Documents;
 use App\Models\EducationalDetails;
+use App\Models\EnrollmentApplication;
 use App\Models\Examination;
 use App\Models\ParentDetails;
+use App\Models\PaymentTrasanctionOnline;
 use App\Models\StudentDetails;
 use App\Report\Students\StudentReport;
 use Exception;
@@ -539,5 +543,89 @@ class ApplicantController extends Controller
             ->where('is_removed', false)
             ->first();
         return $_student_report->registrartion_form($_student);
+    }
+    public function enrollment_assessment(Request $_request)
+    {
+        try {
+            $_up_comming_academic = AcademicYear::where('is_active', 1)->first();
+            $_student = ApplicantAccount::find(Auth::user()->id);
+            $_student = $_student->enrollment_registration();
+            $_enrollment_application = EnrollmentApplication::where(['student_id' => $_student->id, 'academic_id' => $_up_comming_academic->id, 'course_id' => $_request->_course])->where('is_removed', false)->first();
+            if (!$_enrollment_application) {
+                $_details = [
+                    'student_id' => $_student->id,
+                    'academic_id' => $_up_comming_academic->id,
+                    'course_id' => $_request->_course,
+                    'enrollment_place' => 'online',
+                    'strand' => $_request->_strand,
+                    'is_removed' => false,
+                ];
+                //return $_details;
+                EnrollmentApplication::create($_details);
+                return redirect(route('applicant.enrollment'))->with('success', 'Successfully Send your Enrollment Application!');
+            } else {
+                return redirect(route('applicant.enrollment'))->with('error', 'Your Already Submit Enrollment Application!');
+            }
+        } catch (Exception $error) {
+
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function enrollment_payment_mode(Request $_request)
+    {
+        try {
+            $_user = ApplicantAccount::find(Auth::user()->id);
+            $_application = $_user->enrollment_registration()->enrollment_application;
+            $_application->payment_mode = $_request->mode;
+            $_application->save();
+            return back()->with('success', 'Successfully Submitted.');
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function enrollment_payment_transaction(Request $_request)
+    {
+        try {
+            $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+            $link .= "://";
+            $link .= $_SERVER['HTTP_HOST'];
+            $_file_path = '/public/accounting/applicant/proof_of_payments/';
+            $_request->validate([
+                '_transaction_date' => 'required',
+                '_amount_paid' => 'required',
+                '_reference_number' => 'required',
+                '_transaction_type' => 'required',
+                '_file' => 'required'
+            ]);
+            $_ext = $_request->_file->getClientOriginalExtension();
+            $_user = str_replace(' ', '_', Auth::user()->name);
+            $_url_link =  $link . '/storage/accounting/proof_of_payments/';
+            $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
+            $_request->_file->storeAs($_file_path, $_file_name);
+            //return  $_url_link . $_file_name;
+            $_payment_data = array(
+                'assessment_id' => base64_decode($_request->_assessment),
+                'amount_paid' => str_replace(',', '', $_request->_amount_paid),
+                'reference_number' => $_request->_reference_number,
+                'transaction_type' => $_request->_transaction_type,
+                'reciept_attach_path' => $_url_link . $_file_name,
+                'is_removed' => 0
+            );
+            PaymentTrasanctionOnline::create($_payment_data);
+            return back()->with('success', 'Successfully Submitted.');
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function enrollment_certificate(Request $_request)
+    {
+        try {
+            $_student_report = new StudentReport();;
+            $_student = ApplicantAccount::find(Auth::user()->id);
+            $_student = $_student->enrollment_registration()->enrollment_assessment;
+            return $_student_report->enrollment_information($_student->id);
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
     }
 }

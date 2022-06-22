@@ -53,5 +53,5 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     
     Route::get('/enrollment/registration-form', [StudentController::class, 'registration_form'])->name('enrollment.registration-form');
     Route::post('enrollment/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');
-    Route::post('enrollment/payment]]s/payment-transaction', [StudentController::class, 'payment_store'])->name('enrollment.online-transaction-payment');
+    Route::post('enrollment/payments/payment-transaction', [StudentController::class, 'payment_store'])->name('enrollment.online-transaction-payment');
 });

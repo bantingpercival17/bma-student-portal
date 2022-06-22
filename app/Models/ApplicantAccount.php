@@ -28,6 +28,10 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+    public function current_semester()
+    {
+       return AcademicYear::where('is_active',true)->first();
+    }
     public function academic()
     {
         return $this->belongsTo(AcademicYear::class, 'academic_id');
@@ -95,7 +99,7 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
         $_document = Documents::where('department_id', 2)->where('year_level', $_level)->where('document_name', '2x2 Picture')->where('is_removed', false)->first();
         return $this->hasOne(ApplicantDocuments::class, 'applicant_id')->where('document_id', $_document->id)->where('is_removed', false);
     }
-    public function enrollment_registrartion()
+    public function enrollment_registration()
     {
         return StudentDetails::where('first_name', $this->applicant->first_name)
             ->where('last_name', $this->applicant->last_name)

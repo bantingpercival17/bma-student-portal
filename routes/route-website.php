@@ -53,6 +53,10 @@ Route::prefix('bma')->group(function () {
         Route::get('/enrollment', [ApplicantController::class, 'enrollment_overview'])->name('applicant.enrollment');
         Route::get('/enrollment/registration-form', [ApplicantController::class, 'enrollment_form_view'])->name('applicant.registration-form');
         ROute::post('/enrollment/registration-form', [ApplicantController::class, 'enrollment_form_store'])->name('applicant.registration-form-store');
-        Route::get('/enrollment/bma-form-rg-02',[ApplicantController::class,'enrollmet_registrartion_form'])->name('applicant.form-rg-02');
+        Route::get('/enrollment/bma-form-rg-02', [ApplicantController::class, 'enrollmet_registrartion_form'])->name('applicant.form-rg-02');
+        Route::post('/enrollment/assessment', [ApplicantController::class, 'enrollment_assessment'])->name('applicant.enrollment-assessment');
+        Route::post('/enrollment/payment-mode', [ApplicantController::class, 'enrollment_payment_mode'])->name('applicant.enrollment-payment-mode');
+        Route::post('/enrollment/payment-transaction',[ApplicantController::class,'enrollment_payment_transaction'])->name('applicant.enrollment-online-transaction-payment');
+        Route::get('/enrollment/certificate-of-enrollment',[ApplicantController::class,'enrollment_certificate'])->name('applicant.enrollment-coe');
     });
 });

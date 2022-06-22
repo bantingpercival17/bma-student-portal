@@ -1,4 +1,4 @@
-@extends('widgets.reports.grade.report_layout_1')
+@extends('widgets.reports.report-layout')
 @section('title-report', 'FORM RG-03 - STUDENT REGISTRATION : ' . strtoupper($_student->last_name . ', ' .
     $_student->first_name . ' ' . $_student->middle_name))
 @section('form-code', 'RG - 03')
@@ -7,7 +7,7 @@
         <div class="form-rg-information">
             <h3 class="text-center">STUDENT'S REGISTRATION FORM</h3>
             <h6 class="text-center">A.Y.
-           {{--      {{ strtoupper(Auth::user()->academic->school_year . ' | ' . Auth::user()->academic->semester) }} --}}
+                {{ strtoupper(Auth::user()->academic->school_year . ' | ' . Auth::user()->academic->semester) }}
             </h6>
             <div class="student-information">
                 <h5 for="" class="text-header">A. STUDENT'S INFORMATION</h5>
@@ -449,13 +449,21 @@
                                 $_device_1 = $_parent ? unserialize($_parent->available_devices) : [];
                             @endphp
                             @foreach ($_device as $_data)
-                                <div>
+                            <div>
+                                {{-- <input class="form-input-check" type="checkbox"
+                                    {{ in_array($_data, $_device_1) ? 'checked' : '' }}> --}}
+                                    <input type="radio">
+                                <label class="form-label">
+                                    {{ $_data }}
+                                </label>
+                            </div> 
+                              {{--   <div>
                                     <input class="form-input-check" type="checkbox"
                                         {{ in_array($_data, $_device_1) ? 'checked' : '' }}>
                                     <label class="form-label">
                                         {{ $_data }}
                                     </label>
-                                </div>
+                                </div> --}}
                             @endforeach
 
                         </td>

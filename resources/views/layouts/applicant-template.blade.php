@@ -77,7 +77,7 @@
         @endif
         @if (Session::has('error'))
             Swal.fire({
-            title: 'Complete!',
+            title: 'Error!',
             text:"{{ session('error') }}",
             icon: 'error',
             confirmButtonText: 'Okay'
