@@ -42,85 +42,89 @@ class ApplicantController extends Controller
     }
     public function create_applicant_details(Request $_request)
     {
-        $_inputs = [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'middle_name' => 'required|string',
-            'extention_name' => 'required|string',
-            'sex' => 'required|string',
-            'birthday' => 'required|date',
-            'birth_place' => 'required|string',
-            'street' => 'required|string',
-            'barangay' => 'required|string',
-            'municipality' => 'required|string',
-            'province' => 'required|string',
-            'zip_code' => 'required',
-            'civil_status' => 'required',
-            'nationality' => 'required',
-            'religion' => 'required',
-            'elementary_school_name' => 'required|max:100',
-            'elementary_school_address' => 'required|max:255',
-            'elementary_school_year' => 'required|max:100',
-            'junior_high_school_name' => 'required|max:100',
-            'junior_high_school_address' => 'required|max:255',
-            'junior_high_school_year' => 'required|max:100',
-        ];
-        if (Auth::user()->course_id != 3) {
-            $_inputs += [
-                'senior_high_school_name' => 'required|max:100',
-                'senior_high_school_address' => 'required|max:255',
-                'senior_high_school_year' => 'required|max:100',
+        try {
+            $_inputs = [
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'middle_name' => 'required|string',
+                'extention_name' => 'required|string',
+                'sex' => 'required|string',
+                'birthday' => 'required|date',
+                'birth_place' => 'required|string',
+                'street' => 'required|string',
+                'barangay' => 'required|string',
+                'municipality' => 'required|string',
+                'province' => 'required|string',
+                'zip_code' => 'required',
+                'civil_status' => 'required',
+                'nationality' => 'required',
+                'religion' => 'required',
+                'elementary_school_name' => 'required|max:100',
+                'elementary_school_address' => 'required|max:255',
+                'elementary_school_year' => 'required|max:100',
+                'junior_high_school_name' => 'required|max:100',
+                'junior_high_school_address' => 'required|max:255',
+                'junior_high_school_year' => 'required|max:100',
             ];
-        }
-        $_inputs += [  // FATHER INFORMATION
-            'father_last_name' => 'required | min:2 | max:50',
-            'father_first_name' => 'required | min:2 | max:50',
-            'father_middle_name' => 'required | min:2 | max:50',
-            'father_educational_attainment' => 'required | min:2 | max:100',
-            'father_employment_status' => 'required | min:2 | max:50',
-            'father_working_arrangement' => 'required | min:2 | max:50',
-            'father_contact_number' => 'required| min:2 | max:12',
-            // MOTHER INFORMATION
-            'mother_last_name' => 'required | min:2 | max:50',
-            'mother_first_name' => 'required | min:2 | max:50',
-            'mother_middle_name' => 'required | min:2 | max:50',
-            'mother_educational_attainment' => 'required | min:2 | max:100',
-            'mother_employment_status' => 'required | min:2 | max:50',
-            'mother_working_arrangement' => 'required | min:2 | max:50',
-            'mother_contact_number' => 'required | min:2 | max:12',
-            // GUARDIAN  INFORMATION
-            'guardian_last_name' => 'required | min:2 | max:50',
-            'guardian_first_name' => 'required | min:2 | max:50',
-            'guardian_middle_name' => 'required | min:2 | max:50',
-            'guardian_educational_attainment' => 'required | min:2 | max:50',
-            'guardian_employment_status' => 'required | min:2 | max:50',
-            'guardian_working_arrangement' => 'required | min:2 | max:50',
-            'guardian_contact_number' => 'required| min:2 | max:12',
-        ];
-        $_inputs = $_request->validate($_inputs);
-        $_data = [];
-        //return $_inputs['junior_high_school_year'];
-        foreach ($_inputs as $key => $value) {
-            //$_data[$value] = trim(ucwords(strtolower($_request->input('_first_name')))) ;
-            $_data[$key] = ucwords(mb_strtolower(trim($value)));
-        }
-        $_data += ['applicant_id' => Auth::user()->id];
-        if (Auth::user()->applicant) {
-            Auth::user()->applicant->update($_data);
-            Auth::user()->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
-            Auth::user()->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
             if (Auth::user()->course_id != 3) {
-                Auth::user()->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
+                $_inputs += [
+                    'senior_high_school_name' => 'required|max:100',
+                    'senior_high_school_address' => 'required|max:255',
+                    'senior_high_school_year' => 'required|max:100',
+                ];
             }
-            return redirect(route('applicant.home'))->with('success', 'Successfully Update Applicant Information');
-        } else {
-            $_user = ApplicantDetials::create($_data);
-            $_user->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
-            $_user->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
-            if ($_user->course_id != 3) {
-                $_user->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
+            $_inputs += [  // FATHER INFORMATION
+                'father_last_name' => 'required | min:2 | max:50',
+                'father_first_name' => 'required | min:2 | max:50',
+                'father_middle_name' => 'required | min:2 | max:50',
+                'father_educational_attainment' => 'required | min:2 | max:100',
+                'father_employment_status' => 'required | min:2 | max:50',
+                'father_working_arrangement' => 'required | min:2 | max:50',
+                'father_contact_number' => 'required| min:2 | max:12',
+                // MOTHER INFORMATION
+                'mother_last_name' => 'required | min:2 | max:50',
+                'mother_first_name' => 'required | min:2 | max:50',
+                'mother_middle_name' => 'required | min:2 | max:50',
+                'mother_educational_attainment' => 'required | min:2 | max:100',
+                'mother_employment_status' => 'required | min:2 | max:50',
+                'mother_working_arrangement' => 'required | min:2 | max:50',
+                'mother_contact_number' => 'required | min:2 | max:12',
+                // GUARDIAN  INFORMATION
+                'guardian_last_name' => 'required | min:2 | max:50',
+                'guardian_first_name' => 'required | min:2 | max:50',
+                'guardian_middle_name' => 'required | min:2 | max:50',
+                'guardian_educational_attainment' => 'required | min:2 | max:50',
+                'guardian_employment_status' => 'required | min:2 | max:50',
+                'guardian_working_arrangement' => 'required | min:2 | max:50',
+                'guardian_contact_number' => 'required| min:2 | max:12',
+            ];
+            $_inputs = $_request->validate($_inputs);
+            $_data = [];
+            //return $_inputs['junior_high_school_year'];
+            foreach ($_inputs as $key => $value) {
+                //$_data[$value] = trim(ucwords(strtolower($_request->input('_first_name')))) ;
+                $_data[$key] = ucwords(mb_strtolower(trim($value)));
             }
-            return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
+            $_data += ['applicant_id' => Auth::user()->id];
+            $_data['elementary_school_year'] = $_inputs['elementary_school_year'] . '-01';
+            $_data['junior_high_school_year'] = $_inputs['junior_high_school_year'] . '-01';
+            if (Auth::user()->course_id != 3) {
+                $_data['senior_high_school_year'] = $_inputs['senior_high_school_year'] . '-01';
+            }
+            if (Auth::user()->applicant) {
+                Auth::user()->applicant->update($_data);
+                /*  Auth::user()->applicant->update(['elementary_school_year' => $_inputs['elementary_school_year'] . '-01']);
+                Auth::user()->applicant->update(['junior_high_school_year' => $_inputs['junior_high_school_year'] . '-01']);
+                if (Auth::user()->course_id != 3) {
+                    Auth::user()->applicant->update(['senior_high_school_year' => $_inputs['senior_high_school_year'] . '-01']);
+                } */
+                return redirect(route('applicant.home'))->with('success', 'Successfully Update Applicant Information');
+            } else {
+                ApplicantDetials::create($_data);
+                return redirect(route('applicant.home'))->with('success', 'Successfully Add Applicant Information');
+            }
+        } catch (Exception $err) {
+            return back()->with('error', $err->getMessage());
         }
     }
     public function applicant_form_pdf()

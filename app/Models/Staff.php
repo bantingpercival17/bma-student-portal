@@ -21,6 +21,17 @@ class Staff extends Model
         'department',
         'created_by'
     ];
+    public function image()
+    {
+        $_formats = ['.jpeg', '.jpg', '.png'];
+        $_path = 'http://bma.edu.ph:70/assets/img/staff/';
+        //$_path = 'assets/image/student-picture/';
+        $_image = "http://bma.edu.ph:70/assets/img/staff/avatar.png";
+        foreach ($_formats as $format) {
+            $_image = @fopen($_path . $this->user->name . $format, 'r') ? $_path . $this->user->name . $format : $_image;
+        }
+        return $_image;
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -53,6 +53,8 @@ function fileUpload(file, document, index, input_file, url) {
         file_name = JSON.stringify(input_file);
         $('.' + document + '-file').val(file_name)
         $('.btn-file-submit-' + document).removeAttr('disabled')
+        $('.image_frame'+document).empty();
+        $('.image_frame' + document).append("<span class='text-primary fw-bolder'>UPLOAD DONE</span>")
       } else {
         alert('File Upload Error')
       }
@@ -62,7 +64,7 @@ function fileUpload(file, document, index, input_file, url) {
 
 function fileDisplay(files, index, document) {
   var layout = "<div class='col-md'>" +
-    files.name.substring(0, 10).concat('...') +
+    files.name.substring(0, 20).concat('...') +
     '<div class="progress bg-soft-success shadow-none w-100" style="height: 6px">' +
     '<div class="progress-bar progress-bar-' + document + '-' + index +
     ' bg-success" data-toggle="progress-bar" ></div>' +

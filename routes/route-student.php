@@ -10,7 +10,12 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/', [StudentController::class, 'index'])->name('home');
     Route::get('/home', [StudentController::class, 'index'])->name('home');
 
+    /* Academic Procedure */
     Route::get('/academic', [StudentController::class, 'academic_view'])->name('academic');
+    Route::get('/academic/subject-class', [StudentController::class, 'academic_subject_class'])->name('academic.subject-class');
+    Route::get('/academic/subject-lesson', [StudentController::class, 'academic_subject_lesson'])->name('academic.subject-lesson');
+
+
     Route::get('/academic/grades', [StudentController::class, 'academic_grades'])->name('academic.grades');
     Route::get('/academic/clearance', [StudentController::class, 'academic_clearance'])->name('academic.clearance');
 
@@ -48,9 +53,8 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
 
     // Enrollment Procedure
     Route::get('/academic/enroll-now', [StudentController::class, 'enrollment_application'])->name('academic.enroll-now');
-    Route::get('/enrollment/registration-form-fillup',[StudentController::class,'enrollment_registration_form'])->name('enrollment.registration-form-fillup');
-    Route::post('/enrollment/registration-form-fillup',[StudentController::class,'enrollment_registration_store'])->name('enrollment.registration-form-store');
-    
+    Route::get('/enrollment/registration-form-fillup', [StudentController::class, 'enrollment_registration_form'])->name('enrollment.registration-form-fillup');
+    Route::post('/enrollment/registration-form-fillup', [StudentController::class, 'enrollment_registration_store'])->name('enrollment.registration-form-store');
     Route::get('/enrollment/registration-form', [StudentController::class, 'registration_form'])->name('enrollment.registration-form');
     Route::post('enrollment/payment-application', [StudentController::class, 'payment_application'])->name('enrollment.payment-mode');
     Route::post('enrollment/payments/payment-transaction', [StudentController::class, 'payment_store'])->name('enrollment.online-transaction-payment');

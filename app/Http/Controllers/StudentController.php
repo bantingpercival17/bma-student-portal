@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
+use App\Models\CourseSyllabus;
 use App\Models\DeploymentAssesment;
 use App\Models\DocumentRequirements;
 use App\Models\Documents;
@@ -80,6 +81,16 @@ class StudentController extends Controller
     public function academic_view(Request $_request)
     {
         try {
+            $_student = Auth::user()->student;
+            $_enrollment_assessment = Auth::user()->student->enrollment_assessment;
+            $_section = $_student->section()->first();
+            $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
+            return view('pages.student.academic.view', compact('_subject_class'));
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+
+        /*  try {
             if (Auth::user()->student->current_enrollment) {
                 $_section = Auth::user()->student->section(Auth::user()->student->enrollment_assessment->academic->id)->first();
                 $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
@@ -97,7 +108,7 @@ class StudentController extends Controller
             }
         } catch (Exception $error) {
             return back()->with('error', $error->getMessage());
-        }
+        } */
     }
     public function academic_grades(Request $_request)
     {
@@ -114,7 +125,36 @@ class StudentController extends Controller
         $_roles = Role::get();
         return view('pages.student.academic.clearance', compact('_subject_class', '_roles'));
     }
+    public function academic_subject_class(Request $_request)
+    {
+        //return Hash::make('dejesusrickjan');
+        try {
+            $_course_syllabus = new CourseSyllabus();
+            $_subject_class = SubjectClass::find(base64_decode($_request->_subject));
+            $_subject_code =  $_subject_class->curriculum_subject->subject->subject_code;
 
+            if ($_subject_code == 'ICT') {
+                $_subject_content = $_course_syllabus->ict();
+            } else {
+                $_subject_content = [];
+            }
+            //return $_subject_content;
+            return view('pages.student.academic.subject-content', compact('_subject_content', '_subject_class'));
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function academic_subject_lesson(Request $_request)
+    {
+        $_course_syllabus = new CourseSyllabus();
+        $_subject_class = SubjectClass::find(base64_decode($_request->_subject));
+        $_subject_code =  $_subject_class->curriculum_subject->subject->subject_code;
+        $_subject_content = $_subject_code == 'ICT' ? $_course_syllabus->ict() : [];
+        //return $_subject_content;
+        //return $_subject_content[0]['learning_outcome'][0];
+        $_subject_lesson = $_subject_content ? $_subject_content[0]['learning_outcome'][0] : [];
+        return view('pages.student.academic.subject-lesson', compact('_subject_content', '_subject_class', '_subject_lesson'));
+    }
     /* Enrollment */
     public function enrollment_view()
     {
@@ -122,7 +162,7 @@ class StudentController extends Controller
         $_enrollment_assessment = Auth::user()->student->enrollment_assessment;
         $_account = StudentAccount::find(Auth::user()->id);
         if ($_enrollment_assessment->year_level == 12 && $_account->current_semester()->semester == 'First Semester') {
-            $_parent_details = ParentDetails::where('student_id',Auth::user()->student_id)->where('is_removed',false)->first();
+            $_parent_details = ParentDetails::where('student_id', Auth::user()->student_id)->where('is_removed', false)->first();
             return view('pages.student.enrollment.seniorhigh_overview');
         } else {
             return view('pages.student.enrollment.overview');

@@ -44,9 +44,9 @@ class StudentDetails extends Model
     public function current_enrollment()
     {
         $_academic = AcademicYear::where('is_active',true)->first();
-        return request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->where('academic_id',$_academic->id)->orderBy('id', 'desc');
+        //return request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->where('academic_id',$_academic->id)->orderBy('id', 'desc');
 
-        //return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
+        return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
     }
     public function enrollment_application()
     {
@@ -79,7 +79,7 @@ class StudentDetails extends Model
     }
     public function section()
     {
-        $_academic = request()->input('_academic') ? AcademicYear::find(base64_decode(request()->input('_academic'))) : AcademicYear::where('is_active', 1)->first();
+        $_academic = request()->input('_academic') ? AcademicYear::find(base64_decode(request()->input('_academic'))) : $this->enrollment_assessment->academic;
         //return $_academic->id;
         return $this->hasOne(StudentSection::class, 'student_id')->select('student_sections.id', 'student_sections.student_id', 'student_sections.section_id')
             ->join('sections', 'sections.id', 'student_sections.section_id')->where('sections.academic_id', $_academic->id)->where('student_sections.is_removed', false);
