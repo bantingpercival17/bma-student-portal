@@ -29,7 +29,7 @@ class ApplicantController extends Controller
     {
         $_level = Auth::user()->course_id == 3 ? 11 : 4;
         $_documents = Documents::where('year_level', $_level)->where('department_id', 2)->where('is_removed', false)->get();
-        return view('pages.applicant.home.dashboard', compact('_documents'));
+        return view('pages.applicant.home.overview', compact('_documents'));
     }
     public function applicant_view()
     {

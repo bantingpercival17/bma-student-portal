@@ -44,6 +44,10 @@ class ApplicantAccount extends  Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(ApplicantDetials::class, 'applicant_id');
     }
+    public function is_alumnia()
+    {
+        return $this->hasOne(ApplicantAlumnia::class, 'applicant_id')->where('is_removed', false);
+    }
     public function documents()
     {
         return $this->hasMany(ApplicantDocuments::class, 'applicant_id')->where('is_removed', false)->orderBy('document_id');
