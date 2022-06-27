@@ -40,8 +40,8 @@ $_title = 'Baliwag Maritime Academy';
 
                             <a href="{{ route('website.admission') }}" class="btn btn-primary ">Inquire Now
                                 <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round"></circle>
+                                    <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></circle>
                                     <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg>
@@ -50,7 +50,7 @@ $_title = 'Baliwag Maritime Academy';
                     </div>
                     <div class="col-lg-5 banner-img">
                         <div class="img text-end" id="hero-img">
-                            <img src="http://bma.edu.ph:90/img/new-banner.png" class="img-fluid bg-img" alt="img8">
+                            <img src="{{ asset('assets/image/banner2.png') }}" class="img-fluid bg-img" alt="banner">
                         </div>
                     </div>
                 </div>
@@ -58,8 +58,8 @@ $_title = 'Baliwag Maritime Academy';
         </div>
     </div>
     <div class="editors position-relative">
-        <div class="container" data-iq-gsap="onStart" data-iq-position-y="70" data-iq-rotate="0"
-            data-iq-trigger="scroll" data-iq-ease="power.out" data-iq-opacity="0">
+        <div class="container" data-iq-gsap="onStart" data-iq-position-y="70" data-iq-rotate="0" data-iq-trigger="scroll"
+            data-iq-ease="power.out" data-iq-opacity="0">
             <div class="row">
                 <section class="editors mar-top mar-bot">
                     <div class="header-title d-flex justify-content-between">
@@ -116,8 +116,8 @@ $_title = 'Baliwag Maritime Academy';
                                 <a href="{{ route('website.admission') . '?_course=' . base64_encode(1) }}">
                                     <div class="iq-image position-relative">
                                         <div class="img">
-                                            <img src="{{ asset('assets/image/landing-page/BSMARE.png') }}" alt="image"
-                                                class="img-fluid height1 radius-our w-100">
+                                            <img src="{{ asset('assets/image/landing-page/BSMARE.png') }}"
+                                                alt="image" class="img-fluid height1 radius-our w-100">
                                         </div>
                                         <!-- <div class="app badge-2 btn btn-sm btn-primary">$2000</div> -->
                                         <div class="app badge-1 btn btn-sm btn-primary">COLLEGE</div>
