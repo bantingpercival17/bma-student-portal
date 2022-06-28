@@ -34,19 +34,19 @@ $_title = 'On Board Training';
                                 </div>
                             </div>
                         </td>
-                        @if (count($_journal) > 0)
-                            @foreach ($_journal as $_journal)
+                        @if (count($_journal) > 20)
+                            @foreach ($_journal as $_journal_item)
                                 <th>
                                     <div class="text-center">
                                         <div class="card-body ">
                                             <a
-                                                href="{{ route('onboard.view-journal') }}?_j={{ base64_encode($_journal->month) }}">
+                                                href="{{ route('onboard.view-journal') }}?_j={{ base64_encode($_journal_item->month) }}">
                                                 <i class="icon text-muted">
                                                     @yield('icon-document')
                                                 </i>
 
                                                 <h5 class="text-muted mt-3">
-                                                    {{ date('F - Y', strtotime($_journal->month)) }}
+                                                    {{ date('F - Y', strtotime($_journal_item->month)) }}
                                                 </h5>
                                             </a>
 
@@ -62,7 +62,70 @@ $_title = 'On Board Training';
     @endif
     <div class="row mt-4">
         <div class="col-md-7">
+
             @if ($_shipboard_training = Auth::user()->student->shipboard_training)
+
+                @if (count($_journal) > 2)
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <span class="card-title h5">ASSESSMENTS</span>
+                            </div>
+                        </div>
+                        <div class="card-body pt-4 p-3">
+                            <p class="text-primary fw-bolder h5">Online Assessment</p>
+                            <p class="m-0"> <span class="fw-bolder m-0">INSTRUCTION</span></p>
+                            <p class="m-0">1. Ensure that you have a strong internet connection.</p>
+                            <p class="m-0">2. Once you are logged in, read carefully and understand the guidelines prior
+                                to
+                                and
+                                after the Examination</p>
+                            <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at the
+                                system.</p>
+                            <p class="m-0">4.Once you enter the Examination Code it will be start your Examination
+                            </p>
+                            <p>5.We recommend using Laptop/Desktop running atleast Windows 7 or higher to take the
+                                examination.
+                                We also recommend to use Google Chrome as browser in taking the examination.</p>
+                            <br>
+
+                            <div>
+                                <p class="">EXAMINATION CATEGORIES</p>
+                                <span class="">
+                                    <!-- GENERAL QUESTION --> TRB - 20 items
+                                </span><br>
+                                <span class="">GENERAL QUESTION - 10 items</span><br>
+                                <span class="">{{ $_shipboard_training->vessel_type }}- 10 items</span><br><br>
+                            </div>
+                            <form action="{{ route('onboard.assessment') }}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <small class="fw-bolder">EXAMINATION CODE</small> <br>
+                                    <label for="" class="form-label text-primary fw-bolder">
+                                        CODE-XJOEIJKDK
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <input type="text" class="form-control" name="exam_code"
+                                                placeholder="Enter Examination Code">
+                                            @error('exam_code')
+                                                <span class="mt-2 badge bg-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md">
+                                            <button type="submit" class="btn btn-primary ">Take Examination</button>
+                                        </div>
+
+                                    </div>
+                                    @if (Session::has('error'))
+                                        <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
+                                    @endif
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
@@ -147,7 +210,8 @@ $_title = 'On Board Training';
                 </div>
                 <div class="card-body pt-4 p-3">
                     @if ($_assess && $_document_requirement->count() > 1)
-                        <form action="{{ route('onboard.pre_deployment') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('onboard.pre_deployment') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">COMPANY NAME</label>
@@ -194,7 +258,8 @@ $_title = 'On Board Training';
                             </div>
                         </form>
                     @else
-                        <form action="{{ route('onboard.pre_deployment') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('onboard.pre_deployment') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label class="form-label" for="exampleFormControlSelect1">COMPANY NAME</label>
@@ -259,7 +324,7 @@ $_title = 'On Board Training';
                                     <div class="{{-- bg-soft-primary --}} rounded-pill">
                                         <i class="icon {{ $_student_certificate ? 'text-primary' : '' }}">
 
-                                            @yield( $_student_certificate ? 'icon-verified' : 'icon-not-verified')
+                                            @yield($_student_certificate ? 'icon-verified' : 'icon-not-verified')
                                         </i>
                                     </div>
                                     <div class="ms-3 flex-grow-1">
@@ -278,7 +343,7 @@ $_title = 'On Board Training';
                                 <div class="img-fluid bg-soft-warning rounded-pill">
                                     <i class="icon">
 
-                                        @yield( 'icon-not-verified')
+                                        @yield('icon-not-verified')
                                     </i>
                                 </div>
                                 <div class="ms-3 flex-grow-1">
