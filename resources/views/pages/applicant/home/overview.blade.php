@@ -140,7 +140,10 @@ $_title = 'Overview';
                                                         <li>@yield('step-5-dot')</li>
                                                         <li>@yield('step-6-dot')</li>
                                                     @endif
-
+                                                @else
+                                                    <li>@yield('step-4-dot-active')</li>
+                                                    <li>@yield('step-5-dot')</li>
+                                                    <li>@yield('step-6-dot')</li>
                                                 @endif
                                             @else
                                                 <li>@yield('step-4-dot-active')</li>
