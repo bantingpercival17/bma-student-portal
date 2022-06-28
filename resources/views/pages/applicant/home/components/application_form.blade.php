@@ -22,10 +22,10 @@ $_title = 'STEP 1: APPLICANT INFORMATION';
     </h5>
     <div class="d-inline-block w-100">
         <p class="mb-3">
-            Kindly double check your Information and Fill-up the Additional Information.
+            Kindly Fill-up the Form for your Additional Information,<a href="{{ route('applicant.student-view') }}">click
+                here.</a>
         </p>
-        <a href="{{ route('applicant.registration-form') }}" class="btn btn-sm btn-outline-primary rounded-pill">View
-            Registrartion Form</a>
+
     </div>
 @endsection
 

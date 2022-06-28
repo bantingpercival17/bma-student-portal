@@ -106,12 +106,12 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
 
                         @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
                             <span class="badge bg-secondary text-white">>Monday
-                                June {{ $_first }},
+                                July {{ $_first }},
                                 2022 This schedule is full</span>
                         @else
                             <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first }}"
                                 class="btn btn-sm btn-primary">Monday
-                                June {{ $_first }},
+                                July {{ $_first }},
                                 2022</a>
                         @endif
 
@@ -123,12 +123,12 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                         </h4>
                         @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
                             <span class="badge bg-secondary text-white">>Wednesday
-                                June {{ $_second }},
+                                July {{ $_second }},
                                 2022 This schedule is full</span>
                         @else
                             <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second }}"
                                 class="btn btn-sm btn-primary">Wednesday
-                                June {{ $_second }},
+                                July {{ $_second }},
                                 2022</a>
                         @endif
 
