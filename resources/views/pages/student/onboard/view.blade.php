@@ -34,7 +34,7 @@ $_title = 'On Board Training';
                                 </div>
                             </div>
                         </td>
-                        @if (count($_journal) > 20)
+                        @if (count($_journal) > 0)
                             @foreach ($_journal as $_journal_item)
                                 <th>
                                     <div class="text-center">
@@ -65,7 +65,7 @@ $_title = 'On Board Training';
 
             @if ($_shipboard_training = Auth::user()->student->shipboard_training)
 
-                @if (count($_journal) > 2)
+                @if (count($_journal) > 20)
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
