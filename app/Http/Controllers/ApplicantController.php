@@ -27,9 +27,14 @@ class ApplicantController extends Controller
 {
     public function index()
     {
-        $_level = Auth::user()->course_id == 3 ? 11 : 4;
-        $_documents = Documents::where('year_level', $_level)->where('department_id', 2)->where('is_removed', false)->get();
-        return view('pages.applicant.home.overview', compact('_documents'));
+        $is_actived = Auth::user()->is_removed;
+        if ($is_actived == 1) {
+           return back()->with('success','This Account was disabled to use.');
+        } else {
+            $_level = Auth::user()->course_id == 3 ? 11 : 4;
+            $_documents = Documents::where('year_level', $_level)->where('department_id', 2)->where('is_removed', false)->get();
+            return view('pages.applicant.home.overview', compact('_documents'));
+        }
     }
     public function applicant_view()
     {

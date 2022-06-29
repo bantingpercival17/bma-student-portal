@@ -157,8 +157,8 @@ $_title = 'Narative Report';
                                                     data-url="/student/on-board/journal/file-upload"
                                                     data-name={{ $item->id }} type="file" multiple required
                                                     accept="img">
-                                                <input type="hidden" class="{{ $item->id }}-file" name="_file_url"
-                                                    value="{{ old($item->id) }}">
+                                                <input type="hidden" class="{{ $item->id }}-file" name="file_links"
+                                                    value="">
                                                 <input type="hidden" name="_remarks" value="{{ $item->remark }}">
                                                 <div class="image_frame{{ $item->id }} row mt-2">
                                                 </div>

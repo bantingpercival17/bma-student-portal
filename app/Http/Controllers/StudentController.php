@@ -803,25 +803,27 @@ class StudentController extends Controller
         $_request->validate([
             'file_links' => 'required',
         ]);
+
         try {
+            // Get all the Data
             $_data = array(
-                'student_id' => Auth::user()->student->id,
+                'student_id' => Auth::user()->student_id,
                 'month' => $_request->_month,
                 'journal_type' => $_request->_name,
                 'is_removed' => 0
             );
-            $_journal = ShipboardJournal::where($_data)->first();
-
+            return $_data;
+            $_journal = ShipboardJournal::where($_data)->first(); // Check the Journal Category
             if ($_journal) {
-                $_data['file_links'] = $_request->_file_url;
-                $_data['remark'] = $_request->_remarks;
-                //return $_data;
+                // If true removed the exsiting data and Save
                 $_journal->is_removed = 1;
                 $_journal->save();
+                // Add the Following Index 
+                $_data['file_links'] = $_request->file_links;
+                $_data['remark'] = $_request->_remarks;
+                // Store the new Journal Category
                 ShipboardJournal::create($_data);
                 return back()->with('success', 'Successfully Re-Upload Files');
-            } else {
-                # code...
             }
         } catch (Exception $error) {
             return back()->with('error', $error->getMessage());

@@ -94,47 +94,51 @@ $_title = 'Overview';
                                                 @if (Auth::user()->examination->is_finish === 1)
                                                     <li> @yield('step-4-dot-done')</li>
                                                     @if (Auth::user()->examination->result())
-                                                        @if (Auth::user()->virtual_briefing)
-                                                            <li>@yield('step-5-dot-done')</li>
-                                                            <li>
-                                                                @if (Auth::user()->medical_appointment)
+                                                        @if (Auth::user()->id != 292 || Auth::user()->id != 1035)
+                                                            @if (Auth::user()->virtual_briefing)
+                                                                <li>@yield('step-5-dot-done')</li>
+                                                                <li>
+                                                                    @if (Auth::user()->medical_appointment)
 
-                                                                    @if (Auth::user()->medical_result)
-                                                                        @yield('step-6-dot-done')
-                                                                        @if (Auth::user()->medical_result->is_fit === 1)
-                                                                            <h5 class="fw-bolder text-primary">MEDICAL
-                                                                                EXAMINATION PASSED</h5>
-                                                                            <p>Congratulation, Your Medical Examination was
-                                                                                Passed, you can now
-                                                                                proceed to Enrollment </p>
-                                                                            <a href="{{ route('applicant.enrollment') }}"
-                                                                                class="btn btn-outline-primary rounded-pill">Enroll
-                                                                                Now</a>
+                                                                        @if (Auth::user()->medical_result)
+                                                                            @yield('step-6-dot-done')
+                                                                            @if (Auth::user()->medical_result->is_fit === 1)
+                                                                                <h5 class="fw-bolder text-primary">MEDICAL
+                                                                                    EXAMINATION PASSED</h5>
+                                                                                <p>Congratulation, Your Medical Examination
+                                                                                    was
+                                                                                    Passed, you can now
+                                                                                    proceed to Enrollment </p>
+                                                                                <a href="{{ route('applicant.enrollment') }}"
+                                                                                    class="btn btn-outline-primary rounded-pill">Enroll
+                                                                                    Now</a>
+                                                                            @else
+                                                                                @if (Auth::user()->medical_result->is_fit === 2)
+                                                                                    <h5 class="fw-bolder text-danger">
+                                                                                        MEDICAL
+                                                                                        EXAMINATION FAILED
+                                                                                    </h5>
+                                                                                @endif
+                                                                                @if (Auth::user()->medical_result->is_pending === 0)
+                                                                                    <h5 class="fw-bolder text-info">MEDICAL
+                                                                                        EXAMINATION PEDING</h5>
+                                                                                    <p>{{ Auth::user()->medical_result->remarks }}
+                                                                                    </p>
+                                                                                @endif
+                                                                            @endif
                                                                         @else
-                                                                            @if (Auth::user()->medical_result->is_fit === 2)
-                                                                                <h5 class="fw-bolder text-danger">MEDICAL
-                                                                                    EXAMINATION FAILED
-                                                                                </h5>
-                                                                            @endif
-                                                                            @if (Auth::user()->medical_result->is_pending === 0)
-                                                                                <h5 class="fw-bolder text-info">MEDICAL
-                                                                                    EXAMINATION PEDING</h5>
-                                                                                <p>{{ Auth::user()->medical_result->remarks }}
-                                                                                </p>
-                                                                            @endif
+                                                                            @yield('step-6-dot-active')
+                                                                            @yield('step-6-active-content')
                                                                         @endif
                                                                     @else
                                                                         @yield('step-6-dot-active')
                                                                         @yield('step-6-active-content')
                                                                     @endif
-                                                                @else
-                                                                    @yield('step-6-dot-active')
-                                                                    @yield('step-6-active-content')
-                                                                @endif
-                                                            </li>
-                                                        @else
-                                                            <li>@yield('step-5-dot-active')</li>
-                                                            <li>@yield('step-6-dot')</li>
+                                                                </li>
+                                                            @else
+                                                                <li>@yield('step-5-dot-active')</li>
+                                                                <li>@yield('step-6-dot')</li>
+                                                            @endif
                                                         @endif
                                                     @else
                                                         <li>@yield('step-5-dot')</li>
