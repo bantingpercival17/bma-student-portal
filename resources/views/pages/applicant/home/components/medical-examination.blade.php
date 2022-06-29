@@ -95,7 +95,7 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                     $_first = '4';
                     $_first_date = '2022-07-04';
                     $_second = '6';
-                    $_second_date = '2022-06-06';
+                    $_second_date = '2022-07-06';
                 @endphp
                 <div class="row">
                     <div class="col-md">
