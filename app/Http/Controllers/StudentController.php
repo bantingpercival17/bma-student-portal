@@ -54,8 +54,6 @@ class StudentController extends Controller
             'agree_statement' => $_request->status,
             'created_at' => now()
         );
-
-
         $_course_log_name = '/student-handbook/' . $_course . '/' . $_course . '.json';
         $_array_log = Storage::disk('public')->exists($_course_log_name) ? json_decode(Storage::disk('public')->get($_course_log_name)) : [];
         array_push($_array_log, $_log_detials);
@@ -194,11 +192,16 @@ class StudentController extends Controller
     }
     public function payment_application(Request $_request)
     {
-        //$_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+        try {
+           //$_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
         $_application = Auth::user()->student->enrollment_application;
         $_application->payment_mode = $_request->mode;
         $_application->save();
         return back()->with('success', 'Successfully Submitted.');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
     }
     public function payment_store(Request $_request)
     {
@@ -812,8 +815,7 @@ class StudentController extends Controller
                 'journal_type' => $_request->_name,
                 'is_removed' => 0
             );
-            return $_data;
-            $_journal = ShipboardJournal::where($_data)->first(); // Check the Journal Category
+           $_journal = ShipboardJournal::where($_data)->first(); // Check the Journal Category
             if ($_journal) {
                 // If true removed the exsiting data and Save
                 $_journal->is_removed = 1;

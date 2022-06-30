@@ -29,7 +29,7 @@ $_title = 'Narative Report';
                         <small class="text-muted"><b>MONTH JOURNAL</b></small>
                     </div>
                     <div class="card-tool">
-                       {{--  <a href="/student/on-board/journal/view?edit={{ request()->input('_j') }}"
+                        {{-- <a href="/student/on-board/journal/view?edit={{ request()->input('_j') }}"
                             class="btn btn-primary btn-sm mt-2">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -101,7 +101,7 @@ $_title = 'Narative Report';
                                                                 @endif
                                                                 <br>
                                                                 <small>
-                                                                    {{ mb_strimwidth(str_replace('[' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . ']', '', $_file),0,10,'...') }}</small>
+                                                                    {{ mb_strimwidth(str_replace('[' . str_replace('@bma.edu.ph', '', Auth::user()->campus_email) . ']', '', $_file), 0, 10, '...') }}</small>
 
                                                             </div>
                                                         </a>
@@ -129,8 +129,9 @@ $_title = 'Narative Report';
                                         <label for="" class="fw-bolder text-danger">DISAPPROVED DOCUMENTS</label>
                                         <div class="form-group">
                                             <label for="" class="form-label fw-bolder">COMMENT</label>
-                                            <input type="text" class="form-control" value="{{ $item->feedback }}"
-                                                readonly>
+                                            <label for="" class="form-label">
+                                                {{ $item->feedback }}
+                                            </label>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <div class="">
@@ -194,8 +195,7 @@ $_title = 'Narative Report';
                                 </p>
                                 @if (in_array($_name, ['Training Record Book', 'Daily Journal']))
                                     <div class="form-group">
-                                        <small class="form-label"><b>REMARKS<sup
-                                                    class="text-danger">*</sup></b></small>
+                                        <small class="form-label"><b>REMARKS<sup class="text-danger">*</sup></b></small>
                                         <textarea name="_remarks" class="form-control" cols="30" rows="3" required>{{ old($_name) }}</textarea>
                                         @error($_name)
                                             <small class="text-danger"><b>{{ $message }}</b></small>
@@ -210,8 +210,8 @@ $_title = 'Narative Report';
                                     <input class="form-control file-input"
                                         id="{{ str_replace(' ', '_', strtolower($_name)) }}"
                                         data-url="/student/on-board/journal/file-upload"
-                                        data-name={{ str_replace(' ', '_', strtolower($_name)) }} type="file" multiple
-                                        required accept="img">
+                                        data-name={{ str_replace(' ', '_', strtolower($_name)) }} type="file"
+                                        multiple required accept="img">
                                     <input type="hidden" class="{{ str_replace(' ', '_', strtolower($_name)) }}-file"
                                         name="_file_url" value="{{ old(str_replace(' ', '_', strtolower($_name))) }}">
 

@@ -5,3 +5,4 @@
 */public/resources/video
 .lock
 composer.lock
+node_modules

@@ -16,7 +16,12 @@ $_title = 'On Board Training';
         <div class="header-title d-flex justify-content-between">
             <h5 class=" fw-bolder">NARATIVE REPORT</h5>
         </div>
-        <div class="table-responsive mt-4">
+        <div class="table-responsive">
+            <div class="header-title d-flex justify-content-between">
+                <label for="" class="badge bg-info fw-bolder">APPROVED NARATIVE REPORT</label>
+                <label for="" class="badge bg-danger fw-bolder">DISAPPROVED NARATIVE REPORT</label>
+                <label for="" class="badge bg-warning fw-bolder">APPROVED NARATIVE REPORT</label>
+            </div>
             <table id="basic-table" class="table table-striped mb-0" role="grid">
                 <tbody>
                     <tr>

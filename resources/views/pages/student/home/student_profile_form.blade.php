@@ -6,8 +6,7 @@ $_title = 'Profile';
 @section('content-title', $_title)
 @section('beardcrumb-content')
     <li class="breadcrumb-item active" aria-current="page">
-        <svg width="14" height="14" class="me-2" viewBox="0 0 22 22" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+        <svg width="14" height="14" class="me-2" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M8.15722 19.7714V16.7047C8.1572 15.9246 8.79312 15.2908 9.58101 15.2856H12.4671C13.2587 15.2856 13.9005 15.9209 13.9005 16.7047V16.7047V19.7809C13.9003 20.4432 14.4343 20.9845 15.103 21H17.0271C18.9451 21 20.5 19.4607 20.5 17.5618V17.5618V8.83784C20.4898 8.09083 20.1355 7.38935 19.538 6.93303L12.9577 1.6853C11.8049 0.771566 10.1662 0.771566 9.01342 1.6853L2.46203 6.94256C1.86226 7.39702 1.50739 8.09967 1.5 8.84736V17.5618C1.5 19.4607 3.05488 21 4.97291 21H6.89696C7.58235 21 8.13797 20.4499 8.13797 19.7714V19.7714"
                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -77,7 +76,8 @@ $_title = 'Profile';
                                         value="{{ old('_last_name') ?: ucwords(Auth::user()->student->last_name) }}"
                                         name="_last_name">
                                     @error('_last_name')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -88,7 +88,8 @@ $_title = 'Profile';
                                         value="{{ old('_first_name') ?: ucwords(Auth::user()->student->first_name) }}"
                                         name="_first_name">
                                     @error('_first_name')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
 
@@ -109,7 +110,8 @@ $_title = 'Profile';
                                         </label>
                                     </div>
                                     @error('_middle_name')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -117,7 +119,7 @@ $_title = 'Profile';
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Extension</label>
                                     <input class="form-control input-extension" name="_extension_name"
-                                        value="{{ (old('_extension') ?:Auth::user()->student->extention_name)? ucwords(Auth::user()->student->extention_name): '' }}">
+                                        value="{{ (old('_extension') ?: Auth::user()->student->extention_name) ? ucwords(Auth::user()->student->extention_name) : '' }}">
                                     <div class="form-check">
                                         <input class="form-check-input validate-checkbox" data-input="input-extension"
                                             {{ old('_extension_name') == 'n/a' ? 'checked' : '' }} type="checkbox"
@@ -127,7 +129,8 @@ $_title = 'Profile';
                                         </label>
                                     </div>
                                     @error('_extension_name')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -139,7 +142,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text"
                                         value="{{ ucwords(Auth::user()->student->sex) }}" name="_gender">
                                     @error('_gender')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -150,7 +154,8 @@ $_title = 'Profile';
                                         value="{{ old('_birthday') ?: Auth::user()->student->birthday }}"
                                         name="_birthday">
                                     @error('_birthday')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -161,7 +166,8 @@ $_title = 'Profile';
                                         value="{{ old('_birth_place') ?: ucwords(Auth::user()->student->birth_place) }}"
                                         name="_birth_place">
                                     @error('_birth_place')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -174,7 +180,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_civil_status"
                                         value="{{ old('_civil_status') ?: ucwords(Auth::user()->student->civil_status) }}">
                                     @error('_civil_status')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -184,7 +191,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_nationality"
                                         value="{{ old('_nationality') ?: Auth::user()->student->nationality }}">
                                     @error('_nationality')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -194,7 +202,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_religion"
                                         value="{{ old('_religion') ?: Auth::user()->student->religion }}">
                                     @error('_religion')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -208,7 +217,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_street"
                                         value="{{ old('_street') ?: ucwords(Auth::user()->student->street) }}">
                                     @error('_street')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -218,7 +228,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_barangay"
                                         value="{{ old('_barangay') ?: ucwords(Auth::user()->student->barangay) }}">
                                     @error('_barangay')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -228,7 +239,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_zip_code"
                                         value="{{ old('_zip_code') ?: ucwords(Auth::user()->student->zip_code) }}">
                                     @error('_zip_code')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -239,7 +251,8 @@ $_title = 'Profile';
                                         value="{{ old('_municipality') ?: ucwords(Auth::user()->student->municipality) }}"
                                         class="form-control">
                                     @error('_municipality')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -249,7 +262,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_province"
                                         value="{{ old('_province') ?: ucwords(Auth::user()->student->province) }}">
                                     @error('_province')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -263,7 +277,8 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_contact_number"
                                         value="{{ old('_contact_number') ?: Auth::user()->student->contact_number ?: '' }}">
                                     @error('_contact_number')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -273,13 +288,14 @@ $_title = 'Profile';
                                     <input class="form-control" type="text" name="_personal_email"
                                         value="{{ old('_personal_email') ?: Auth::user()->personal_email ?: '' }}">
                                     @error('_personal_email')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
                         </div>
                         <h6 class="mb-1"><b>EDUCATIONAL BACKGROUND</b></h6>
-                      {{--   @php
+                        @php
                             $_school_level = ['Elementary School', 'Junior High School'];
                             $_school_level = Auth::user()->student->current_enrollment->course_id == 3 ? $_school_level : ['Elementary School', 'Junior High School', 'Senior High School'];
                         @endphp
@@ -382,15 +398,15 @@ $_title = 'Profile';
                                     </div>
                                 @endif
                             @endforeach
-                        @endif --}}
+                        @endif
                         <hr>
                         <h6 class="mb-1"><b>PARENTS DETIALS</b></h6>
                         @php
                             $_parent_details = Auth::user()->student->parent_details;
                             $_educational_attainment = ['Elementary Graduate', 'High School Graduate', 'College', 'Vocational', "Master's / Doctorate Degree", 'Did not attend school', 'N/A'];
-                            $_employment_status = ['Full Time', 'Part Time', 'Self-employed (i.e. Family Business)', 'Unemployed due to community quarantine', 'Field Work', 'None', 'N/A'];
-                            $_arrangement = ['WFH', 'Office', 'Field Work', 'None', 'N/A'];
-                            $_income = ['Below 10,000', '10,000-20,000', '20,000-40,000', '40,000-60,000', '60,000 Above', 'N/A'];
+    $_employment_status = ['Full Time', 'Part Time', 'Self-employed (i.e. Family Business)', 'Unemployed due to community quarantine', 'Field Work', 'None', 'N/A'];
+    $_arrangement = ['WFH', 'Office', 'Field Work', 'None', 'N/A'];
+    $_income = ['Below 10,000', '10,000-20,000', '20,000-40,000', '40,000-60,000', '60,000 Above', 'N/A'];
                         @endphp
                         <label for="example-text-input" class="form-control-label"><b>Father Information</b></label>
                         <div class="father-information">
@@ -403,7 +419,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_father_last_name"
                                             value="{{ old('_father_last_name') ?: ($_parent_details ? ucwords($_parent_details->father_last_name) : '') }}">
                                         @error('_father_last_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -416,7 +433,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_father_first_name"
                                             value="{{ old('_father_first_name') ?: ($_parent_details ? ucwords($_parent_details->father_first_name) : '') }}">
                                         @error('_father_first_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -428,7 +446,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_father_middle_name"
                                             value="{{ old('_father_middle_name') ?: ($_parent_details ? ucwords($_parent_details->father_middle_name) : '') }}">
                                         @error('_father_middle_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -459,13 +478,14 @@ $_title = 'Profile';
                                             <option value="">Select Educational Attainment</option>
                                             @foreach ($_educational_attainment as $_select_0)
                                                 <option value="{{ $_select_0 }}"
-                                                    {{ old('_father_educational_attainment')? (old('_father_educational_attainment') == $_select_0? 'selected': ''): ($_parent_details? ($_parent_details->father_educational_attainment == $_select_0? 'selected': ''): '') }}>
+                                                    {{ old('_father_educational_attainment') ? (old('_father_educational_attainment') == $_select_0 ? 'selected' : '') : ($_parent_details ? ($_parent_details->father_educational_attainment == $_select_0 ? 'selected' : '') : '') }}>
                                                     {{ $_select_0 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         @error('_father_educational_attainment')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -479,12 +499,13 @@ $_title = 'Profile';
                                             <option value="">Select Employment Status</option>
                                             @foreach ($_employment_status as $_select_1)
                                                 <option value="{{ $_select_1 }}"
-                                                    {{ old('_father_employment_status')? (old('_father_employment_status') == $_select_1? 'selected': ''): ($_parent_details? ($_parent_details->father_employment_status == $_select_1? 'selected': ''): '') }}>
+                                                    {{ old('_father_employment_status') ? (old('_father_employment_status') == $_select_1 ? 'selected' : '') : ($_parent_details ? ($_parent_details->father_employment_status == $_select_1 ? 'selected' : '') : '') }}>
                                                     {{ $_select_1 }}</option>
                                             @endforeach
                                         </select>
                                         @error('_father_employment_status')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -496,12 +517,13 @@ $_title = 'Profile';
                                         <option value="">Select Working Arrangement</option>
                                         @foreach ($_arrangement as $_select_2)
                                             <option value="{{ $_select_2 }}"
-                                                {{ old('_father_working_arrangement')? (old('_father_working_arrangement') == $_select_2? 'selected': ''): ($_parent_details? ($_parent_details->father_working_arrangement == $_select_2? 'selected': ''): '') }}>
+                                                {{ old('_father_working_arrangement') ? (old('_father_working_arrangement') == $_select_2 ? 'selected' : '') : ($_parent_details ? ($_parent_details->father_working_arrangement == $_select_2 ? 'selected' : '') : '') }}>
                                                 {{ $_select_2 }}</option>
                                         @endforeach
                                     </select>
                                     @error('_father_working_arrangement')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -517,7 +539,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_mother_last_name"
                                             value="{{ old('_mother_last_name') ?: ($_parent_details ? ucwords($_parent_details->mother_last_name) : '') }}">
                                         @error('_mother_last_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -530,7 +553,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_mother_first_name"
                                             value="{{ old('_mother_first_name') ?: ($_parent_details ? ucwords($_parent_details->mother_first_name) : '') }}">
                                         @error('_mother_first_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -542,7 +566,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_mother_middle_name"
                                             value="{{ old('_mother_middle_name') ?: ($_parent_details ? ucwords($_parent_details->mother_middle_name) : '') }}">
                                         @error('_mother_middle_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -573,13 +598,14 @@ $_title = 'Profile';
                                             <option value="">Select Educational Attainment</option>
                                             @foreach ($_educational_attainment as $_select_0)
                                                 <option value="{{ $_select_0 }}"
-                                                    {{ old('_mother_educational_attainment')? (old('_mother_educational_attainment') == $_select_0? 'selected': ''): ($_parent_details? ($_parent_details->mother_educational_attainment == $_select_0? 'selected': ''): '') }}>
+                                                    {{ old('_mother_educational_attainment') ? (old('_mother_educational_attainment') == $_select_0 ? 'selected' : '') : ($_parent_details ? ($_parent_details->mother_educational_attainment == $_select_0 ? 'selected' : '') : '') }}>
                                                     {{ $_select_0 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         @error('_mother_educational_attainment')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -593,13 +619,14 @@ $_title = 'Profile';
                                             <option value="">Select Employment Status</option>
                                             @foreach ($_employment_status as $_select_1)
                                                 <option value="{{ $_select_1 }}"
-                                                    {{ old('_mother_employment_status')? (old('_mother_employment_status') == $_select_1? 'selected': ''): ($_parent_details? ($_parent_details->mother_employment_status == $_select_1? 'selected': ''): '') }}>
+                                                    {{ old('_mother_employment_status') ? (old('_mother_employment_status') == $_select_1 ? 'selected' : '') : ($_parent_details ? ($_parent_details->mother_employment_status == $_select_1 ? 'selected' : '') : '') }}>
                                                     {{ $_select_1 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         @error('_mother_employment_status')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -611,13 +638,14 @@ $_title = 'Profile';
                                         <option value="">Select Working Arrangement</option>
                                         @foreach ($_arrangement as $_select_2)
                                             <option value="{{ $_select_2 }}"
-                                                {{ old('_mother_working_arrangement')? (old('_mother_working_arrangement') == $_select_2? 'selected': ''): ($_parent_details? ($_parent_details->mother_working_arrangement == $_select_2? 'selected': ''): '') }}>
+                                                {{ old('_mother_working_arrangement') ? (old('_mother_working_arrangement') == $_select_2 ? 'selected' : '') : ($_parent_details ? ($_parent_details->mother_working_arrangement == $_select_2 ? 'selected' : '') : '') }}>
                                                 {{ $_select_2 }}
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('_mother_working_arrangement')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -633,7 +661,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_guardian_last_name"
                                             value="{{ old('_guardian_last_name') ?: ($_parent_details ? ucwords($_parent_details->guardian_last_name) : '') }}">
                                         @error('_guardian_last_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -646,7 +675,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_guardian_first_name"
                                             value="{{ old('_guardian_first_name') ?: ($_parent_details ? ucwords($_parent_details->guardian_first_name) : '') }}">
                                         @error('_guardian_first_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -658,7 +688,8 @@ $_title = 'Profile';
                                         <input type="text" class="form-control" name="_guardian_middle_name"
                                             value="{{ old('_guardian_middle_name') ?: ($_parent_details ? ucwords($_parent_details->guardian_middle_name) : '') }}">
                                         @error('_guardian_middle_name')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -689,13 +720,14 @@ $_title = 'Profile';
                                             <option value="">Select Educational Attainment</option>
                                             @foreach ($_educational_attainment as $_select_0)
                                                 <option value="{{ $_select_0 }}"
-                                                    {{ old('_guardian_educational_attainment')? (old('_guardian_educational_attainment') == $_select_0? 'selected': ''): ($_parent_details? ($_parent_details->guardian_educational_attainment == $_select_0? 'selected': ''): '') }}>
+                                                    {{ old('_guardian_educational_attainment') ? (old('_guardian_educational_attainment') == $_select_0 ? 'selected' : '') : ($_parent_details ? ($_parent_details->guardian_educational_attainment == $_select_0 ? 'selected' : '') : '') }}>
                                                     {{ $_select_0 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         @error('_guardian_educational_attainment')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -709,13 +741,14 @@ $_title = 'Profile';
                                             <option value="">Select Employment Status</option>
                                             @foreach ($_employment_status as $_select_1)
                                                 <option value="{{ $_select_1 }}"
-                                                    {{ old('_guardian_employment_status')? (old('_guardian_employment_status') == $_select_1? 'selected': ''): ($_parent_details? ($_parent_details->guardian_employment_status == $_select_1? 'selected': ''): '') }}>
+                                                    {{ old('_guardian_employment_status') ? (old('_guardian_employment_status') == $_select_1 ? 'selected' : '') : ($_parent_details ? ($_parent_details->guardian_employment_status == $_select_1 ? 'selected' : '') : '') }}>
                                                     {{ $_select_1 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         @error('_guardian_employment_status')
-                                            <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                            <label for=""
+                                                class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                         @enderror
                                     </div>
                                 </div>
@@ -727,13 +760,14 @@ $_title = 'Profile';
                                         <option value="">Select Working Arrangement</option>
                                         @foreach ($_arrangement as $_select_2)
                                             <option value="{{ $_select_2 }}"
-                                                {{ old('_guardian_working_arrangement')? (old('_guardian_working_arrangement') == $_select_2? 'selected': ''): ($_parent_details? ($_parent_details->guardian_working_arrangement == $_select_2? 'selected': ''): '') }}>
+                                                {{ old('_guardian_working_arrangement') ? (old('_guardian_working_arrangement') == $_select_2 ? 'selected' : '') : ($_parent_details ? ($_parent_details->guardian_working_arrangement == $_select_2 ? 'selected' : '') : '') }}>
                                                 {{ $_select_2 }}
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('_guardian_working_arrangement')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -749,13 +783,14 @@ $_title = 'Profile';
                                         <option value="">Select Income</option>
                                         @foreach ($_income as $_select_3)
                                             <option value="{{ $_select_3 }}"
-                                                {{ old('_household_income')? (old('_household_income') == $_select_3? 'selected': ''): ($_parent_details? ($_parent_details->household_income == $_select_3? 'selected': ''): '') }}>
+                                                {{ old('_household_income') ? (old('_household_income') == $_select_3 ? 'selected' : '') : ($_parent_details ? ($_parent_details->household_income == $_select_3 ? 'selected' : '') : '') }}>
                                                 {{ $_select_3 }}
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('_household_income')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
 
@@ -768,16 +803,17 @@ $_title = 'Profile';
                                     </label>
                                     <select name="_dswd_listahan" class="form-select">
                                         <option value="Yes"
-                                            {{ old('_dswd_listahan') == 'Yes'? 'selected': ($_parent_details? ($_parent_details->dswd_listahan == 'Yes'? 'selected': ''): '') }}>
+                                            {{ old('_dswd_listahan') == 'Yes' ? 'selected' : ($_parent_details ? ($_parent_details->dswd_listahan == 'Yes' ? 'selected' : '') : '') }}>
                                             Yes
                                         </option>
                                         <option value="No"
-                                            {{ old('_dswd_listahan') == 'No'? 'selected': ($_parent_details? ($_parent_details->dswd_listahan == 'No'? 'selected': ''): '') }}>
+                                            {{ old('_dswd_listahan') == 'No' ? 'selected' : ($_parent_details ? ($_parent_details->dswd_listahan == 'No' ? 'selected' : '') : '') }}>
                                             No
                                         </option>
                                     </select>
                                     @error('_dswd_listahan')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
 
@@ -790,24 +826,25 @@ $_title = 'Profile';
                                 <select name="_homeownership" class="form-control">
 
                                     <option value="Owned"
-                                        {{ old('_homeownership') == 'Owned'? 'selected': ($_parent_details? ($_parent_details->homeownership == 'Owned'? 'selected': ''): '') }}>
+                                        {{ old('_homeownership') == 'Owned' ? 'selected' : ($_parent_details ? ($_parent_details->homeownership == 'Owned' ? 'selected' : '') : '') }}>
                                         Owned
                                     </option>
 
                                     <option value="Mortgaged"
-                                        {{ old('_homeownership') == 'Mortgaged'? 'selected': ($_parent_details? ($_parent_details->homeownership == 'Mortgaged'? 'selected': ''): '') }}>
+                                        {{ old('_homeownership') == 'Mortgaged' ? 'selected' : ($_parent_details ? ($_parent_details->homeownership == 'Mortgaged' ? 'selected' : '') : '') }}>
                                         Mortgaged
 
                                     </option>
 
                                     <option value="Rented"
-                                        {{ old('_homeownership') == 'Rented'? 'selected': ($_parent_details? ($_parent_details->homeownership == 'Rented'? 'selected': ''): '') }}>
+                                        {{ old('_homeownership') == 'Rented' ? 'selected' : ($_parent_details ? ($_parent_details->homeownership == 'Rented' ? 'selected' : '') : '') }}>
                                         Rented</option>
 
                                 </select>
 
                                 @error('_homeownership')
-                                    <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                    <label for=""
+                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                 @enderror
 
                             </div>
@@ -820,30 +857,31 @@ $_title = 'Profile';
                                 <select name="_car_ownership" class="form-control">
 
                                     <option value="0"
-                                        {{ old('_car_ownership') == '0'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '0'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '0' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '0' ? 'selected' : '') : '') }}>
                                         0</option>
 
                                     <option value="1"
-                                        {{ old('_car_ownership') == '1'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '1'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '1' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '1' ? 'selected' : '') : '') }}>
                                         1</option>
 
                                     <option value="2"
-                                        {{ old('_car_ownership') == '2'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '2'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '2' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '2' ? 'selected' : '') : '') }}>
                                         2</option>
 
                                     <option value="3"
-                                        {{ old('_car_ownership') == '3'? 'selected': ($_parent_details? ($_parent_details->car_ownership == '3'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == '3' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == '3' ? 'selected' : '') : '') }}>
                                         3</option>
 
                                     <option value="up to 4"
-                                        {{ old('_car_ownership') == 'up to 4'? 'selected': ($_parent_details? ($_parent_details->car_ownership == 'up to 4'? 'selected': ''): '') }}>
+                                        {{ old('_car_ownership') == 'up to 4' ? 'selected' : ($_parent_details ? ($_parent_details->car_ownership == 'up to 4' ? 'selected' : '') : '') }}>
                                         up to 4
                                     </option>
 
                                 </select>
 
                                 @error('_car_ownership')
-                                    <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                    <label for=""
+                                        class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                 @enderror
 
                             </div>
@@ -873,8 +911,9 @@ $_title = 'Profile';
                                         @foreach ($_device as $_key => $_item)
                                             <div class="form-check  col-md-4">
                                                 <input class="form-check-input" type="checkbox" name="_devices[]"
-                                                    id="check_box_device{{ $_key }}" value="{{ $_item }}"
-                                                    {{ (old('_devices')? (in_array($_item, old('_devices'))? 'checked': ''): in_array($_item, $_devices_1))? 'checked': '' }}>
+                                                    id="check_box_device{{ $_key }}"
+                                                    value="{{ $_item }}"
+                                                    {{ (old('_devices') ? (in_array($_item, old('_devices')) ? 'checked' : '') : in_array($_item, $_devices_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_device{{ $_key }}">
                                                     {{ $_item }}
@@ -883,7 +922,8 @@ $_title = 'Profile';
                                         @endforeach
                                     </div>
                                     @error('_devices')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -900,7 +940,8 @@ $_title = 'Profile';
                                         </option>
                                     </select>
                                     @error('_connection')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -920,7 +961,7 @@ $_title = 'Profile';
                                                 <input class="form-check-input" type="checkbox" name="_provider[]"
                                                     id="check_box_provider{{ $_key }}"
                                                     value="{{ $_item }}"
-                                                    {{ (old('_provider')? (in_array($_item, old('_provider'))? 'checked': ''): in_array($_item, $_provider_1))? 'checked': '' }}>
+                                                    {{ (old('_provider') ? (in_array($_item, old('_provider')) ? 'checked' : '') : in_array($_item, $_provider_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_provider{{ $_key }}">
                                                     {{ $_item }}
@@ -929,7 +970,8 @@ $_title = 'Profile';
                                         @endforeach
                                     </div>
                                     @error('_provider')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -946,10 +988,11 @@ $_title = 'Profile';
                                     <div class="ms-2">
                                         @foreach ($_learning_modality as $_key => $_item)
                                             <div class="form-check  col-md-12">
-                                                <input class="form-check-input" type="checkbox" name="_learning_modality[]"
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="_learning_modality[]"
                                                     id="check_box_learning_modality{{ $_key }}"
                                                     value="{{ $_item }}"
-                                                    {{ (old('_learning_modality')? (in_array($_item, old('_learning_modality'))? 'checked': ''): in_array($_item, $_learning_modality_1))? 'checked': '' }}>
+                                                    {{ (old('_learning_modality') ? (in_array($_item, old('_learning_modality')) ? 'checked' : '') : in_array($_item, $_learning_modality_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_learning_modality{{ $_key }}">
                                                     {{ $_item }}
@@ -958,7 +1001,8 @@ $_title = 'Profile';
                                         @endforeach
                                     </div>
                                     @error('_learning_modality')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
@@ -977,8 +1021,9 @@ $_title = 'Profile';
                                         @foreach ($_inputs as $_key => $_item)
                                             <div class="form-check col-md-12">
                                                 <input class="form-check-input" type="checkbox" name="_inputs[]"
-                                                    id="check_box_inputs{{ $_key }}" value="{{ $_item }}"
-                                                    {{ (old('_inputs')? (in_array($_item, old('_inputs'))? 'checked': ''): in_array($_item, $_inputs_1))? 'checked': '' }}>
+                                                    id="check_box_inputs{{ $_key }}"
+                                                    value="{{ $_item }}"
+                                                    {{ (old('_inputs') ? (in_array($_item, old('_inputs')) ? 'checked' : '') : in_array($_item, $_inputs_1)) ? 'checked' : '' }}>
                                                 <label class="form-check-label"
                                                     for="check_box_inputs{{ $_key }}">
                                                     {{ $_item }}
@@ -987,7 +1032,8 @@ $_title = 'Profile';
                                         @endforeach
                                     </div>
                                     @error('_inputs')
-                                        <label for="" class="badge bg-danger text-small mt-2">{{ $message }}</label>
+                                        <label for=""
+                                            class="badge bg-danger text-small mt-2">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>
