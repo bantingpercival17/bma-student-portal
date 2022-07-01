@@ -92,10 +92,10 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
                 @php
-                    $_first = '4';
-                    $_first_date = '2022-07-04';
-                    $_second = '6';
-                    $_second_date = '2022-07-06';
+                    $_first = '11';
+                    $_first_date = '2022-07-11';
+                    $_second = '13';
+                    $_second_date = '2022-07-13';
                 @endphp
                 <div class="row">
                     <div class="col-md">
