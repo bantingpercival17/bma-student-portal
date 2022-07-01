@@ -43,15 +43,15 @@ class StudentDetails extends Model
     }
     public function current_enrollment()
     {
-        $_academic = AcademicYear::where('is_active',true)->first();
+        $_academic = AcademicYear::where('is_active', true)->first();
         //return request()->input('_academic') ?  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('academic_id', base64_decode(request()->input('_academic')))->orderBy('id', 'desc') :  $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->where('academic_id',$_academic->id)->orderBy('id', 'desc');
 
         return $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->orderBy('id', 'desc');
     }
     public function enrollment_application()
     {
-        $_academic = AcademicYear::where('is_active',true)->first();
-        return $this->hasOne(EnrollmentApplication::class, 'student_id')->where('academic_id',$_academic->id)->where('is_removed',false);
+        $_academic = AcademicYear::where('is_active', true)->first();
+        return $this->hasOne(EnrollmentApplication::class, 'student_id')->where('academic_id', $_academic->id)->where('is_removed', false);
     }
     public function enrollment_assessment()
     {
@@ -71,11 +71,11 @@ class StudentDetails extends Model
     }
     public function educational_details()
     {
-        return $this->hasMany(EducationalDetails::class, 'student_id')->where('is_removed',false);
+        return $this->hasMany(EducationalDetails::class, 'student_id')->where('is_removed', false);
     }
     public function educational_background()
     {
-        return $this->hasMany(EducationalDetails::class, 'student_id')->where('is_removed',false);
+        return $this->hasMany(EducationalDetails::class, 'student_id')->where('is_removed', false);
     }
     public function section()
     {
@@ -92,6 +92,26 @@ class StudentDetails extends Model
     {
         return $this->hasMany(ShipboardJournal::class, 'student_id')->distinct();
     }
+    public function narative_status($_data)
+    {
+        $_document_count = $this->hasMany(ShipboardJournal::class, 'student_id')->where('month', $_data)->where('is_removed', false)->count();
+        $_document_approved =  $this->hasMany(ShipboardJournal::class, 'student_id')->where('month', $_data)->where('is_approved', true)->where('is_removed', false)->count();
+        $_document_disapproved =  $this->hasMany(ShipboardJournal::class, 'student_id')->where('month', $_data)->where('is_approved', false)->where('is_removed', false)->count();
+        if ($_document_count == 5) {
+            if ($_document_approved == 5) {
+                $_status = 'text-info';
+            } else {
+                $_status = 'text-danger';
+            }
+        } else {
+            $_status = 'text-warning';
+        }
+
+        return $_status;
+    }
+
+
+
     public function non_academic_clearance($_data)
     {
         $_enrollment = $this->hasOne(EnrollmentAssessment::class, 'student_id')->where('is_removed', 0)->latest('id')->first();

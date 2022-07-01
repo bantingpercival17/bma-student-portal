@@ -80,6 +80,7 @@ class StudentController extends Controller
     {
         try {
             $_student = Auth::user()->student;
+            $_section = Auth::user()->student->section;
             $_enrollment_assessment = Auth::user()->student->enrollment_assessment;
             $_section = $_student->section()->first();
             $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
@@ -87,26 +88,6 @@ class StudentController extends Controller
         } catch (Exception $error) {
             return back()->with('error', $error->getMessage());
         }
-
-        /*  try {
-            if (Auth::user()->student->current_enrollment) {
-                $_section = Auth::user()->student->section(Auth::user()->student->enrollment_assessment->academic->id)->first();
-                $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
-
-                $_student = Auth::user()->student->enrollment_assessment;
-                $_academic = AcademicYear::where('is_active', 1)->first();
-                if ($_student->academic_id == $_academic->id) {
-                    return view('pages.student.academic.view', compact('_subject_class'));
-                } else {
-                    return view('pages.student.academic.view', compact('_subject_class'));
-                    return redirect('/student/enrollment');
-                }
-            } else {
-                return back()->with('error', 'Academic Year Error');
-            }
-        } catch (Exception $error) {
-            return back()->with('error', $error->getMessage());
-        } */
     }
     public function academic_grades(Request $_request)
     {
@@ -193,15 +174,14 @@ class StudentController extends Controller
     public function payment_application(Request $_request)
     {
         try {
-           //$_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
-        $_application = Auth::user()->student->enrollment_application;
-        $_application->payment_mode = $_request->mode;
-        $_application->save();
-        return back()->with('success', 'Successfully Submitted.');
+            //$_application = EnrollmentApplication::where('student_id', Auth::user()->student_id)->first();
+            $_application = Auth::user()->student->enrollment_application;
+            $_application->payment_mode = $_request->mode;
+            $_application->save();
+            return back()->with('success', 'Successfully Submitted.');
         } catch (\Throwable $th) {
             //throw $th;
         }
-        
     }
     public function payment_store(Request $_request)
     {
@@ -815,7 +795,7 @@ class StudentController extends Controller
                 'journal_type' => $_request->_name,
                 'is_removed' => 0
             );
-           $_journal = ShipboardJournal::where($_data)->first(); // Check the Journal Category
+            $_journal = ShipboardJournal::where($_data)->first(); // Check the Journal Category
             if ($_journal) {
                 // If true removed the exsiting data and Save
                 $_journal->is_removed = 1;
@@ -833,30 +813,39 @@ class StudentController extends Controller
     }
     public function view_journal(Request $_request)
     {
-        $_journal = ShipboardJournal::where([
-            'student_id' => Auth::user()->student->id,
-            'month' => base64_decode($_request->_j),
-            'is_removed' => false
-        ])->get();
-        $_journals = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->groupBy('month')->get();
-
-        return view('pages.student.onboard.journal_view', compact('_journal', '_journals'));
+        try {
+            $_journal = ShipboardJournal::where([
+                'student_id' => Auth::user()->student->id,
+                'month' => base64_decode($_request->_j),
+                'is_removed' => false
+            ])->get();
+            $_journals = ShipboardJournal::select('month', DB::raw('count(*) as total'))->where('student_id', Auth::user()->student_id)->groupBy('month')->get();
+            return view('pages.student.onboard.journal_view', compact('_journal', '_journals'));
+        } catch (Exception $error) {
+            return $error->getMessage();
+        }
     }
     public function upload_journal_file(Request $_request)
     {
-        $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-        $link .= "://";
-        $link .= $_SERVER['HTTP_HOST'];
-        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
-        $_url_link =  $link . '/storage/onboard/shipboard-journal/' . $_user . '/';
-        $_file_path = '/public/onboard/shipboard-journal/' . $_user . '/';
-        $file = $_request->file('file');
-        $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
-        $_date = date('dmYhms');
-        $_file_name = '[' . $_user . ']' . $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
-        $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
-        $_file_links = $_url_link . $_file_name; // Get the Link of the Files
-        return  $_file_links;
+        try {
+            $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+            $link .= "://";
+            $link .= $_SERVER['HTTP_HOST'];
+            $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+            $_url_link =  $link . '/storage/onboard/shipboard-journal/' . $_user . '/';
+            $_file_path = '/public/onboard/shipboard-journal/' . $_user . '/';
+            $file = $_request->file('file');
+            $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
+            $_date = date('dmYhms');
+            $_file_name = '[' . $_user . ']' . $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
+            Storage::disk('ftp')->put($_file_path . $_file_name, fopen($_request->file('file'), 'r+'));
+            $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+            $_file_links = $_url_link . $_file_name; // Get the Link of the Files
+            //Upload File to external server
+            return  $_file_links;
+        } catch (Exception $error) {
+            return $error->getMessage();
+        }
     }
     public function remove_journal(Request $_request)
     {

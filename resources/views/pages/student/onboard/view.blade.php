@@ -16,12 +16,13 @@ $_title = 'On Board Training';
         <div class="header-title d-flex justify-content-between">
             <h5 class=" fw-bolder">NARATIVE REPORT</h5>
         </div>
+        <div class="header-title d-flex justify-content-between">
+            <label for="" class="badge bg-info fw-bolder">APPROVED NARATIVE REPORT</label>
+            <label for="" class="badge bg-danger fw-bolder">DISAPPROVED NARATIVE REPORT</label>
+            <label for="" class="badge bg-warning fw-bolder">MISSING DOCUMENT REPORT</label>
+        </div>
         <div class="table-responsive">
-            <div class="header-title d-flex justify-content-between">
-                <label for="" class="badge bg-info fw-bolder">APPROVED NARATIVE REPORT</label>
-                <label for="" class="badge bg-danger fw-bolder">DISAPPROVED NARATIVE REPORT</label>
-                <label for="" class="badge bg-warning fw-bolder">APPROVED NARATIVE REPORT</label>
-            </div>
+
             <table id="basic-table" class="table table-striped mb-0" role="grid">
                 <tbody>
                     <tr>
@@ -42,11 +43,17 @@ $_title = 'On Board Training';
                         @if (count($_journal) > 0)
                             @foreach ($_journal as $_journal_item)
                                 <th>
+                                    {{ Auth::user()->student->narative_status($_journal_item->month) }}
+                                    {{-- @foreach (Auth::user()->student->narative_status($_journal_item->month) as $item)
+                                        {{ $item }}
+                                    @endforeach --}}
+                                    {{ $_journal_item }}
                                     <div class="text-center">
                                         <div class="card-body ">
                                             <a
                                                 href="{{ route('onboard.view-journal') }}?_j={{ base64_encode($_journal_item->month) }}">
-                                                <i class="icon text-muted">
+                                                <i
+                                                    class="icon  {{ Auth::user()->student->narative_status($_journal_item->month) }}">
                                                     @yield('icon-document')
                                                 </i>
 
