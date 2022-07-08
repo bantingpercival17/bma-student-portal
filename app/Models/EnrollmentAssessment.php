@@ -60,4 +60,8 @@ class EnrollmentAssessment extends Model
             'is_removed' => false
         ])->first();
     }
+    public function bridging_payment()
+    {
+        return $this->hasOne(PaymentAdditionalTransaction::class, 'enrollment_id')->where('transaction_type', '_bridging_program')->where('is_removed', false);
+    }
 }

@@ -11,17 +11,21 @@ use App\Models\ApplicantEntranceExamination;
 use App\Models\ApplicantExaminationAnswer;
 use App\Models\ApplicantMedicalAppointment;
 use App\Models\ApplicantPayment;
+use App\Models\CourseSyllabus;
 use App\Models\Documents;
 use App\Models\EducationalDetails;
 use App\Models\EnrollmentApplication;
 use App\Models\Examination;
 use App\Models\ParentDetails;
+use App\Models\PaymentAdditionalTransaction;
 use App\Models\PaymentTrasanctionOnline;
 use App\Models\StudentDetails;
+use App\Models\SubjectClass;
 use App\Report\Students\StudentReport;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicantController extends Controller
 {
@@ -29,7 +33,7 @@ class ApplicantController extends Controller
     {
         $is_actived = Auth::user()->is_removed;
         if ($is_actived == 1) {
-           return back()->with('success','This Account was disabled to use.');
+            return back()->with('success', 'This Account was disabled to use.');
         } else {
             $_level = Auth::user()->course_id == 3 ? 11 : 4;
             $_documents = Documents::where('year_level', $_level)->where('department_id', 2)->where('is_removed', false)->get();
@@ -107,7 +111,6 @@ class ApplicantController extends Controller
             $_data = [];
             //return $_inputs['junior_high_school_year'];
             foreach ($_inputs as $key => $value) {
-                //$_data[$value] = trim(ucwords(strtolower($_request->input('_first_name')))) ;
                 $_data[$key] = ucwords(mb_strtolower(trim($value)));
             }
             $_data += ['applicant_id' => Auth::user()->id];
@@ -633,6 +636,81 @@ class ApplicantController extends Controller
             $_student = ApplicantAccount::find(Auth::user()->id);
             $_student = $_student->enrollment_registration()->enrollment_assessment;
             return $_student_report->enrollment_information($_student->id);
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function enrollment_bridging_payment(Request $_request)
+    {
+        $_request->validate([
+            '_transaction_date' => 'required',
+            '_amount_paid' => 'required',
+            '_reference_number' => 'required',
+            '_transaction_type' => 'required',
+            '_file' => 'required'
+        ]);
+        try {
+            $_file_path = 'public/students/' . Auth::user()->applicant_number . '/accounting'; // Public Path
+            $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+            $link .= "://";
+            $link .= $_SERVER['HTTP_HOST'];
+            $_ext = $_request->_file->getClientOriginalExtension();
+            $_user = strtolower(str_replace(' ', '_', Auth::user()->name));
+            $_url_link =  $link . '/storage/accounting/proof_of_payments/';
+            $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
+            $_request->_file->storeAs($_file_path, $_file_name);
+            $_link_files = Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('_file'), 'r+')); // Back-up Upload
+
+            $_payment_data = array(
+                'enrollment_id' => base64_decode($_request->_assessment),
+                'amount_paid' => str_replace(',', '', $_request->_amount_paid),
+                'reference_number' => $_request->_reference_number,
+                'transaction_type' => $_request->_transaction_type,
+                'transaction_date' => $_request->_transaction_date,
+                'reciept_attach_path' => $_url_link . $_file_name,
+            );
+            if ($_request->_payment) {
+                $_payment = PaymentAdditionalTransaction::find(base64_decode($_request->_payment));
+                $_payment->is_removed = true;
+                $_payment->save();
+            }
+            PaymentAdditionalTransaction::create($_payment_data);
+            //return $_payment_data;
+            //PaymentTrasanctionOnline::create($_payment_data);
+            return back()->with('success', 'Successfully Submitted.');
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+
+    public function lms_view(Request $_request)
+    {
+        try {
+
+            $_account = ApplicantAccount::find(Auth::id());
+            $_student = $_account->enrollment_registration();
+            $_section = $_student->section()->first();
+            $_subject_class = $_section ? SubjectClass::where('section_id', $_section->section_id)->where('is_removed', false)->get() : [];
+            return view('pages.applicant.lms.view', compact('_subject_class'));
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    public function lms_subject_class_view(Request $_request)
+    {
+        try {
+
+            $_course_syllabus = new CourseSyllabus();
+            $_subject_class = SubjectClass::find(base64_decode($_request->_subject));
+            $_subject_code =  $_subject_class->curriculum_subject->subject->subject_code;
+
+            if ($_subject_code == 'ICT') {
+                $_subject_content = $_course_syllabus->ict();
+            } else {
+                $_subject_content = [];
+            }
+            //return $_subject_content;
+            return view('pages.applicant.lms.subject-content', compact('_subject_content', '_subject_class'));
         } catch (Exception $error) {
             return back()->with('error', $error->getMessage());
         }

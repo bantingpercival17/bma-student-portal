@@ -786,7 +786,6 @@ class StudentController extends Controller
         $_request->validate([
             'file_links' => 'required',
         ]);
-
         try {
             // Get all the Data
             $_data = array(
@@ -838,8 +837,8 @@ class StudentController extends Controller
             $_user = str_replace('@bma.edu.ph', '', Auth::user()->campus_email);
             $_date = date('dmYhms');
             $_file_name = '[' . $_user . ']' . $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
-            Storage::disk('ftp')->put($_file_path . $_file_name, fopen($_request->file('file'), 'r+'));
-            $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+            Storage::disk('ftp')->put($_file_path . $_file_name, $_request->file('file'));
+            //$file->storeAs($_file_path, $_file_name); // Store the File to the Folder
             $_file_links = $_url_link . $_file_name; // Get the Link of the Files
             //Upload File to external server
             return  $_file_links;

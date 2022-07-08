@@ -82,6 +82,7 @@ $_title = 'Enrollment Overview';
         <div class="card-body">
             @include('pages.applicant.enrollment.components.registrartion')
             @include('pages.applicant.enrollment.components.enrollment_assessment')
+            @include('pages.applicant.enrollment.components.bridging-program')
             @include('pages.applicant.enrollment.components.payment_mode')
             @include('pages.applicant.enrollment.components.payment_assessment')
             @include('pages.applicant.enrollment.components.payment_transaction')
@@ -93,24 +94,42 @@ $_title = 'Enrollment Overview';
                             @if (Auth::user()->current_semester()->semester == 'First Semester')
                                 @if (Auth::user()->enrollment_registration()->enrollment_assessment)
                                     <li> @yield('step-2-dot-done')</li>
-                                    @if (Auth::user()->enrollment_registration()->enrollment_assessment->payment_assessments)
-                                        <li> @yield('step-3-dot-done')</li>
-                                        @if (Auth::user()->enrollment_registration()->enrollment_assessment->payment_assessments->online_transaction)
-                                            @if (Auth::user()->enrollment_registration()->enrollment_assessment->payment_assessments->online_transaction->is_approved == 1)
-                                                <li> @yield('step-4-dot-done')</li>
-                                                <li> @yield('step-5-dot-active')</li>
+                                    @if (Auth::user()->enrollment_registration()->enrollment_assessment->bridging_program == 'with')
+                                        @if (Auth::user()->enrollment_registration()->enrollment_assessment->bridging_payment)
+                                            <li> @yield('step-2-1-dot-active')</li>
+                                            @if (Auth::user()->enrollment_registration()->enrollment_assessment->bridging_payment === 1)
+                                            @else
+                                                <li> @yield('step-3-dot')</li>
+                                                <li> @yield('step-4-dot')</li>
+                                                <li> @yield('step-5-dot')</li>
+                                            @endif
+                                        @else
+                                            <li> @yield('step-2-1-dot-active')</li>
+                                            <li> @yield('step-3-dot')</li>
+                                            <li> @yield('step-4-dot')</li>
+                                            <li> @yield('step-5-dot')</li>
+                                        @endif
+                                    @else
+                                        <li> @yield('step-2-1-dot-done')</li>
+                                        @if (Auth::user()->enrollment_registration()->enrollment_assessment->payment_assessments)
+                                            <li> @yield('step-3-dot-done')</li>
+                                            @if (Auth::user()->enrollment_registration()->enrollment_assessment->payment_assessments->online_transaction)
+                                                @if (Auth::user()->enrollment_registration()->enrollment_assessment->payment_assessments->online_transaction->is_approved == 1)
+                                                    <li> @yield('step-4-dot-done')</li>
+                                                    <li> @yield('step-5-dot-active')</li>
+                                                @else
+                                                    <li> @yield('step-4-dot-active')</li>
+                                                    <li> @yield('step-5-dot')</li>
+                                                @endif
                                             @else
                                                 <li> @yield('step-4-dot-active')</li>
                                                 <li> @yield('step-5-dot')</li>
                                             @endif
                                         @else
-                                            <li> @yield('step-4-dot-active')</li>
+                                            <li> @yield('step-3-dot-active')</li>
+                                            <li> @yield('step-4-dot')</li>
                                             <li> @yield('step-5-dot')</li>
                                         @endif
-                                    @else
-                                        <li> @yield('step-3-dot-active')</li>
-                                        <li> @yield('step-4-dot')</li>
-                                        <li> @yield('step-5-dot')</li>
                                     @endif
                                 @else
                                     <li> @yield('step-2-dot-active')</li>

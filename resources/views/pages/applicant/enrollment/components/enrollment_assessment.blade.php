@@ -157,7 +157,12 @@ $_title = 'STEP 2: ENROLLMENT ASSESSMENT';
                         </div>
                     </div>
                     <p class="mb-3">
-                        Enrollment Assessment Details, You can procude to the Payment Assessment.
+                        @if (Auth::user()->enrollment_registration()->enrollment_assessment->bridging_program == 'with')
+                            You can now proceed Bridging Progam Orientation.
+                        @else
+                            Enrollment Assessment Details, You can procude to the Payment Assessment.
+                        @endif
+
                 </div>
             @endsection
         @endif

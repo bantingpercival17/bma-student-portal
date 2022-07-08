@@ -1,5 +1,5 @@
 @php
-$_title = 'STEP 4: PAYMENT TRANSACTION';
+$_title = 'STEP 5: PAYMENT TRANSACTION';
 @endphp
 
 @section('step-4-dot')

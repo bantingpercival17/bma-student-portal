@@ -40,7 +40,7 @@ $_title = 'STEP 1: REGISTRATION';
     </h5>
     <div class="d-inline-block w-100">
         <p class="mb-3">
-          You can now Procude to Enrollment Assessment
+          You can now proceed to Enrollment Assessment
         </p>
         <a href="{{ route('applicant.form-rg-02') }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill">REGISTRATION FORM PRINTABLE</a>
     </div>

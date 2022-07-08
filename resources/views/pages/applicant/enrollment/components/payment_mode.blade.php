@@ -1,5 +1,5 @@
 @php
-$_title = 'STEP 3: TUITION FEE ASSESSMENT';
+$_title = 'STEP 4: TUITION FEE ASSESSMENT';
 @endphp
 
 @section('step-3-dot')
