@@ -43,11 +43,9 @@ $_title = 'On Board Training';
                         @if (count($_journal) > 0)
                             @foreach ($_journal as $_journal_item)
                                 <th>
-                                    {{ Auth::user()->student->narative_status($_journal_item->month) }}
                                     {{-- @foreach (Auth::user()->student->narative_status($_journal_item->month) as $item)
                                         {{ $item }}
                                     @endforeach --}}
-                                    {{ $_journal_item }}
                                     <div class="text-center">
                                         <div class="card-body ">
                                             <a
