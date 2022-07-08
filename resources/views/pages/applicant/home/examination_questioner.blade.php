@@ -33,7 +33,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                             </svg>
                                         </div>
                                         <br>
-                                        <small class="mt-4">{{ $item->subject_name }}</small> 
+                                        <small class="mt-4">{{ $item->subject_name }}</small>
                                     </a>
                                 </li>
                             @endforeach
@@ -94,7 +94,7 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                                                             <label class="form-check-label"
                                                                                 for="choices_{{ $choices->id }}">
                                                                                 @php
-                                                                                    echo $choices->choice_name
+                                                                                    echo $choices->choice_name;
                                                                                 @endphp
                                                                             </label>
                                                                         </div>
@@ -122,14 +122,15 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
                                             value="Previous">Previous</button>
                                     @else
                                         <button type="button" name="next"
-                                            class="btn btn-primary next action-button float-end" value="Next">Next</button>
+                                            class="btn btn-primary next action-button float-end"
+                                            value="Next">Next</button>
                                         <button type="button" name="previous"
                                             class="btn btn-info previous text-white action-button-previous float-end me-1"
                                             value="Previous">Previous</button>
                                     @endif
                                 @else
-                                    <button type="button" name="next" class="btn btn-primary next action-button float-end"
-                                        value="Next">Next</button>
+                                    <button type="button" name="next"
+                                        class="btn btn-primary next action-button float-end" value="Next">Next</button>
                                 @endif
 
                             </fieldset>
@@ -146,9 +147,9 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
     <script>
         var timer = "{{ Auth::user()->examination->created_at }}";
     </script>
-    <script src="{{ asset('js/script.js') }}">
+    {{-- <script src="{{ asset('js/script.js') }}">
 
-    </script>
+    </script> --}}
 @endsection
 
 @endsection
