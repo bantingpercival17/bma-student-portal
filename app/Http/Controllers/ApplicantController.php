@@ -190,6 +190,10 @@ class ApplicantController extends Controller
         $_date = date('dmYhms');
         $_file_name = '[' . $_user . ']' . $_request->_documents . '_' . $_request->_file_number . $_date . "." . $file->getClientOriginalExtension(); // Set a File name with Username and the Original File name
         $file->storeAs($_file_path, $_file_name); // Store the File to the Folder
+        //FTP Back up file
+        $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/documents'; // Public Path
+        Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('file'), 'r+')); // Back-up Upload
+
         $_file_links = $_url_link . $_file_name; // Get the Link of the Files
         return  $_file_links;
     }
@@ -223,6 +227,10 @@ class ApplicantController extends Controller
         $_url_link =  $link . '/storage/accounting/applicant/proof_of_payments/';
         $_file_name =   strtolower($_user . "-" . 'proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
         $_request->_file->storeAs($_file_path, $_file_name);
+        //FTP Back up file
+        $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/documents'; // Public Path
+        Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('file'), 'r+')); // Back-up Upload
+
         $_payment_data = array(
             'applicant_id' => Auth::user()->id,
             'amount_paid' => str_replace(',', '', $_request->_amount_paid),
@@ -615,6 +623,10 @@ class ApplicantController extends Controller
             $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
             $_request->_file->storeAs($_file_path, $_file_name);
             //return  $_url_link . $_file_name;
+            //FTP Back up file
+            $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/enrollment-payment'; // Public Path
+            Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('file'), 'r+')); // Back-up Upload
+
             $_payment_data = array(
                 'assessment_id' => base64_decode($_request->_assessment),
                 'amount_paid' => str_replace(',', '', $_request->_amount_paid),
@@ -650,7 +662,7 @@ class ApplicantController extends Controller
             '_file' => 'required'
         ]);
         try {
-            $_file_path = 'public/students/' . Auth::user()->applicant_number . '/accounting'; // Public Path
+            $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/accounting'; // Public Path
             $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
             $link .= "://";
             $link .= $_SERVER['HTTP_HOST'];
