@@ -44,21 +44,17 @@ $_title = 'STEP 3: BRIDGING PROGRAM';
                         @if (Auth::user()->enrollment_registration()->enrollment_assessment->bridging_payment->is_approved === 1)
                             <p class="mt-5 fw-bolder">PAYMENT VERFIVED</p>
                             <p class="mt-1">You can now Process to your Learning Manengment System</p>
-                            <a href="{{ route('applicant-lms') }}" class="btn btn-outline-primary rounded-pill">LMS BRIDGING
+                            <a href="{{ route('applicant-lms') }}" class="btn btn-outline-primary rounded-pill">LMS
+                                BRIDGING
                                 PROGRAM</a>
                         @else
                             <div class="payment-breifing">
                                 <p class="mt-2 h4 fw-bolder">Payment</p>
                                 <div class="row">
                                     <div class="col-md">
-                                        <div class="ratio ratio-16x9">
-                                            <iframe class="embed-responsive-item"
-                                                src="https://drive.google.com/file/d/1eFUBmu-n5xOFX5TkAI8MdhBXnenbhkc8/preview"></iframe>
-                                        </div>
-
-
                                         <div class="payment-details mt-3">
                                             <h5 class=" mb-1 fw-bolder">PAYMENT INSTRUCTION</h5>
+                                            <p>Bridging Program Fee : Php 3,000.00</p>
                                             <p>For bank deposit or online fund transfer, please us the bank details
                                                 below:
                                             </p>
@@ -197,8 +193,7 @@ $_title = 'STEP 3: BRIDGING PROGRAM';
                                                     <div class="form-group">
                                                         <label for="" class="form-label text-sm">TRANSCATION
                                                             DATE</label>
-                                                        <input type="date" class="form-control"
-                                                            name="_transaction_date"
+                                                        <input type="date" class="form-control" name="_transaction_date"
                                                             value="{{ old('_transaction_date') }}">
                                                         @error('_transaction_date')
                                                             <div class="badge bg-danger mt-2">{{ $message }}</div>
@@ -326,17 +321,14 @@ $_title = 'STEP 3: BRIDGING PROGRAM';
                         @endif
                     @else
                         <div class="payment-breifing">
-                            <p class="mt-2 h4 fw-bolder">Payment</p>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="ratio ratio-16x9">
-                                        <iframe class="embed-responsive-item"
-                                            src="https://drive.google.com/file/d/1eFUBmu-n5xOFX5TkAI8MdhBXnenbhkc8/preview"></iframe>
-                                    </div>
+
 
 
                                     <div class="payment-details mt-3">
                                         <h5 class=" mb-1 fw-bolder">PAYMENT INSTRUCTION</h5>
+                                        <p>Bridging Program Fee : Php 3,000.00</p>
                                         <p>For bank deposit or online fund transfer, please us the bank details
                                             below:
                                         </p>

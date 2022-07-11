@@ -133,6 +133,7 @@ $_title = 'Enrollment Overview';
                                     @endif
                                 @else
                                     <li> @yield('step-2-dot-active')</li>
+                                    <li> @yield('step-2-1-dot')</li>
                                     <li> @yield('step-3-dot')</li>
                                     <li> @yield('step-4-dot')</li>
                                     <li> @yield('step-5-dot')</li>
