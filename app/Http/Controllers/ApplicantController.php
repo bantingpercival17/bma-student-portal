@@ -670,7 +670,7 @@ class ApplicantController extends Controller
             $_user = strtolower(str_replace(' ', '_', Auth::user()->name));
             $_url_link =  $link . '/storage/accounting/proof_of_payments/';
             $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
-            $_request->_file->storeAs($_file_path, $_file_name);
+            $_request->_file->storeAs('/accounting/proof_of_payments/', $_file_name);
             $_link_files = Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('_file'), 'r+')); // Back-up Upload
 
             $_payment_data = array(
