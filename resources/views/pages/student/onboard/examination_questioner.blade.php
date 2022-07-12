@@ -7,8 +7,18 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
     <div class="row mt-5">
         <div class="col-sm-12 col-lg-12">
             <div class="card">
+                <ul id="top-tab-list" class="p-0 row list-inline">
+                    <li id="personal" class="col-lg col-md mb-2 text-center ">
+                        <a href="javascript:void();">
+                            
+                            <span class="mt-4 text-primary h3">EXAMINATION FOR INCOMING FIRST CLASS</span>
+                        </a>
+                    </li>
+
+                </ul>
+                
                 <div class="card-body">
-                    <form id="form-wizard1" class="mt-3" action="{{ route('applicant.examination-store') }}" method="post">
+                    <form id="form-wizard1" class="mt-3" action="{{ route('onboard.examination-store') }}" method="post">
                         @csrf
                         @foreach ($_examinations as $key_question => $category)
                             <div class="form-group">
@@ -61,12 +71,10 @@ $_title = 'Entrance Examination - Baliwag Maritime Academy';
         </div>
     </div>
 @section('js')
-    {{-- <script>
-        var timer = "{{ Auth::user()->examination->created_at }}";
+    <script>
+        var timer = "{{ Auth::user()->student->onboard_assessment->examination_start }}";
     </script>
-    <script src="{{ asset('js/script.js') }}">
-
-    </script> --}}
+    <script src="{{ asset('js/script.js') }}"></script>
 @endsection
 
 @endsection

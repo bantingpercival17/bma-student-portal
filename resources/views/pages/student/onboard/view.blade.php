@@ -83,58 +83,67 @@ $_title = 'On Board Training';
                             </div>
                         </div>
                         <div class="card-body pt-4 p-3">
-                            <p class="text-primary fw-bolder h5">Online Assessment</p>
-                            <p class="m-0"> <span class="fw-bolder m-0">INSTRUCTION</span></p>
-                            <p class="m-0">1. Ensure that you have a strong internet connection.</p>
-                            <p class="m-0">2. Once you are logged in, read carefully and understand the guidelines prior
-                                to
-                                and
-                                after the Examination</p>
-                            <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at the
-                                system.</p>
-                            <p class="m-0">4.Once you enter the Examination Code it will be start your Examination
-                            </p>
-                            <p>5.We recommend using Laptop/Desktop running atleast Windows 7 or higher to take the
-                                examination.
-                                We also recommend to use Google Chrome as browser in taking the examination.</p>
-                            <br>
+                            @if (Auth::user()->student->onboard_assessment->is_finish == 1)
+                                <p>Wait for the Releasing of your Examination Result</p>
+                            @else
+                                <p class="text-primary fw-bolder h5">Online Assessment</p>
+                                <p class="m-0"> <span class="fw-bolder m-0">INSTRUCTION</span></p>
+                                <p class="m-0">1. Ensure that you have a strong internet connection.</p>
+                                <p class="m-0">2. Once you are logged in, read carefully and understand the guidelines
+                                    prior
+                                    to
+                                    and
+                                    after the Examination</p>
+                                <p class="m-0">3. Upon completion of the Examination, click the Submit or Back button at
+                                    the
+                                    system.</p>
+                                <p class="m-0">4.Once you enter the Examination Code it will be start your Examination
+                                </p>
+                                <p>5.We recommend using Laptop/Desktop running atleast Windows 7 or higher to take the
+                                    examination.
+                                    We also recommend to use Google Chrome as browser in taking the examination.</p>
+                                <br>
 
-                            <div>
-                                <p class="mb-0 text-primary h5"><b>EXAMINATION CATEGORIES</b></p>
-                                <ul>
-                                    <li>TRB - 20 items</li>
-                                    <li>GENERAL QUESTION - 10 items</li>
-                                    <li>{{ $_shipboard_training->vessel_type }}- 10 items</li>
-                                </ul>
-                            </div>
-                            <form action="{{ route('onboard.assessment') }}" method="post">
-                                @csrf
-                                <div class="form-group">
-                                    <small class="fw-bolder">EXAMINATION CODE</small> <br>
-                                    <label for="" class="form-label text-primary fw-bolder">
-                                        {{ Auth::user()->student->onboard_assessment->examination_code }}
-                                    </label>
-                                    <div class="row">
-                                        <div class="col-md">
-                                            <input type="text" class="form-control" name="exam_code"
-                                                placeholder="Enter Examination Code">
-                                            @error('exam_code')
-                                                <span class="mt-2 badge bg-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md">
-                                            <button type="submit" class="btn btn-primary ">Take Examination</button>
-                                        </div>
-
-                                    </div>
-                                    @if (Session::has('error'))
-                                        <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
-                                    @endif
+                                <div>
+                                    <p class="mb-0 text-primary h5"><b>EXAMINATION CATEGORIES</b></p>
+                                    <ul>
+                                        <li>TRB - 20 items</li>
+                                        <li>GENERAL QUESTION - 10 items</li>
+                                        <li>{{ $_shipboard_training->vessel_type }}- 10 items</li>
+                                    </ul>
                                 </div>
+                                <form action="{{ route('onboard.assessment') }}" method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <small class="fw-bolder">EXAMINATION CODE</small> <br>
+                                        <label for="" class="form-label text-primary fw-bolder">
+                                            {{ Auth::user()->student->onboard_assessment->examination_code }}
+                                        </label>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <input type="text" class="form-control" name="exam_code"
+                                                    placeholder="Enter Examination Code">
+                                                @error('exam_code')
+                                                    <span class="mt-2 badge bg-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md">
+                                                <button type="submit" class="btn btn-primary ">Take Examination</button>
+                                            </div>
 
-                            </form>
+                                        </div>
+                                        @if (Session::has('error'))
+                                            <span class="mt-2 badge bg-danger">{{ Session::get('error') }}</span>
+                                        @endif
+                                    </div>
+
+                                </form>
+                            @endif
+
                         </div>
                     </div>
+
+
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">

@@ -31,11 +31,12 @@ function requestFullScreen(element) {
 }
 
 function count_down_timer(baseTime) {
+    console.log(baseTime)
     var baseTime = new Date(baseTime)
     console.log("Base Time: " + baseTime)
     var baseTimeSecond = baseTime.getTime()
     var addSecond = 60 * 60 * 2000; // Duration
-    //var addSecond = 60 * 60 * 500; // Duration
+    var addSecond = 60 * 60 * 1030; // Duration
 
     var newBaseTime = new Date(baseTimeSecond + addSecond);
     console.log("End Time: " + newBaseTime)
@@ -43,14 +44,25 @@ function count_down_timer(baseTime) {
     // Time calculations for days, hours, minutes and seconds
     var interVal = setInterval(function () {
         var now = new Date().getTime();
+        console.log(new Date(now))
+
+        console.log(now)
         var distance = newBaseTime.getTime() - now;
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
+
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
         console.log(hours + "h " + minutes + "m " + seconds + "s ")
-        $('.count-down').text(hours + "h " + minutes + "m " + seconds + "s ")
+        if (hours < "10") {
+            hours = "0" + hours;
+        }
+        if (minutes < "10") {
+            minutes = "0" + minutes;
+        }
+        if (seconds < "10") {
+            seconds = "0" + seconds;
+        }
+        $('.count-down').text(hours + ":" + minutes + ":" + seconds + " ")
         /* document.getElementsByClassName("count-down").innerHTML = hours + "h " +
             minutes + "m " + seconds + "s "; */
 

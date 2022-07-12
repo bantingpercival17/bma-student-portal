@@ -43,7 +43,7 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::get('/on-board/journal/remove', [StudentController::class, 'remove_journal'])->name('onboard.journal-remove');
     Route::post('/on-board/assessments', [StudentController::class, 'onboard_examination'])->name('onboard.assessment');
     Route::get('/on-board/assessments-view/{data}', [StudentController::class, 'onboard_examination_view'])->name('onboard.assessment-view');
-
+    Route::post('/on-board/assessment/store', [StudentController::class, 'onboard_examination_store'])->name('onboard.examination-store');
     Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
     Route::post('/student-profile/update-store', [StudentController::class, 'update_student_profile'])->name('update-student-profile');
 

@@ -16,6 +16,7 @@ use App\Models\PaymentTrasanctionOnline;
 use App\Models\Role;
 use App\Models\Section;
 use App\Models\ShipboardExamination;
+use App\Models\ShipboardExaminationAnswer;
 use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
 use App\Models\StudentAccount;
@@ -868,23 +869,48 @@ class StudentController extends Controller
         try {
             $_examination = Auth::user()->student->onboard_assessment;
             if ($_request->exam_code == $_examination->examination_code) {
-               // $_examination->examination_start = now();
-               // $_examination->is_finish = 0;
-               // $_examination->save();
-               return route('onboard.examination-view') . '/' . base64_encode($_examination->id);
-                return redirect(route('onboard.examination-view') . '/' . base64_encode($_examination->id))->with('success', 'Examination Code Verified');
+                $_examination->examination_start = now();
+                $_examination->is_finish = 0;
+                $_examination->save();
+
+                //return route('onboard.assessment-view', base64_encode($_examination->id)) ;
+                return redirect(route('onboard.assessment-view', base64_encode($_examination->id)))->with('success', 'Examination Code Verified');
             } else {
                 return back()->with('error', 'Invalid Examination Code, Try again!');
             }
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
+    }
+    # SAVE EXAMINATION 
+    public function onboard_examination_store(Request $_request)
+    {
+        try {
+            foreach ($_request->question as $key => $value) {
+                $_answer = ShipboardExaminationAnswer::where('question_id', $value)
+                    ->where('examination_id', Auth::user()->student->onboard_assessment->id)->first();
+                $_answer->choices_id = $_request->input(base64_encode($value));
+                $_answer->save();
+            }
+            $_examinee = ShipboardExamination::find(Auth::user()->student->onboard_assessment->id) ;
+            $_examinee->is_finish = true;
+            $_examinee->examination_end = now();
+            $_examinee->save();
+            return redirect(route('on-board'))->with('success', 'Examination Finish');
+        } catch (Exception $error) {
+            return $error->getMessage();
+            return back()->with('error', $error->getMessage());
         }
     }
     public function onboard_examination_view($_examination)
     {
-        $_examination = ShipboardExamination::find(base64_decode($_examination));
-        return $_examinations = $_examination->assessment_question;
-        return view('pages.student.onboard.examination_questioner', compact('_examinations'));
+        try {
+            $_examination = ShipboardExamination::find(base64_decode($_examination));
+            $_examinations = $_examination->assessment_questions;
+            return view('pages.student.onboard.examination_questioner', compact('_examinations'));
+        } catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
+        }
     }
     public function account_view()
     {
