@@ -23,7 +23,7 @@ $_title = 'STEP 1: ENROLLMENT APPLICATION';
         <p class="mb-3">
             Start the Enrollment for School Year <b><i>{{Auth::user()->current_semester()->school_year." ".Auth::user()->current_semester()->semester}}</i></b>
         </p>
-        <a href="{{ route('academic.enroll-now') }}" class="btn btn-sm btn-outline-primary rounded-pill">Enroll Now</a>
+     {{--    <a href="{{ route('academic.enroll-now') }}" class="btn btn-sm btn-outline-primary rounded-pill">Enroll Now</a> --}}
        {{--  <a href="{{ route('student.update-profile') }}" class="btn btn-sm btn-outline-primary rounded-pill">View
             Registrartion Form</a> --}}
     </div>
