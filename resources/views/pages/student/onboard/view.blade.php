@@ -14,11 +14,11 @@ $_title = 'On Board Training';
 @section('page-content')
     @if (Auth::user()->student->shipboard_training)
         <div class="header-title d-flex justify-content-between">
-            <h5 class=" fw-bolder">NARATIVE REPORT</h5>
+            <h5 class=" fw-bolder">NARRATIVE REPORT</h5>
         </div>
         <div class="header-title d-flex justify-content-between">
-            <label for="" class="badge bg-info fw-bolder">APPROVED NARATIVE REPORT</label>
-            <label for="" class="badge bg-danger fw-bolder">DISAPPROVED NARATIVE REPORT</label>
+            <label for="" class="badge bg-info fw-bolder">APPROVED NARRATIVE REPORT</label>
+            <label for="" class="badge bg-danger fw-bolder">DISAPPROVED NARRATIVE REPORT</label>
             <label for="" class="badge bg-warning fw-bolder">MISSING DOCUMENT REPORT</label>
         </div>
         <div class="table-responsive">
@@ -75,7 +75,7 @@ $_title = 'On Board Training';
 
             @if ($_shipboard_training = Auth::user()->student->shipboard_training)
 
-                @if (count($_journal) > 20)
+                @if (Auth::user()->student->onboard_assessment)
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
@@ -100,19 +100,19 @@ $_title = 'On Board Training';
                             <br>
 
                             <div>
-                                <p class="">EXAMINATION CATEGORIES</p>
-                                <span class="">
-                                    <!-- GENERAL QUESTION --> TRB - 20 items
-                                </span><br>
-                                <span class="">GENERAL QUESTION - 10 items</span><br>
-                                <span class="">{{ $_shipboard_training->vessel_type }}- 10 items</span><br><br>
+                                <p class="mb-0 text-primary h5"><b>EXAMINATION CATEGORIES</b></p>
+                                <ul>
+                                    <li>TRB - 20 items</li>
+                                    <li>GENERAL QUESTION - 10 items</li>
+                                    <li>{{ $_shipboard_training->vessel_type }}- 10 items</li>
+                                </ul>
                             </div>
                             <form action="{{ route('onboard.assessment') }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <small class="fw-bolder">EXAMINATION CODE</small> <br>
                                     <label for="" class="form-label text-primary fw-bolder">
-                                        CODE-XJOEIJKDK
+                                        {{ Auth::user()->student->onboard_assessment->examination_code }}
                                     </label>
                                     <div class="row">
                                         <div class="col-md">

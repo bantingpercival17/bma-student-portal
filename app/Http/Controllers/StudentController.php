@@ -9,11 +9,13 @@ use App\Models\DocumentRequirements;
 use App\Models\Documents;
 use App\Models\EducationalDetails;
 use App\Models\EnrollmentApplication;
+use App\Models\Examination;
 use App\Models\ParentDetails;
 use App\Models\PaymentAssessment;
 use App\Models\PaymentTrasanctionOnline;
 use App\Models\Role;
 use App\Models\Section;
+use App\Models\ShipboardExamination;
 use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
 use App\Models\StudentAccount;
@@ -856,6 +858,33 @@ class StudentController extends Controller
             ->where('is_removed', 0)
             ->update(['is_removed' => true]);
         return redirect('student/on-board')->with('success', 'Narative Report Successfully Removed');
+    }
+    # ONBOARD EXAMINATION
+    public function onboard_examination(Request $_request)
+    {
+        $_request->validate([
+            'exam_code' => 'required',
+        ]);
+        try {
+            $_examination = Auth::user()->student->onboard_assessment;
+            if ($_request->exam_code == $_examination->examination_code) {
+               // $_examination->examination_start = now();
+               // $_examination->is_finish = 0;
+               // $_examination->save();
+               return route('onboard.examination-view') . '/' . base64_encode($_examination->id);
+                return redirect(route('onboard.examination-view') . '/' . base64_encode($_examination->id))->with('success', 'Examination Code Verified');
+            } else {
+                return back()->with('error', 'Invalid Examination Code, Try again!');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+    public function onboard_examination_view($_examination)
+    {
+        $_examination = ShipboardExamination::find(base64_decode($_examination));
+        return $_examinations = $_examination->assessment_question;
+        return view('pages.student.onboard.examination_questioner', compact('_examinations'));
     }
     public function account_view()
     {

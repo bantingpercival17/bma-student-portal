@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\StudentController;
-use App\Models\Examination;
-use App\Models\StudentDetails;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,29 +41,9 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
     Route::post('/on-board/journal/file-recent-upload', [StudentController::class, 'recent_upload_journal_file'])->name('onboard.recent-file-upload');
     Route::post('/on-board/journal/file-reupload', [StudentController::class, 'reupload_journal_file'])->name('onboard.reupload-file');
     Route::get('/on-board/journal/remove', [StudentController::class, 'remove_journal'])->name('onboard.journal-remove');
-    Route::post('/on-board/assessments', function (Request $_request) {
-        $_request->validate([
-            'exam_code' => 'required',
-        ]);
-        try {
-            if ($_request->exam_code == 'CODE-XJOEIJKDK') {
-                $_department = Auth::user()->student->enrollment_assessment->course->id == 3 ? 'SENIOR HIGHSCHOOL' : 'COLLEGE';
+    Route::post('/on-board/assessments', [StudentController::class, 'onboard_examination'])->name('onboard.assessment');
+    Route::get('/on-board/assessments-view/{data}', [StudentController::class, 'onboard_examination_view'])->name('onboard.assessment-view');
 
-                $_exam_name = "OBTO ASSESSMENT - " . Auth::user()->student->enrollment_assessment->course->course_code;
-                $_examination = Examination::where('examination_name', $_exam_name)->where('department', $_department)->first();
-                //$_category = ExamCategory::where('exam_id', $_examination->id)->where('category_name', 'GENERAL QUESTION')->first();
-
-
-                $_examination =  Examination::where('department', $_department)->where('examination_name', 'ENTRANCE EXAMINATION')->where('is_removed', false)->first();
-                return view('pages.student.onboard.examination_questioner', compact('_examination'));
-                //return redirect(route('applicant.entrance-examination'))->with('success', 'Entrance Examination Code Verified');
-            } else {
-                return back()->with('error', 'Invalid Examination Code, Try again!');
-            }
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-    })->name('onboard.assessment');
     Route::get('/student-profile/update', [StudentController::class, 'view_student_profile'])->name('update-profile');
     Route::post('/student-profile/update-store', [StudentController::class, 'update_student_profile'])->name('update-student-profile');
 

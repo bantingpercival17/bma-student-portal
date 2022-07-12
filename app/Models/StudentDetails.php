@@ -249,4 +249,8 @@ class StudentDetails extends Model
     {
         return $this->hasOne(GradePublish::class, 'student_id')/* ->where('is_removed', false) */;
     }
+    public function onboard_assessment()
+    {
+        return $this->hasOne(ShipboardExamination::class, 'student_id')->where('is_removed', false);
+    }
 }
