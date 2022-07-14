@@ -92,13 +92,13 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
                 @php
-                    $_first = '20';
-                    $_first_date = '2022-07-20';
-                    $_second = '20';
-                    $_second_date = '2022-07-20';
+                    $_first = '25';
+                    $_first_date = '2022-07-25';
+                    $_second = '27';
+                    $_second_date = '2022-07-27';
                 @endphp
                 <div class="row">
-                    {{-- <div class="col-md">
+                    <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_first_date) }}</span><small
                                 class="text-secondary">/20</small>
@@ -115,7 +115,7 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                                 2022</a>
                         @endif
 
-                    </div> --}}
+                    </div>
                     <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_second_date) }}</span><small
