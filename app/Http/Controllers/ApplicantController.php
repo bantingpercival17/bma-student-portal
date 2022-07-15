@@ -230,7 +230,7 @@ class ApplicantController extends Controller
         $_request->_file->storeAs($_file_path, $_file_name);
         //FTP Back up file
         $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/documents'; // Public Path
-        Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('file'), 'r+')); // Back-up Upload
+        Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('_file'), 'r+')); // Back-up Upload
 
         $_payment_data = array(
             'applicant_id' => Auth::user()->id,
@@ -671,7 +671,7 @@ class ApplicantController extends Controller
             $_user = strtolower(str_replace(' ', '_', Auth::user()->name));
             $_url_link =  $link . '/storage/accounting/proof_of_payments/';
             $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
-            $_request->_file->storeAs('/storage/accounting/proof_of_payments/', $_file_name);
+            $_request->_file->storeAs('/public/storage/accounting/proof_of_payments/', $_file_name);
             $_link_files = Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('_file'), 'r+')); // Back-up Upload
 
             $_payment_data = array(
