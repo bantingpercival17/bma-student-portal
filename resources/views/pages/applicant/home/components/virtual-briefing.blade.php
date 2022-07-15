@@ -34,7 +34,9 @@ $_title = 'STEP 5: PASSING APPLICANT BRIEFING';
                     Virtual Orientation at Baliwag Maritime Academy
                 </p>
                 @if (Auth::user()->course_id == 3)
-                    Good day, Please wait for the announcement for the Virtual Orientation
+                    <a href="{{ route('applicant.virtual-orientation') }}"
+                        class="btn btn-outline-primary rounded-pill">Continue
+                        to Virtual Orientation</a>
                 @else
                     <a href="{{ route('applicant.virtual-orientation') }}"
                         class="btn btn-outline-primary rounded-pill">Continue

@@ -266,11 +266,16 @@ $_title = 'Virtual Orientation';
                             <div class="row">
                                 @if (Auth::user()->course_id == 3)
                                     <div class="col-md-6">
-                                        <div class="ratio ratio-16x9">
+                                        {{-- <div class="ratio ratio-16x9">
                                             <iframe class="embed-responsive-item"
                                                 src="http://bma.edu.ph/resources/video/SHS-BRIEFING/SHS_MEDICAL.mp4"></iframe>
-                                        </div>
-                                        <div class="col-md"></div>
+                                        </div> --}}
+
+                                    </div>
+                                    <div class="col-md">
+                                        For medical referral and other medical concerns pls visit the Executive Office
+                                        of Baliwag Maritime Academy and look for Mr. Robert Evangelista or Mr. Jun
+                                        Balibado.
                                     </div>
                                 @else
                                     <div class="col-md-6">
