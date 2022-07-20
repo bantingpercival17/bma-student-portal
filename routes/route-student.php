@@ -56,6 +56,8 @@ Route::prefix('student')->middleware(['auth:student'])->group(function () {
 
     // Enrollment Procedure
     Route::get('/academic/enroll-now', [StudentController::class, 'enrollment_application'])->name('academic.enroll-now');
+
+    Route::get('/enrollment/medical/appointment-schedule', [StudentController::class, 'medical_appointment'])->name('enrollment.medical-schedule');
     Route::get('/enrollment/registration-form-fillup', [StudentController::class, 'enrollment_registration_form'])->name('enrollment.registration-form-fillup');
     Route::post('/enrollment/registration-form-fillup', [StudentController::class, 'enrollment_registration_store'])->name('enrollment.registration-form-store');
     Route::get('/enrollment/registration-form', [StudentController::class, 'registration_form'])->name('enrollment.registration-form');

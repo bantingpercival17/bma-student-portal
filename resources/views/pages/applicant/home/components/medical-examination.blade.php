@@ -115,13 +115,11 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
 
                     @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
                         <span class="badge bg-secondary text-white">>Monday
-                            July {{ $_first }},
-                            2022 This schedule is full</span>
+                            {{ date('M d, Y', strtotime($_first_date)) }} This schedule is full</span>
                     @else
-                        <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first }}"
+                        <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first_date }}"
                             class="btn btn-sm btn-primary">Monday
-                            July {{ $_first }},
-                            2022</a>
+                            {{ date('M d, Y', strtotime($_first_date)) }}</a>
                     @endif
 
                 </div>
@@ -132,13 +130,11 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                     </h4>
                     @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
                         <span class="badge bg-secondary text-white">>Wednesday
-                            July {{ $_second }},
-                            2022 This schedule is full</span>
+                            {{ date('M d, Y', strtotime($_second_date)) }} This schedule is full</span>
                     @else
-                        <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second }}"
+                        <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second_date }}"
                             class="btn btn-sm btn-primary">Wednesday
-                            July {{ $_second }},
-                            2022</a>
+                            {{ date('M d, Y', strtotime($_second_date)) }}</a>
                     @endif
 
                 </div>
@@ -229,13 +225,11 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
 
                         @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
                             <span class="badge bg-secondary text-white">>Monday
-                                July {{ $_first }},
-                                2022 This schedule is full</span>
+                                {{ date('M d, Y', strtotime($_first_date)) }} This schedule is full</span>
                         @else
-                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first }}"
+                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first_date }}"
                                 class="btn btn-sm btn-primary">Monday
-                                July {{ $_first }},
-                                2022</a>
+                                {{ date('M d, Y', strtotime($_first_date)) }}</a>
                         @endif
 
                     </div>
@@ -246,13 +240,11 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                         </h4>
                         @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
                             <span class="badge bg-secondary text-white">>Wednesday
-                                July {{ $_second }},
-                                2022 This schedule is full</span>
+                                {{ date('M d, Y', strtotime($_second_date)) }} This schedule is full</span>
                         @else
-                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second }}"
+                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second_date }}"
                                 class="btn btn-sm btn-primary">Wednesday
-                                July {{ $_second }},
-                                2022</a>
+                                {{ date('M d, Y', strtotime($_second_date)) }}</a>
                         @endif
 
                     </div>

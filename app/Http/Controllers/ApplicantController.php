@@ -341,7 +341,7 @@ class ApplicantController extends Controller
         try {
             $_value = array(
                 'applicant_id' => Auth::user()->id,
-                'appointment_date' => "2022-06-" . $_request->_date,
+                'appointment_date' => $_request->_date,
                 'approved_by' => 7
             );
             ApplicantMedicalAppointment::create($_value);
