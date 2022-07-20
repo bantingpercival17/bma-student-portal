@@ -663,17 +663,19 @@ class ApplicantController extends Controller
             '_file' => 'required'
         ]);
         try {
-            $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/accounting'; // Public Path
+            // new
             $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
             $link .= "://";
-            $link .= $_SERVER['HTTP_HOST'];
-            $_ext = $_request->_file->getClientOriginalExtension();
-            $_user = strtolower(str_replace(' ', '_', Auth::user()->name));
-            $_url_link =  $link . '/storage/accounting/proof_of_payments/';
-            $_file_name =  $_user . "-" . strtolower('proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . "." . $_ext;
-            $_request->_file->storeAs('/public/storage/accounting/proof_of_payments/', $_file_name);
-            $_link_files = Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('_file'), 'r+')); // Back-up Upload
-
+            $link .= $_SERVER['HTTP_HOST']; // Get the http links
+            $_file_path = '/public/accounting/applicant/proof_of_payments/'; // Public Path the Project
+            $_ext = $_request->_file->getClientOriginalExtension(); // get the extension name
+            $_user = str_replace(' ', '_', Auth::user()->name);
+            $_url_link =  $link . '/storage/accounting/applicant/proof_of_payments/'; // Set the Http link with the Public Path
+            $_file_name =   strtolower($_user . "-" . 'proof-of-payment' . str_replace('_', '-', $_request->_transaction_type)) . date('dmy') . "." . strtolower($_ext);
+            $_request->_file->storeAs($_file_path, $_file_name);
+            //FTP Back up file
+            $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/documents'; // Public Path
+            Storage::disk('ftp')->put($_file_path . '/' . $_file_name, fopen($_request->file('_file'), 'r+')); // Back-up Upload
             $_payment_data = array(
                 'enrollment_id' => base64_decode($_request->_assessment),
                 'amount_paid' => str_replace(',', '', $_request->_amount_paid),
