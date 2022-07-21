@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(document).on("keydown", disableF5);
     var elem = document.body; // Make the body go full screen.
     requestFullScreen(elem);
-    count_down_timer(timer)
+    //count_down_timer(timer)
 });
 
 

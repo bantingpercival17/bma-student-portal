@@ -90,6 +90,7 @@ $_title = 'Enrollment';
             </div>
         </div>
         <div class="card-body">
+            @include('pages.student.enrollment.components.pre-registration')
             @include('pages.student.enrollment.components.registration')
             @include('pages.student.enrollment.components.enrollment_assessment')
             @include('pages.student.enrollment.components.payment_mode')
@@ -97,6 +98,7 @@ $_title = 'Enrollment';
             @include('pages.student.enrollment.components.enrollment_complete')
             <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
                 <ul class="list-inline p-0 m-0">
+                    <li>@yield('step-pre-dot-active')</li>
                     @if (Auth::user()->student->enrollment_application)
                         <li>@yield('step-1-dot-done')</li>
                         @if (Auth::user()->student->current_enrollment && Auth::user()->student->enrollment_application->is_approved)

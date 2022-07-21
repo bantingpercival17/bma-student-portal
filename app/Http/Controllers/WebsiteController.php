@@ -10,6 +10,7 @@ use App\Models\Ticket;
 use App\Models\TicketChat;
 use App\Models\TicketConcern;
 use App\Models\TicketIssue;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +49,7 @@ class WebsiteController extends Controller
             'contact_number' => $_request->contact_number,
             'password' => Hash::make($_request->password),
             'applicant_number' => 'TR-' . date('ymd') . (ApplicantAccount::all()->count() + 1),
-            'academic_id' => $_academic->id,
+            'academic_id' => 4,
             'is_removed' => 0
         ];
         //return $_details;
@@ -153,8 +154,8 @@ class WebsiteController extends Controller
         
             TicketChat::where('concern_id',  $ticket->concern_issue->id)->where('sender_column', 'ticket_id')->where('is_removed', false)->update(['is_read' => true]);
            return view('pages.website.contact-us.ticket_view', compact('ticket',  'ticket_concern'));
-        } catch (Expection $th) {
-            return back()->with('error',$th->getMessage());
+        }catch (Exception $error) {
+            return back()->with('error', $error->getMessage());
         }
       
     }

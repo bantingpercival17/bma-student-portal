@@ -21,6 +21,7 @@ use App\Models\ShipboardJournal;
 use App\Models\ShippingAgencies;
 use App\Models\StudentAccount;
 use App\Models\StudentDetails;
+use App\Models\StudentMedicalAppointment;
 use App\Models\StudentPasswordReset;
 use App\Models\SubjectClass;
 use App\Models\TrainingCertificates;
@@ -138,6 +139,22 @@ class StudentController extends Controller
         return view('pages.student.academic.subject-lesson', compact('_subject_content', '_subject_class', '_subject_lesson'));
     }
     /* Enrollment */
+    public function medical_appointment(Request $_request)
+    {
+        try {
+            $_value = array(
+                'student_id' => Auth::user()->student_id,
+                'course_id' => Auth::user()->student->current_enrollment->course_id,
+                'academic_id' => 5,
+                'appointment_date' => $_request->_date,
+            );
+            //return dd($_value);
+            StudentMedicalAppointment::create($_value);
+            return back()->with('success', 'Appointment Schedule Success.');
+        } catch (Exception $err) {
+            return back()->with('error', $err->getMessage());
+        }
+    }
     public function enrollment_view()
     {
         //return view('pages.student.enrollment.view');
@@ -892,7 +909,7 @@ class StudentController extends Controller
                 $_answer->choices_id = $_request->input(base64_encode($value));
                 $_answer->save();
             }
-            $_examinee = ShipboardExamination::find(Auth::user()->student->onboard_assessment->id) ;
+            $_examinee = ShipboardExamination::find(Auth::user()->student->onboard_assessment->id);
             $_examinee->is_finish = true;
             $_examinee->examination_end = now();
             $_examinee->save();

@@ -253,4 +253,15 @@ class StudentDetails extends Model
     {
         return $this->hasOne(ShipboardExamination::class, 'student_id')->where('is_removed', false);
     }
+
+    public function medical_appointment()
+    {
+        return $this->hasOne(StudentMedicalAppointment::class, 'student_id')->where('is_removed', false);
+    }
+    public function medical_appointment_slot($_date)
+    {
+        $_applicant = StudentMedicalAppointment::where('appointment_date', $_date)->where('is_removed', false)->count();
+        return $_applicant;
+        //return $this->hasHany(ApplicantMedicalAppointment::class, 'applicant_id')->where('is_removed', false);
+    }
 }

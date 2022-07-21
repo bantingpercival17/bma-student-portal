@@ -20,7 +20,126 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
     </h5>
 @endsection
 @section('step-6-active-content')
+    @php
+    $_first = '25';
+    $_first_date = '2022-07-25';
+    $_second = '27';
+    $_second_date = '2022-07-27';
+    @endphp
     @if (Auth::user()->course_id == 3)
+        @if (Auth::user()->medical_appointment)
+            <label for="" class="h5 fw-bolder">MEDICAL EXAMINATION CHECKLIST FOR INCOMING GRADE 11</label>
+            <br>
+            <div>
+                <span class="fw-bolder"> A. Physical Exam with Weight, Height, BMI, Pulse Rate, Blood Pressure, Respiration,
+                    Body Temperature
+                </span> <br>
+
+                <span class="fw-bolder">
+                    B. Visual Acuity
+
+                </span>
+                <ol>
+                    <li>Ishihara Test</li>
+                    <li>Audiometry Test</li>
+                </ol>
+
+                <span class="fw-bolder">
+                    C. Ancillary Exam
+
+                </span>
+                <ol>
+                    <li>Chest X-Ray
+                    </li>
+                    <li>
+                        ECG
+                    </li>
+                    <li>
+                        CBC w/ Blood Typing
+                    </li>
+                    <li>
+                        Urinalysis
+                    </li>
+                    <li>
+                        Stool Exam
+                    </li>
+                    <li>
+                        HepaBsAg
+                    </li>
+                </ol>
+
+            </div>
+            <div class="alert alert-info mt-3 mb-3">
+                <b>TAKE NOTE</b> <br>
+                The medical examination day may <b>be altered or change</b> subject to:
+                <br>
+                a. Govt. travel restriction by IATF-DOH-LGU
+                <br>
+                b. Other reasons beyond control of the administration in which case re-scheduling shall be arranged and
+                notice
+            </div>
+            <label for="" class="h5 fw-bolder">SCHEDULED APPOINTMENT</label>
+            <p>
+                Your appointment with Centerport Medical Services Inc. is scheduled on
+                <b>{{ Auth::user()->medical_appointment->appointment_date }}</b> . <br>
+            </p>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.342591389652!2d120.97658231527882!3d14.579544181499985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca2f83bf0ae3%3A0x205ff1c834bda92!2sCenterport%20Medical%20Services.%2C%20Inc.!5e0!3m2!1sen!2sph!4v1654503989120!5m2!1sen!2sph"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe> <br>
+            Should you have queries or require any clarifications, please do not hesitate to contact our Medical
+            Officer
+            on the numbers below.
+            <br> Tactical Officer Mr. Robert S Evangelista
+            with contact number <b>0968-459-1304</b>
+            <br>
+            If for any reason you wish to cancel your appointment, We appreciate a prompt and early notification
+            from
+            your side.
+            <br>
+            Looking forward to your presence.
+            <br>
+            <p class="mt-3"></p>
+            {{-- <p class="mt-3">Kindly download the Medical Form <a
+            href="{{ route('applicant.download-medical-form') }}"
+            class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p> --}}
+        @else
+            <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
+
+            <div class="row">
+                <div class="col-md">
+                    <h4><span
+                            class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_first_date) }}</span><small
+                            class="text-secondary">/20</small>
+                    </h4>
+
+                    @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
+                        <span class="badge bg-secondary text-white">>Monday
+                            {{ date('M d, Y', strtotime($_first_date)) }} This schedule is full</span>
+                    @else
+                        <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first_date }}"
+                            class="btn btn-sm btn-primary">Monday
+                            {{ date('M d, Y', strtotime($_first_date)) }}</a>
+                    @endif
+
+                </div>
+                <div class="col-md">
+                    <h4><span
+                            class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_second_date) }}</span><small
+                            class="text-secondary">/20</small>
+                    </h4>
+                    @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
+                        <span class="badge bg-secondary text-white">>Wednesday
+                            {{ date('M d, Y', strtotime($_second_date)) }} This schedule is full</span>
+                    @else
+                        <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second_date }}"
+                            class="btn btn-sm btn-primary">Wednesday
+                            {{ date('M d, Y', strtotime($_second_date)) }}</a>
+                    @endif
+
+                </div>
+            </div>
+        @endif
     @else
         <div class="mb-0 mt-3">
             @if (Auth::user()->medical_appointment)
@@ -91,14 +210,14 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                         class="btn btn-outline-primary btn-sm">DOWNLOAD NOW</a></p> --}}
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
-                @php
-                    $_first = '20';
-                    $_first_date = '2022-07-20';
-                    $_second = '20';
-                    $_second_date = '2022-07-20';
-                @endphp
+                {{-- @php
+                    $_first = '25';
+                    $_first_date = '2022-07-25';
+                    $_second = '27';
+                    $_second_date = '2022-07-27';
+                @endphp --}}
                 <div class="row">
-                    {{-- <div class="col-md">
+                    <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_first_date) }}</span><small
                                 class="text-secondary">/20</small>
@@ -106,16 +225,14 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
 
                         @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
                             <span class="badge bg-secondary text-white">>Monday
-                                July {{ $_first }},
-                                2022 This schedule is full</span>
+                                {{ date('M d, Y', strtotime($_first_date)) }} This schedule is full</span>
                         @else
-                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first }}"
+                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first_date }}"
                                 class="btn btn-sm btn-primary">Monday
-                                July {{ $_first }},
-                                2022</a>
+                                {{ date('M d, Y', strtotime($_first_date)) }}</a>
                         @endif
 
-                    </div> --}}
+                    </div>
                     <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_second_date) }}</span><small
@@ -123,13 +240,11 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                         </h4>
                         @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
                             <span class="badge bg-secondary text-white">>Wednesday
-                                July {{ $_second }},
-                                2022 This schedule is full</span>
+                                {{ date('M d, Y', strtotime($_second_date)) }} This schedule is full</span>
                         @else
-                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second }}"
+                            <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second_date }}"
                                 class="btn btn-sm btn-primary">Wednesday
-                                July {{ $_second }},
-                                2022</a>
+                                {{ date('M d, Y', strtotime($_second_date)) }}</a>
                         @endif
 
                     </div>
