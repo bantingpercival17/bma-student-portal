@@ -184,6 +184,21 @@ class ApplicantController extends Controller
         $link = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $link .= "://";
         $link .= $_SERVER['HTTP_HOST'];
+
+        $_name = str_replace(' ', '', strtolower(trim(Auth::user()->name))); // Get the user name
+        $_local_path = '/registrar/applicant-documents/' . $_name . '/'; // Set the Local path with the Name of Applicant
+        $_public_path = '/public' . $_local_path; // Set the public Path
+        $_storage_path = $link . '/storage' . $_local_path; // Set the Store Path
+        $_file_content = $_request->file('file'); // Get File Content
+        $_file_name = $_name . $_request->_documents . $_request->_file_number . date('dmY') . "." . $_file_content->getClientOriginalExtension(); // Set a File name with Username and the Original File name
+        $_file_content->storeAs($_public_path, $_file_name); // Store the file into public folder
+        //FTP Back up file
+        $_file_path = 'public/applicant/' . Auth::user()->applicant_number . '/documents/'; // Public Path
+        Storage::disk('ftp')->put($_file_path . $_file_name, fopen($_request->file('file'), 'r+')); // Back-up Upload
+
+        return $_storage_path . $_file_name; // Return the Link
+
+
         $_user = str_replace(' ', '_', strtolower(trim(Auth::user()->name)));
         $_url_link =  $link . '/storage/registrar/applicant-documents/' . $_user . '/';
         $_file_path = '/public/registrar/applicant-documents/' . $_user . '/';
