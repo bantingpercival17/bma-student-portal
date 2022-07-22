@@ -94,7 +94,7 @@ $_title = 'Overview';
                                                 @if (Auth::user()->examination->is_finish === 1)
                                                     <li> @yield('step-4-dot-done')</li>
                                                     @if (Auth::user()->examination->result())
-                                                        @if (Auth::user()->id != 292 || Auth::user()->id != 1035)
+                                                        @if (Auth::user()->id)
                                                             @if (Auth::user()->virtual_briefing)
                                                                 <li>@yield('step-5-dot-done')</li>
                                                                 <li>

@@ -24,7 +24,7 @@ class ApplicantEntranceExamination extends Model
             ->join('bma_portal.examination_question_choices as eqc', 'eqc.id', 'applicant_examination_answers.choices_id')
             ->where('eqc.is_answer', true)->sum('eqc.is_answer');
         $_percent = ($_score / $_item) * 100;
-        $_passing = $this->applicant->course_id == 3 ? 50 : 50;
+        $_passing = $this->applicant->course_id == 3 ? 5 : 50;
         return $_percent >= $_passing ? true : false;
     }
 }
