@@ -21,10 +21,10 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
 @endsection
 @section('step-6-active-content')
     @php
-    $_first = '25';
-    $_first_date = '2022-07-25';
-    $_second = '28';
-    $_second_date = '2022-07-28';
+    $_first = '29';
+    $_first_date = '2022-07-29';
+    $_second = '27';
+    $_second_date = '2022-07-27';
     @endphp
     @if (Auth::user()->course_id == 3)
         @if (Auth::user()->medical_appointment)
@@ -107,33 +107,33 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
             <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
 
             <div class="row">
-                {{-- <div class="col-md">
+                <div class="col-md">
                     <h4><span
                             class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_first_date) }}</span><small
                             class="text-secondary">/20</small>
                     </h4>
 
                     @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
-                        <span class="badge bg-secondary text-white">>Monday
+                        <span class="badge bg-secondary text-white">>Friday
                             {{ date('M d, Y', strtotime($_first_date)) }} This schedule is full</span>
                     @else
                         <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first_date }}"
-                            class="btn btn-sm btn-primary">Monday
+                            class="btn btn-sm btn-primary">Friday
                             {{ date('M d, Y', strtotime($_first_date)) }}</a>
                     @endif
 
-                </div> --}}
+                </div>
                 <div class="col-md">
                     <h4><span
                             class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_second_date) }}</span><small
                             class="text-secondary">/20</small>
                     </h4>
                     @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
-                        <span class="badge bg-secondary text-white">Thursday
+                        <span class="badge bg-secondary text-white">>Wednesday
                             {{ date('M d, Y', strtotime($_second_date)) }} This schedule is full</span>
                     @else
                         <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second_date }}"
-                            class="btn btn-sm btn-primary">Thursday
+                            class="btn btn-sm btn-primary">Wednesday
                             {{ date('M d, Y', strtotime($_second_date)) }}</a>
                     @endif
 
@@ -217,33 +217,33 @@ $_title = 'STEP 6: MEDICAL EXAMINATION';
                     $_second_date = '2022-07-27';
                 @endphp --}}
                 <div class="row">
-                    {{-- <div class="col-md">
+                    <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_first_date) }}</span><small
                                 class="text-secondary">/20</small>
                         </h4>
 
                         @if (Auth::user()->medical_appointment_slot($_first_date) >= 20)
-                            <span class="badge bg-secondary text-white">>Monday
+                            <span class="badge bg-secondary text-white">>Friday
                                 {{ date('M d, Y', strtotime($_first_date)) }} This schedule is full</span>
                         @else
                             <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_first_date }}"
-                                class="btn btn-sm btn-primary">Monday
+                                class="btn btn-sm btn-primary">Friday
                                 {{ date('M d, Y', strtotime($_first_date)) }}</a>
                         @endif
 
-                    </div> --}}
+                    </div>
                     <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->medical_appointment_slot($_second_date) }}</span><small
                                 class="text-secondary">/20</small>
                         </h4>
                         @if (Auth::user()->medical_appointment_slot($_second_date) >= 20)
-                            <span class="badge bg-secondary text-white">Thursday
+                            <span class="badge bg-secondary text-white">>Wednesday
                                 {{ date('M d, Y', strtotime($_second_date)) }} This schedule is full</span>
                         @else
                             <a href="{{ route('applicant.medical-schedule') }}?_date={{ $_second_date }}"
-                                class="btn btn-sm btn-primary">Thurday
+                                class="btn btn-sm btn-primary">Wednesday
                                 {{ date('M d, Y', strtotime($_second_date)) }}</a>
                         @endif
 

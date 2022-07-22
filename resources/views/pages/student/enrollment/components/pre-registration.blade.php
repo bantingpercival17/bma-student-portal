@@ -48,33 +48,31 @@ $_title = 'PRE-ENROLLMENT';
         <div class="schedule">
             @if (Auth::user()->student->medical_appointment)
                 <p> Your appointment with Centerport Medical Services Inc. is scheduled on
-                    <b>{{ date('F d, Y', strtotime(Auth::user()->student->medical_appointment->appointment_date)) }}</b>.
+                    <b>{{ date('F d, Y',strtotime(Auth::user()->student->medical_appointment->appointment_date)) }}</b>.
                 </p>
                 <p>Wait for the Result of Medical</p>
             @else
                 <p class="">For scheduling of appointment, Kindly choose the two available schedule.</p>
                 @php
-                    $_first = '25';
-                    $_first_date = '2022-07-25';
+                    $_first = '29';
+                    $_first_date = '2022-07-29';
                     $_second = '27';
                     $_second_date = '2022-07-27';
-                    $_second = '28';
-                    $_second_date = '2022-07-28';
                     $_format = 'F d, Y';
                 @endphp
                 <div class="row">
-                    {{-- <div class="col-md">
+                    <div class="col-md">
                         <h4><span
                                 class="text-info fw-bolder">{{ Auth::user()->student->medical_appointment_slot($_first_date) }}</span><small
                                 class="text-secondary">/20</small>
                         </h4>
 
                         @if (Auth::user()->student->medical_appointment_slot($_first_date) >= 20)
-                            <span class="badge bg-secondary text-white">>Monday
+                            <span class="badge bg-secondary text-white">Friday
                                 {{ date($_format, strtotime($_first_date)) }} This schedule is full</span>
                         @else
                             <a href="{{ route('enrollment.medical-schedule') }}?_date={{ $_first_date }}"
-                                class="btn btn-sm btn-primary">Monday
+                                class="btn btn-sm btn-primary">Friday
                                 {{ date($_format, strtotime($_first_date)) }}</a>
                         @endif
 
@@ -90,21 +88,6 @@ $_title = 'PRE-ENROLLMENT';
                         @else
                             <a href="{{ route('enrollment.medical-schedule') }}?_date={{ $_second_date }}"
                                 class="btn btn-sm btn-primary">Wednesday
-                                {{ date($_format, strtotime($_second_date)) }}</a>
-                        @endif
-
-                    </div> --}}
-                    <div class="col-md">
-                        <h4><span
-                                class="text-info fw-bolder">{{ Auth::user()->student->medical_appointment_slot($_second_date) }}</span><small
-                                class="text-secondary">/20</small>
-                        </h4>
-                        @if (Auth::user()->student->medical_appointment_slot($_second_date) >= 20)
-                            <span class="badge bg-secondary text-white">Thursday
-                                {{ date($_format, strtotime($_second_date)) }} This schedule is full</span>
-                        @else
-                            <a href="{{ route('enrollment.medical-schedule') }}?_date={{ $_second_date }}"
-                                class="btn btn-sm btn-primary">Thursday
                                 {{ date($_format, strtotime($_second_date)) }}</a>
                         @endif
 
